@@ -6,6 +6,11 @@
 
 # The name of the scroll
 name: "&cHot Potato Book"
+lore:
+  - "%ecoskills_defense_name% %ecoscrolls_scroll_hot_potato_book:defense%"
+  - "%ecoskills_health_name% %ecoscrolls_scroll_hot_potato_book:health%"
+  - "%ecoskills_strength_name% %ecoscrolls_scroll_hot_potato_book:strength%"
+  - "%ecoskills_crit_damage_name% %ecoscrolls_scroll_hot_potato_book:crit_damage%"
 
 max-level: 10
 max-uses: 1
