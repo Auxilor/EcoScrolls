@@ -115,7 +115,9 @@ class EcoScrollsPlugin : LibreforgePlugin() {
         )
     }
 
-    override fun createDisplayModule(): DisplayModule {
-        return ScrollDisplay(this)
+    override fun loadDisplayModules(): List<DisplayModule> {
+        return listOf(
+            ScrollDisplay(this)
+        )
     }
 }
