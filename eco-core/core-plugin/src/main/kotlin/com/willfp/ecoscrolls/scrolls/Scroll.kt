@@ -13,6 +13,7 @@ import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.core.placeholder.templates.DynamicInjectablePlaceholder
 import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.eco.core.recipe.recipes.CraftingRecipe
 import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.eco.util.evaluateExpressionOrNull
@@ -78,12 +79,21 @@ class Scroll(
         _item
     ).apply { register() }
 
-    val recipe = if (config.getBool("item.craftable")) Recipes.createAndRegisterRecipe(
-        plugin,
-        id,
-        item,
-        config.getStrings("item.recipe")
-    ) else null
+    val itemRecipe: CraftingRecipe? = config.getBool("item.craftable")
+        .takeIf { it }
+        ?.let {
+            val recipeStrings = config.getStrings("item.recipe")
+            if (recipeStrings.isEmpty()) return@let null
+
+            Recipes.createAndRegisterRecipe(
+                plugin,
+                id,
+                item,
+                recipeStrings,
+                config.getStringOrNull("item.recipe-permission"),
+                config.getBool("item.shapeless")
+            )
+        }
 
     val targets = config.getStrings("targets")
         .mapNotNull { Targets[it] }
