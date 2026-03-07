@@ -1,5 +1,6 @@
 package com.willfp.ecoscrolls.scrolls
 
+import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoscrolls.EcoScrollsPlugin
 import com.willfp.ecoscrolls.scrolls.event.ScrollInscribeEvent
 import com.willfp.ecoscrolls.scrolls.event.ScrollTryInscribeEvent
@@ -89,6 +90,7 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
             denyEffects.ifPresent {
                 it.trigger(inscriptionTrigger(item, scroll, player))
             }
+            PlayableSound.create(plugin.configYml.getSubsection("sounds.inscribe-fail"))?.playTo(player)
         }
 
         return didInscribe

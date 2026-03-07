@@ -25,6 +25,8 @@ item:
 
   # Options for crafting, read here: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
   craftable: false
+  recipe-permission: example.scroll.craft
+  shapeless: false
   recipe: [ ]
 
 # Options for inscribing items with the scroll
