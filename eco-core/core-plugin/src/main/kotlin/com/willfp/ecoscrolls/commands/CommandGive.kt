@@ -3,8 +3,6 @@ package com.willfp.ecoscrolls.commands
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.core.items.Items.toSNBT
-import com.willfp.eco.core.items.toSNBT
 import com.willfp.eco.util.StringUtils
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import org.bukkit.Bukkit

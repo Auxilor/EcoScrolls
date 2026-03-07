@@ -2,9 +2,7 @@ package com.willfp.ecoscrolls.commands
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoscrolls.gui.inscriptionTable
-import org.bukkit.Sound
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 

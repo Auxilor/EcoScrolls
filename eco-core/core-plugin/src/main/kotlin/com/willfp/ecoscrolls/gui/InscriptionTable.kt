@@ -17,7 +17,6 @@ import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.modify
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.eco.util.formatEco
 import com.willfp.ecomponent.CaptiveItem
 import com.willfp.ecomponent.addComponent
