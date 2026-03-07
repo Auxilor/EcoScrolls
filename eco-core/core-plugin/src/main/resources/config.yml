@@ -119,3 +119,17 @@ inscription:
   # The maximum amount of scrolls that can be applied to an item
   # Set to -1 for unlimited
   scroll-limit: -1
+
+sounds:
+  inscribe:
+    enabled: true
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 1
+    pitch: 1
+    category: PLAYERS
+  inscribe-fail:
+    enabled: true
+    sound: ENTITY_VILLAGER_NO
+    volume: 1
+    pitch: 1
+    category: PLAYERS

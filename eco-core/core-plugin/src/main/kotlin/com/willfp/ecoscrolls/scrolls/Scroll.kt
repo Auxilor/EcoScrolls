@@ -14,6 +14,7 @@ import com.willfp.eco.core.placeholder.templates.DynamicInjectablePlaceholder
 import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.registry.KRegistrable
+import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.eco.util.evaluateExpressionOrNull
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toNumeral
@@ -245,6 +246,8 @@ class Scroll(
                 value = itemStack.getScrollLevel(this)?.level?.toDouble() ?: 1.0
             )
         )
+
+        PlayableSound.create(plugin.configYml.getSubsection("sounds.inscribe"))?.playTo(player)
 
         return true
     }
