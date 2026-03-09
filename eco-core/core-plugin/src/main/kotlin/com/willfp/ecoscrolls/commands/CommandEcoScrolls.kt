@@ -1,19 +1,19 @@
 package com.willfp.ecoscrolls.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.ecoscrolls.plugin
 import org.bukkit.command.CommandSender
 
-class CommandEcoScrolls(plugin: EcoPlugin) : PluginCommand(
+object CommandEcoScrolls : PluginCommand(
     plugin,
     "ecoscrolls",
     "ecoscrolls.command.ecoscrolls",
     false
 ) {
     init {
-        this.addSubcommand(CommandReload(plugin))
-            .addSubcommand(CommandGive(plugin))
-            .addSubcommand(CommandInscribeDirect(plugin))
+        this.addSubcommand(CommandReload)
+            .addSubcommand(CommandGive)
+            .addSubcommand(CommandInscribeDirect)
     }
 
     override fun onExecute(sender: CommandSender, args: List<String>) {

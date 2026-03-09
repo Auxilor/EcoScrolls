@@ -41,7 +41,7 @@ internal lateinit var plugin: EcoScrollsPlugin
     private set
 
 class EcoScrollsPlugin : LibreforgePlugin() {
-    val targetsYml = TargetsYml(this)
+    val targetsYml: TargetsYml = TargetsYml(this)
 
     val inscriptionHandler = InscriptionHandler(this)
 
@@ -56,7 +56,7 @@ class EcoScrollsPlugin : LibreforgePlugin() {
         Triggers.register(TriggerInscribe)
         Triggers.register(TriggerTryInscribe)
 
-        Items.registerTag(ScrollTag(this))
+        Items.registerTag(ScrollTag)
 
         registerHolderProvider(ScrollFinder.toHolderProvider())
 
@@ -89,8 +89,8 @@ class EcoScrollsPlugin : LibreforgePlugin() {
     }
 
     override fun handleReload() {
-        updateInscribeMenu(this)
-        Targets.update(this)
+        updateInscribeMenu()
+        Targets.update()
         inscriptionHandler.reload()
     }
 
@@ -102,22 +102,22 @@ class EcoScrollsPlugin : LibreforgePlugin() {
 
     override fun loadPluginCommands(): List<PluginCommand> {
         return listOf(
-            CommandEcoScrolls(this),
-            CommandInscribe(this)
+            CommandEcoScrolls,
+            CommandInscribe
         )
     }
 
     override fun loadListeners(): List<Listener> {
         return listOf(
-            DiscoverRecipeListener(this),
-            DragAndDropListener(this),
+            DiscoverRecipeListener,
+            DragAndDropListener,
             AntiPlaceListener
         )
     }
 
     override fun loadDisplayModules(): List<DisplayModule> {
         return listOf(
-            ScrollDisplay(this)
+            ScrollDisplay
         )
     }
 }

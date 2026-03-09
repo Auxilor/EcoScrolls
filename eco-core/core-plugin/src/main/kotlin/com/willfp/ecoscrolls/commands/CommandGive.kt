@@ -1,17 +1,15 @@
 package com.willfp.ecoscrolls.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.util.StringUtils
+import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
-class CommandGive(
-    plugin: EcoPlugin
-) : Subcommand(
+object CommandGive : Subcommand(
     plugin,
     "give",
     "ecoscrolls.command.give",
@@ -41,9 +39,9 @@ class CommandGive(
 
         val amount = if (args.size > 2) args[2].toIntOrNull() ?: 1 else 1
 
-        val reciever = Bukkit.getPlayer(args[0])
+        val receiver = Bukkit.getPlayer(args[0])
 
-        if (reciever == null) {
+        if (receiver == null) {
             sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
             return
         }
@@ -59,14 +57,14 @@ class CommandGive(
             this.amount = amount
         }
 
-        DropQueue(reciever)
+        DropQueue(receiver)
             .addItem(itemStack)
             .forceTelekinesis()
             .push()
 
         val message = plugin.langYml.getMessage("give-success", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
             .replace("%scroll%", scroll.name)
-            .replace("%player%", reciever.name)
+            .replace("%player%", receiver.name)
 
         sender.sendMessage(message)
     }

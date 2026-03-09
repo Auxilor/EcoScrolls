@@ -1,7 +1,7 @@
 package com.willfp.ecoscrolls.util
 
 import com.willfp.eco.core.items.isEcoEmpty
-import com.willfp.ecoscrolls.EcoScrollsPlugin
+import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.scroll
 import com.willfp.ecoscrolls.scrolls.useScroll
 import org.bukkit.GameMode
@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 
-class DragAndDropListener(private val plugin: EcoScrollsPlugin) : Listener {
+object DragAndDropListener : Listener {
     @EventHandler
     fun handle(event: InventoryClickEvent) {
         val player = event.whoClicked as? Player ?: return

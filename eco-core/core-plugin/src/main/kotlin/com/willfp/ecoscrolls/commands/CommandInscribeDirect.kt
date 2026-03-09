@@ -1,18 +1,16 @@
 package com.willfp.ecoscrolls.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.savedDisplayName
+import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import com.willfp.ecoscrolls.scrolls.getScrollLevel
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.StringUtil
 
-class CommandInscribeDirect(
-    plugin: EcoPlugin
-) : Subcommand(
+object CommandInscribeDirect : Subcommand(
     plugin,
     "inscribe",
     "ecoscrolls.command.incscribedirect",

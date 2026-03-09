@@ -3,7 +3,6 @@ package com.willfp.ecoscrolls.target
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.willfp.eco.core.items.HashedItem
 import com.willfp.eco.core.registry.Registry
-import com.willfp.ecoscrolls.EcoScrollsPlugin
 import com.willfp.ecoscrolls.plugin
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.TimeUnit
@@ -11,7 +10,7 @@ import java.util.concurrent.TimeUnit
 object Targets : Registry<Target>() {
     init {
         register(AllTarget)
-        update(plugin)
+        update()
     }
 
     private fun getForItem(item: ItemStack): List<Target> {
@@ -25,7 +24,7 @@ object Targets : Registry<Target>() {
             getForItem(this)
         }
 
-    internal fun update(plugin: EcoScrollsPlugin) {
+    internal fun update() {
         for (target in values()) {
             if (target is AllTarget) {
                 continue

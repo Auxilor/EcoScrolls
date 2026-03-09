@@ -19,7 +19,6 @@ import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.eco.util.evaluateExpressionOrNull
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toNumeral
-import com.willfp.ecoscrolls.EcoScrollsPlugin
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.target.Targets
 import com.willfp.libreforge.ViolationContext
@@ -33,7 +32,6 @@ import java.util.Objects
 import java.util.regex.Pattern
 
 class Scroll(
-    plugin: EcoScrollsPlugin,
     override val id: String,
     val config: Config
 ) : KRegistrable {
@@ -194,7 +192,7 @@ class Scroll(
     }
 
     private fun createLevel(level: Int): ScrollLevel {
-        return ScrollLevel(plugin, this, level, effects, conditions)
+        return ScrollLevel(this, level, effects, conditions)
     }
 
     fun canInscribe(itemStack: ItemStack): Boolean {
@@ -218,11 +216,7 @@ class Scroll(
 
         val level = itemStack.getScrollLevel(this)?.level ?: 0
 
-        if (level >= maxLevel) {
-            return false
-        }
-
-        return true
+        return level < maxLevel
     }
 
     fun inscribe(itemStack: ItemStack, player: Player): Boolean {

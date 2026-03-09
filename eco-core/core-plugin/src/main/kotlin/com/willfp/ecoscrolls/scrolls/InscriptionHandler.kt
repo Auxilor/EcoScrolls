@@ -26,15 +26,19 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
     internal fun reload() {
         val context = ViolationContext(plugin, "Inscriptions")
 
-        applyEffects = Optional.ofNullable(Effects.compileChain(
-            plugin.configYml.getSubsections("inscription.apply-effects"),
-            context.with("Apply Effects")
-        ))
+        applyEffects = Optional.ofNullable(
+            Effects.compileChain(
+                plugin.configYml.getSubsections("inscription.apply-effects"),
+                context.with("Apply Effects")
+            )
+        )
 
-        denyEffects = Optional.ofNullable(Effects.compileChain(
-            plugin.configYml.getSubsections("inscription.deny-effects"),
-            context.with("Deny Effects")
-        ))
+        denyEffects = Optional.ofNullable(
+            Effects.compileChain(
+                plugin.configYml.getSubsections("inscription.deny-effects"),
+                context.with("Deny Effects")
+            )
+        )
     }
 
     private fun inscriptionTrigger(item: ItemStack, scroll: Scroll, player: Player) =

@@ -21,7 +21,7 @@ import com.willfp.eco.util.formatEco
 import com.willfp.ecomponent.CaptiveItem
 import com.willfp.ecomponent.addComponent
 import com.willfp.ecomponent.menuStateVar
-import com.willfp.ecoscrolls.EcoScrollsPlugin
+import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.Scroll
 import com.willfp.ecoscrolls.scrolls.scroll
 import com.willfp.ecoscrolls.scrolls.useScroll
@@ -51,7 +51,7 @@ private val Menu.scroll by menuStateVar<Optional<Scroll>>()
 private lateinit var capturedItem: CaptiveItem
 private lateinit var capturedScrollItem: CaptiveItem
 
-internal fun updateInscribeMenu(plugin: EcoScrollsPlugin) {
+internal fun updateInscribeMenu() {
     capturedItem = CaptiveItem()
     capturedScrollItem = CaptiveItem()
 
@@ -77,7 +77,7 @@ internal fun updateInscribeMenu(plugin: EcoScrollsPlugin) {
             val row = indicatorPattern[i - 1]
             for (j in 1..9) {
                 if (row[j - 1] != '0') {
-                    setSlot(i, j, IndicatorSlot(plugin))
+                    setSlot(i, j, IndicatorSlot)
                 }
             }
         }
@@ -94,7 +94,7 @@ internal fun updateInscribeMenu(plugin: EcoScrollsPlugin) {
         addComponent(
             plugin.configYml.getInt("gui.inscribe-slot.row"),
             plugin.configYml.getInt("gui.inscribe-slot.column"),
-            Inscriber(plugin),
+            Inscriber,
         )
 
         addComponent(
@@ -114,7 +114,7 @@ internal fun updateInscribeMenu(plugin: EcoScrollsPlugin) {
         addComponent(
             plugin.configYml.getInt("gui.close.location.row"),
             plugin.configYml.getInt("gui.close.location.column"),
-            CloseSlot(plugin)
+            CloseSlot
         )
 
         onEvent<CaptiveItemChangeEvent> { player, menu, _ ->
@@ -163,7 +163,7 @@ internal fun updateInscribeMenu(plugin: EcoScrollsPlugin) {
     }
 }
 
-private class IndicatorSlot(plugin: EcoScrollsPlugin) : CustomSlot() {
+private object IndicatorSlot : CustomSlot() {
     private val allowed = Items.lookup(plugin.configYml.getString("gui.indicator.allow-item")).item
     private val denied = Items.lookup(plugin.configYml.getString("gui.indicator.deny-item")).item
 
@@ -183,7 +183,7 @@ private class IndicatorSlot(plugin: EcoScrollsPlugin) : CustomSlot() {
     }
 }
 
-private class CloseSlot(private val plugin: EcoScrollsPlugin) : CustomSlot() {
+private object CloseSlot : CustomSlot() {
     private val item = Items.lookup(plugin.configYml.getString("gui.close.item")).modify {
         setDisplayName(plugin.configYml.getFormattedString("gui.close.name"))
         addLoreLines(plugin.configYml.getFormattedStrings("gui.close.lore"))
@@ -203,12 +203,10 @@ private class CloseSlot(private val plugin: EcoScrollsPlugin) : CustomSlot() {
 }
 
 
-private class Inscriber(
-    plugin: EcoScrollsPlugin
-) : GUIComponent {
-    private val allowSlot = AllowSlot(plugin)
-    private val denySlot = DenySlot(plugin)
-    private val emptySlot = EmptySlot(plugin)
+private object Inscriber : GUIComponent {
+    private val allowSlot = AllowSlot
+    private val denySlot = DenySlot
+    private val emptySlot = EmptySlot
 
     override fun getColumns() = 1
     override fun getRows() = 1
@@ -225,7 +223,6 @@ private class Inscriber(
 }
 
 private abstract class MenuSlot(
-    protected val plugin: EcoScrollsPlugin,
     private val status: InscriptionStatus
 ) : CustomSlot() {
     private val item = Items.lookup(plugin.configYml.getString("gui.${status.name.lowercase()}.item"))
@@ -279,7 +276,7 @@ private abstract class MenuSlot(
     }
 }
 
-private class AllowSlot(plugin: EcoScrollsPlugin) : MenuSlot(plugin, InscriptionStatus.ALLOW) {
+private object AllowSlot : MenuSlot(InscriptionStatus.ALLOW) {
     override fun onClick(player: Player, event: InventoryClickEvent, slot: Slot, menu: Menu) {
         val scroll = menu.scroll[player]?.getOrNull() ?: return
         val item = capturedItem[player] ?: return
@@ -298,5 +295,5 @@ private class AllowSlot(plugin: EcoScrollsPlugin) : MenuSlot(plugin, Inscription
     }
 }
 
-private class DenySlot(plugin: EcoScrollsPlugin) : MenuSlot(plugin, InscriptionStatus.DENY)
-private class EmptySlot(plugin: EcoScrollsPlugin) : MenuSlot(plugin, InscriptionStatus.EMPTY)
+private object DenySlot : MenuSlot(InscriptionStatus.DENY)
+private object EmptySlot : MenuSlot(InscriptionStatus.EMPTY)
