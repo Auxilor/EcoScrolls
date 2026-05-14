@@ -2,6 +2,7 @@ package com.willfp.ecoscrolls.util
 
 import com.willfp.eco.core.items.isEcoEmpty
 import com.willfp.ecoscrolls.plugin
+import com.willfp.ecoscrolls.scrolls.InscriptionDenialReason
 import com.willfp.ecoscrolls.scrolls.scroll
 import com.willfp.ecoscrolls.scrolls.useScroll
 import org.bukkit.GameMode
@@ -32,7 +33,7 @@ object DragAndDropListener : Listener {
             return
         }
 
-        if (!scroll.canInscribe(current)) {
+        if (scroll.getDenialReason(current) == InscriptionDenialReason.OTHER) {
             return
         }
 

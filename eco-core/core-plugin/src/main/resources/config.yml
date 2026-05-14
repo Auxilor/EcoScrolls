@@ -133,3 +133,13 @@ sounds:
     volume: 1
     pitch: 1
     category: PLAYERS
+
+# Controls the order scroll lore appears on items, grouped by type.
+# List type IDs in the desired display order.
+# Use "other" as a placeholder for scrolls with no type or a type not listed here.
+# If "other" is omitted, untyped/unlisted scrolls appear at the end.
+# Leave empty to use default (inscription) order.
+lore-order:
+  - combat
+  - utility
+  - other

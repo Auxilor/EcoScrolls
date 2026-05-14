@@ -64,6 +64,10 @@ targets:
 # The conflicts that the scroll has with other scrolls
 conflicts: [ ]
 
+# The type of the scroll (optional). Types are defined in types.yml and limit
+# how many different scrolls of the same type can be inscribed on a single item.
+type: combat
+
 # The scroll(s) that must be applied to the item before this scroll can be applied
 requirements:
   - scroll: my_requirement_scroll # The scroll to require
