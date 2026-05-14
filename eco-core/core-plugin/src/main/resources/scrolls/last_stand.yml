@@ -1,0 +1,69 @@
+name: "&6Last Stand"
+
+max-level: 3
+max-uses: 1
+
+type: utility
+
+item:
+  item: totem_of_undying glint
+  name: "&6&lLast Stand Scroll"
+  lore:
+    - "&7When all seems lost, rise up"
+    - "&7with terrifying strength."
+    - ""
+    - "&7Active below &c40% &7health."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 500
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1 + %level% * 0.4"
+
+  drag-and-drop: false
+  inscription-table: true
+
+targets:
+  - chestplate
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &6Last Stand %level_numeral%"
+  - " &7Below 40% HP: %ecoscrolls_scroll_last_stand:strength% &7on being hit"
+
+placeholders:
+  strength: "&6Strength %level_numeral%"
+
+effects:
+  - effects:
+      - id: potion_effect
+        args:
+          effect: increase_damage
+          level: "%level%"
+          duration: "60 + 40 * %level%"
+          apply_to_player: true
+    args:
+      cooldown: 100
+      send_cooldown_message: false
+    triggers:
+      - take_entity_damage
+    conditions:
+      - id: below_health_percent
+        args:
+          percent: 40
+
+conditions: []

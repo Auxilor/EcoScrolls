@@ -1,0 +1,78 @@
+name: "&6Prospector"
+
+max-level: 4
+max-uses: 1
+
+type: utility
+
+item:
+  item: iron_pickaxe glint
+  name: "&6&lProspector Scroll"
+  lore:
+    - "&7Mine entire ore veins at once."
+    - "&7A miner's best friend."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 400
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1 + %level% * 0.3"
+
+  drag-and-drop: true
+  inscription-table: true
+
+targets:
+  - pickaxe
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &6Prospector %level_numeral%"
+  - " &7Mine up to %ecoscrolls_scroll_prospector:blocks% &7ore blocks per vein"
+
+placeholders:
+  blocks: "&e{^{5 + 5 * %level%}}"
+
+effects:
+  - id: mine_vein
+    args:
+      limit: "5 + 5 * %level%"
+    filters:
+      blocks:
+        - coal_ore
+        - deepslate_coal_ore
+        - iron_ore
+        - deepslate_iron_ore
+        - copper_ore
+        - deepslate_copper_ore
+        - gold_ore
+        - deepslate_gold_ore
+        - ancient_debris
+        - lapis_ore
+        - deepslate_lapis_ore
+        - diamond_ore
+        - deepslate_diamond_ore
+        - redstone_ore
+        - deepslate_redstone_ore
+        - nether_quartz_ore
+        - nether_gold_ore
+        - gilded_blackstone
+        - emerald_ore
+        - deepslate_emerald_ore
+    triggers:
+      - mine_block
+
+conditions: []

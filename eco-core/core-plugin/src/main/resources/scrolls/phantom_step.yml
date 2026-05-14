@@ -1,0 +1,66 @@
+name: "&5Phantom Step"
+
+max-level: 3
+max-uses: 1
+
+type: combat
+
+item:
+  item: ender_pearl glint
+  name: "&5&lPhantom Step Scroll"
+  lore:
+    - "&7Blink through the air at will."
+    - "&7Right-click to dash forward."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 550
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1 + %level% * 0.5"
+
+  drag-and-drop: true
+  inscription-table: true
+
+targets:
+  - sword
+  - axe
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &5Phantom Step %level_numeral%"
+  - " &7Right-click to dash &5%ecoscrolls_scroll_phantom_step:cooldown%s &7cooldown"
+
+placeholders:
+  cooldown: "&5{^{ceil((80 - 20 * %level%) / 20)}}"
+
+effects:
+  - effects:
+      - id: pull_to_location
+        args:
+          velocity: "0.8 + 0.4 * %level%"
+      - id: play_sound
+        args:
+          sound: ENTITY_ENDERMAN_TELEPORT
+          pitch: 1.5
+          volume: 1
+    args:
+      cooldown: "80 - 20 * %level%"
+      send_cooldown_message: true
+    triggers:
+      - alt_click
+
+conditions: []

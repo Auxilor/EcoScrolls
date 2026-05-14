@@ -1,0 +1,64 @@
+name: "&2Plague"
+
+max-level: 4
+max-uses: 1
+
+type: combat
+
+item:
+  item: spider_eye glint
+  name: "&2&lPlague Scroll"
+  lore:
+    - "&7Your strikes carry a virulent"
+    - "&7toxin that rots from within."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 350
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1 + %level% * 0.3"
+
+  drag-and-drop: true
+  inscription-table: true
+
+targets:
+  - sword
+  - axe
+  - bow
+  - crossbow
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &2Plague %level_numeral%"
+  - " &7%ecoscrolls_scroll_plague:chance% &7chance to poison for &2%ecoscrolls_scroll_plague:duration%s"
+
+placeholders:
+  chance: "&a{^{20 + 10 * %level%}}%"
+  duration: "&a{^{3 * %level%}}"
+
+effects:
+  - id: potion_effect
+    args:
+      effect: poison
+      level: 1
+      duration: "60 * %level%"
+      chance: "20 + 10 * %level%"
+    triggers:
+      - melee_attack
+      - bow_attack
+
+conditions: []
