@@ -55,6 +55,8 @@ class Scroll(
 
     val maxUses = config.getInt("max-uses")
 
+    val type: ScrollType? = config.getStringOrNull("type")?.let { ScrollTypes[it] }
+
     private val itemName = config.getString("item.name")
     private val itemLore = config.getStrings("item.lore")
 
@@ -166,13 +168,36 @@ class Scroll(
             }
         }
 
+        private val typePlaceholder = object : DynamicInjectablePlaceholder(Pattern.compile("type")) {
+            override fun getValue(p0: String, p1: PlaceholderContext): String? {
+                return type?.displayName ?: ""
+            }
+        }
+
+        private val typeLimitPlaceholder = object : DynamicInjectablePlaceholder(Pattern.compile("type_limit")) {
+            override fun getValue(p0: String, p1: PlaceholderContext): String? {
+                return type?.limit?.toString() ?: ""
+            }
+        }
+
+        private val typeUsedPlaceholder = object : DynamicInjectablePlaceholder(Pattern.compile("type_used")) {
+            override fun getValue(p0: String, p1: PlaceholderContext): String? {
+                val t = type ?: return ""
+                val item = p1.itemStack ?: return ""
+                return item.scrolls.count { it.scroll.type == t }.toString()
+            }
+        }
+
         override fun getPlaceholderInjections(): List<InjectablePlaceholder> {
             return listOf(
                 levelPlaceholder,
                 levelNumeralPlaceholder,
                 usesLeftPlaceholder,
                 usesPlaceholder,
-                maxUsesPlaceholder
+                maxUsesPlaceholder,
+                typeLimitPlaceholder,
+                typeUsedPlaceholder,
+                typePlaceholder
             )
         }
 
@@ -195,28 +220,41 @@ class Scroll(
         return ScrollLevel(this, level, effects, conditions)
     }
 
-    fun canInscribe(itemStack: ItemStack): Boolean {
+    fun canInscribe(itemStack: ItemStack): Boolean = getDenialReason(itemStack) == null
+
+    fun getDenialReason(itemStack: ItemStack): InscriptionDenialReason? {
         if (targets.none { it.matches(itemStack) }) {
-            return false
+            return InscriptionDenialReason.OTHER
         }
 
         val currentScrolls = itemStack.scrolls
 
         if (currentScrolls.size >= plugin.inscriptionHandler.getScrollLimit(itemStack)) {
-            return false
+            return InscriptionDenialReason.GLOBAL_LIMIT
         }
 
         if (currentScrolls.any { it.scroll.conflictsWith(this) }) {
-            return false
+            return InscriptionDenialReason.OTHER
         }
 
         if (requirements.any { !it.isPresent(itemStack) }) {
-            return false
+            return InscriptionDenialReason.OTHER
+        }
+
+        val scrollType = type
+        if (scrollType != null && currentScrolls.none { it.scroll == this }) {
+            val inscribedOfType = currentScrolls.count { it.scroll.type == scrollType }
+            if (inscribedOfType >= scrollType.limit) {
+                return InscriptionDenialReason.TYPE_LIMIT
+            }
         }
 
         val level = itemStack.getScrollLevel(this)?.level ?: 0
+        if (level >= maxLevel) {
+            return InscriptionDenialReason.MAX_LEVEL
+        }
 
-        return level < maxLevel
+        return null
     }
 
     fun inscribe(itemStack: ItemStack, player: Player): Boolean {
@@ -338,4 +376,11 @@ class Scroll(
     override fun hashCode(): Int {
         return Objects.hash(this.id)
     }
+}
+
+enum class InscriptionDenialReason {
+    TYPE_LIMIT,
+    MAX_LEVEL,
+    GLOBAL_LIMIT,
+    OTHER
 }

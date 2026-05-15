@@ -1,0 +1,60 @@
+name: "&eStorm Bringer"
+
+max-level: 3
+max-uses: 1
+
+type: combat
+
+item:
+  item: lightning_rod glint
+  name: "&e&lStorm Bringer Scroll"
+  lore:
+    - "&7Call down lightning to strike"
+    - "&7your enemies from above."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 600
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1 + %level% * 0.5"
+
+  drag-and-drop: true
+  inscription-table: true
+
+targets:
+  - bow
+  - crossbow
+  - trident
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &eStorm Bringer %level_numeral%"
+  - " &7%ecoscrolls_scroll_storm_bringer:chance% &7chance to strike lightning on hit"
+
+placeholders:
+  chance: "&e{^{25 * %level%}}%"
+
+effects:
+  - id: strike_lightning
+    args:
+      amount: "ceil(%level% / 2)"
+      chance: "25 * %level%"
+    triggers:
+      - bow_attack
+      - trident_attack
+
+conditions: []

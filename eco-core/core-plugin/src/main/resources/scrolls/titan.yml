@@ -1,0 +1,56 @@
+name: "&2Titan"
+
+max-level: 5
+max-uses: 1
+
+type: utility
+
+item:
+  item: nether_star glint
+  name: "&2&lTitan Scroll"
+  lore:
+    - "&7Fortify your body beyond its"
+    - "&7natural limits."
+    - ""
+    - "&7Grants bonus max health on armor."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 400
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1 + %level% * 0.3"
+
+  drag-and-drop: false
+  inscription-table: true
+
+targets:
+  - armor
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &2Titan %level_numeral%"
+  - " &7Bonus max health: %ecoscrolls_scroll_titan:health%"
+
+placeholders:
+  health: "&a+{^{%level% * 2}} ❤"
+
+effects:
+  - id: bonus_health
+    args:
+      health: "%level% * 2"
+
+conditions: []

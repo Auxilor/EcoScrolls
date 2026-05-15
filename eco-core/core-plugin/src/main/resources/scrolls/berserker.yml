@@ -1,0 +1,63 @@
+name: "&cBerserker"
+
+max-level: 3
+max-uses: 1
+
+type: combat
+
+item:
+  item: blaze_powder glint
+  name: "&c&lBerserker Scroll"
+  lore:
+    - "&7The closer to death you are,"
+    - "&7the more lethal you become."
+    - ""
+    - "&7Active below &c30% &7health."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 500
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1 + %level% * 0.5"
+
+  drag-and-drop: true
+  inscription-table: true
+
+targets:
+  - sword
+  - axe
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &cBerserker %level_numeral%"
+  - " &7Below 30% HP: %ecoscrolls_scroll_berserker:bonus% &7damage"
+
+placeholders:
+  bonus: "&c+{^{%level% * 15}}%"
+
+effects:
+  - id: damage_multiplier
+    args:
+      multiplier: "1 + 0.15 * %level%"
+    triggers:
+      - melee_attack
+    conditions:
+      - id: below_health_percent
+        args:
+          percent: 30
+
+conditions: []

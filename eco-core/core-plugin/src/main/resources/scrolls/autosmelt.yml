@@ -1,0 +1,53 @@
+name: "&6Autosmelt"
+
+max-level: 1
+max-uses: 1
+
+type: utility
+
+item:
+  item: furnace glint
+  name: "&6&lAutosmelt Scroll"
+  lore:
+    - "&7Ores mined are automatically"
+    - "&7smelted as they drop."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 350
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1"
+
+  drag-and-drop: true
+  inscription-table: true
+
+targets:
+  - pickaxe
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &6Autosmelt"
+  - " &7Ores are automatically smelted on mine"
+
+placeholders: {}
+
+effects:
+  - id: autosmelt
+    triggers:
+      - mine_block
+
+conditions: []

@@ -1,0 +1,56 @@
+name: "&4Leech"
+
+max-level: 5
+max-uses: 1
+
+type: combat
+
+item:
+  item: fermented_spider_eye glint
+  name: "&4&lLeech Scroll"
+  lore:
+    - "&7Each strike drains life from"
+    - "&7your enemies, healing you."
+    - ""
+    - "&8%uses_left%&7/&8%max_uses% &7uses remaining"
+
+  craftable: false
+  recipe: []
+
+inscription:
+  conditions: []
+  effects: []
+
+  price:
+    value: 300
+    type: coins
+    display: "&e%value% coins"
+
+  price-level-multiplier: "1 + %level% * 0.3"
+
+  drag-and-drop: true
+  inscription-table: true
+
+targets:
+  - sword
+
+conflicts: []
+requirements: []
+remove-requirements: false
+
+lore:
+  - ""
+  - " &4Leech %level_numeral%"
+  - " &7Heals %ecoscrolls_scroll_leech:heal% per melee hit"
+
+placeholders:
+  heal: "&c+{^{%level%}} ❤"
+
+effects:
+  - id: give_health
+    args:
+      amount: "%level%"
+    triggers:
+      - melee_attack
+
+conditions: []
