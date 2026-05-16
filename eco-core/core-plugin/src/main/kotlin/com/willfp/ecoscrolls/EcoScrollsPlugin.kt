@@ -1,5 +1,6 @@
 package com.willfp.ecoscrolls
 
+import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
@@ -127,4 +128,14 @@ class EcoScrollsPlugin : LibreforgePlugin() {
             ScrollDisplay
         )
     }
+
+    override fun getCustomCharts() = listOf(
+        EcoMetricsChart.SingleLine("total_scrolls") { Scrolls.values().size },
+        EcoMetricsChart.SingleLine("total_scroll_types") { ScrollTypes.values().size },
+        EcoMetricsChart.SingleLine("total_targets") { Targets.values().size },
+        EcoMetricsChart.SingleLine("inscription_scroll_limit") { configYml.getInt("inscription.scroll-limit") },
+        EcoMetricsChart.SimplePie("discover_recipes") {
+            if (configYml.getBool("discover-recipes")) "enabled" else "disabled"
+        }
+    )
 }
