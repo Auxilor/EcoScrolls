@@ -1,0 +1,149 @@
+---
+title: "Plugin Config"
+sidebar_position: 6
+---
+
+## Default config.yml
+
+```yaml
+# If all crafting recipes should be discovered by default
+discover-recipes: true
+
+# Options for the inscription table
+gui:
+  rows: 6
+
+  title: "Inscription Table"
+
+  mask:
+    # The way the mask works is by having a list of materials
+    # And then a pattern to use those materials.
+
+    # The pattern is the rows in the GUI
+    # Each line must be 9 long, and the amount of rows should be the amount of rows in the GUI
+    # A zero represents nothing
+    # A 1 represents the first material
+    # A 2 represents the second material
+    # And so on, you can add up to 9.
+
+    items:
+      - black_stained_glass_pane
+      - magenta_stained_glass_pane
+    pattern:
+      - "111111111"
+      - "100010001"
+      - "111000111"
+      - "211101112"
+      - "221111122"
+      - "222101222"
+
+  indicator:
+    allow-item: lime_stained_glass_pane
+    deny-item: red_stained_glass_pane
+
+    # 1 is a show-allowed slot,
+    # 0 is not.
+    pattern:
+      - "000000000"
+      - "001101100"
+      - "000111000"
+      - "000000000"
+      - "000000000"
+      - "000000000"
+
+  inscribe-slot:
+    row: 4
+    column: 5
+
+  scroll-slot:
+    row: 2
+    column: 8
+
+  item-slot:
+    row: 2
+    column: 2
+
+  close:
+    item: barrier
+    name: "&cClose"
+    lore: []
+    location:
+      row: 6
+      column: 5
+
+  allow:
+    item: feather unbreaking:1 hide_enchants
+    name: "&aInscribe Item"
+    lore:
+      - "&7Inscribe %scroll% &7onto"
+      - "&7the item on the left, granting it"
+      - "&7a new ability or effect."
+      - ""
+      - "&7Price:"
+      - "%price%"
+      - ""
+      - "&eClick to inscribe!"
+
+  deny:
+    item: barrier
+    name: "&cCannot Inscribe"
+    lore:
+      - "&7You cannot inscribe this item with this!"
+
+  empty:
+    item: feather unbreaking:1 hide_enchants
+    name: "&aInscribe Item"
+    lore:
+      - "&7Place an item on the left and"
+      - "&7a scroll on the right to inscribe it."
+
+
+  # Effects to run when the GUI is opened
+  open-effects: [ ]
+
+  # Effects to run when the GUI is closed
+  close-effects: [ ]
+
+  # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+  custom-slots: [ ]
+
+# Options for inscribing items
+inscription:
+  # Effects to run when an item is inscribed
+  # The text placeholder is the name of the scroll, read here:
+  # https://plugins.auxilor.io/effects/configuring-an-effect#placeholders
+  # You can also use %scroll%, %scroll_id%, and %level% as placeholders.
+  apply-effects: [ ]
+
+  # Effects to run when trying to inscribe an item without meeting the conditions
+  # Same placeholders as apply-effects
+  deny-effects: [ ]
+
+  # The maximum amount of scrolls that can be applied to an item
+  # Set to -1 for unlimited
+  scroll-limit: -1
+
+sounds:
+  inscribe:
+    enabled: true
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 1
+    pitch: 1
+    category: PLAYERS
+  inscribe-fail:
+    enabled: true
+    sound: ENTITY_VILLAGER_NO
+    volume: 1
+    pitch: 1
+    category: PLAYERS
+
+# Controls the order scroll lore appears on items, grouped by type.
+# List type IDs in the desired display order.
+# Use "other" as a placeholder for scrolls with no type or a type not listed here.
+# If "other" is omitted, untyped/unlisted scrolls appear at the end.
+# Leave empty to use default (inscription) order.
+lore-order:
+  - combat
+  - utility
+  - other
+```
