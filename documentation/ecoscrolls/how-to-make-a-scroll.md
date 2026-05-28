@@ -1,4 +1,4 @@
----
+﻿---
 title: How to make a Scroll
 sidebar_position: 1
 ---
@@ -126,7 +126,7 @@ placeholders:
 ```
 
 ### The Effects Section:
-:::dangerEffects Section
+:::danger Effects Section
 
 The effects section is the core functionality of the scroll. You can configure effects, conditions, filters, mutators and triggers in this section to run whilst the scroll is applied and active.
 
@@ -172,7 +172,7 @@ We support shaped and shapeless recipes. Check out [Recipes](https://plugins.aux
 :::
 
 ### The Inscription Section:
-:::dangerEffects Section
+:::danger Effects Section
 
 The inscription effects section is the core functionality for applying a scroll to an item. You can configure effects, conditions, filters, and mutators in this section to run when the scroll is applied.
 
