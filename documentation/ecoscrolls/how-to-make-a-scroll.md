@@ -1,225 +1,236 @@
-﻿---
-title: How to make a Scroll
+---
+title: "How to Make a Scroll"
 sidebar_position: 1
 ---
 
-## How to add scrolls
-Each scroll is its own config file, placed in the `/scrolls/` folder, and you can add or remove them as you please. There's an example config called `_example.yml` to help you out!
+A **scroll** is a single config file that grants an item new **effects** when **inscribed** onto it. Each scroll lives in its own `.yml` file under the `scrolls/` folder, and the file name is its ID. This page walks you through building one from scratch, breaks down every part of the config, and points you at the shared systems it builds on.
 
-The ID of the Scroll is the file name. This is what you use in commands and placeholders.
-ID's must be lowercase letters, numbers, and underscores only.
+## Quick start
 
-## Example Scroll Config
+1. Open `/plugins/EcoScrolls/scrolls/` on your server.
+2. Copy `_example.yml` and rename it to your scroll's ID, e.g. `my_scroll.yml`.
+3. Edit the `name`, `targets`, and `effects` so the scroll does what you want.
+4. Run `/ecoscrolls reload` to load the new scroll.
+5. Give yourself a copy with `/ecoscrolls give <you> my_scroll`, inscribe it onto a matching item, then **equip the item and trigger the effect** to confirm it works.
+
+:::tip
+`_example.yml` is included as a reference and is **never loaded**, so copy or rename it to make a real scroll. You can also organise scrolls into subfolders inside `scrolls/`, and they'll still load.
+:::
+
+## Naming and IDs
+
+The file name, without the `.yml`, is the scroll's ID. That ID is what you pass to commands, placeholders, and the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system) when referencing the scroll item. So `phantom_step.yml` has the ID `phantom_step`.
+
+:::warning ID rules
+IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the scroll will not load.
+:::
+
+## The structure of a scroll
+
+A scroll config breaks into a few distinct parts:
+
+| Part | What it controls |
+| --- | --- |
+| **Scroll info** | The name, lore, level cap, and use count |
+| **Targets and requirements** | Which items it applies to, conflicts, type, and prerequisite scrolls |
+| **Effects** | What the scroll does while active on an item |
+| **Placeholders** | Custom values you can reuse in lore and other plugins |
+| **Scroll item** | The physical scroll item players hold and inscribe from |
+| **Inscription** | How the scroll gets applied to an item, and at what cost |
+
+Here is a complete scroll with every part in place:
 
 ```yaml
-name: "&6Example Scroll"
+# === Scroll info: name, lore, and limits ===
+name: "&6Example Scroll" # Internal display name of the scroll
+max-level: 1 # Highest level this scroll can reach
+max-uses: 1 # Times the scroll can be used before it's spent
+
+# Lore appended to an item once this scroll is inscribed on it
 lore:
   - ""
   - "&7This item has been inscribed with"
   - "&6Example Scroll"
 
-max-level: 1
-max-uses: 1 
-
-targets:
+# === Targets and requirements: what it applies to ===
+targets: # Items the scroll can be inscribed on; defined in targets.yml
   - sword
-conflicts: [ ]
+conflicts: [ ] # Scroll IDs that can't share an item with this one
+type: combat # Optional; groups the scroll and enforces a per-type limit from types.yml
 
-type: combat
+requirements: # Scrolls that must already be on the item first
+  - scroll: my_requirement_scroll # ID of the prerequisite scroll
+    level: 2 # Level it must be at (optional)
+remove-requirements: false # Whether inscribing this removes the prerequisites
 
-requirements:
-  - scroll: my_requirement_scroll
-    level: 2
-remove-requirements: false
-
-placeholders:
+# === Placeholders: reusable dynamic values ===
+placeholders: # Exposed as %ecoscrolls_scroll_<id>:<key>% for other plugins
   bonus: "%level% * 2"
 
+# === Effects: what the scroll does while active ===
 effects:
   - id: send_message
     args:
       message: "&6You have used the Example Scroll!"
     triggers:
       - alt_click
+conditions: [ ] # Conditions that must hold for the effects to run
 
-conditions: [ ]
-
+# === Scroll item: the physical scroll ===
 item:
-  item: paper glint
-  name: "&6&lExample Scroll"
+  item: paper glint # Base item; supports the Item Lookup System syntax
+  name: "&6&lExample Scroll" # Name and lore can use %uses%, %max_uses%, %uses_left%
   lore:
     - "&7This is an example scroll."
     - "&7It does nothing."
-  craftable: false
-  recipe-permission: []
-  shapeless: false
-  recipe: [ ]
+  craftable: false # Whether the scroll has a crafting recipe
+  recipe-permission: example.scroll.craft # Permission needed to craft it
+  shapeless: false # Whether the recipe is shapeless
+  recipe: [ ] # The crafting recipe grid
 
+# === Inscription: how it's applied to an item ===
 inscription:
-  inscription-table: true
-  drag-and-drop: true
-  price:
+  inscription-table: true # Allow applying via the Inscription Table GUI
+  drag-and-drop: true # Allow applying by dragging the scroll onto the item
+  price: # Cost to inscribe
     value: 100
     type: coins
     display: "&e%value% coins"
-
-  price-level-multiplier: "1 + %level% * 0.5"
-  
-  conditions: [ ]
-  
-  effects: [ ]
+  price-level-multiplier: "1 + %level% * 0.5" # Scales price by the scroll's current level
+  conditions: [ ] # Conditions required to inscribe
+  effects: [ ] # Effects run at the moment of inscribing (e.g. add an enchantment)
 ```
 
-## Understanding all the sections
+### Scroll info
 
-### The Scroll Info Section
+The top-level identity of the scroll: how it's named, what lore it adds to the item, and its limits.
 
 ```yaml
-name: "&6Example Scroll" # The name of the scroll
-lore: # The lore added to items when inscribed with the scroll
+name: "&6Example Scroll" # Internal display name of the scroll
+max-level: 1 # Highest level this scroll can reach
+max-uses: 1 # Times the scroll can be used before it's spent
+
+# Lore appended to an item once this scroll is inscribed on it
+lore:
   - ""
   - "&7This item has been inscribed with"
   - "&6Example Scroll"
-
-max-level: 1 # The max level of the scroll
-max-uses: 1 # The amount of times the scroll can be used
 ```
 
-### The Type Section:
-```yaml
-# (Optional) Assign this scroll to a type defined in types.yml.
-# Types group scrolls into categories and enforce a per-item limit on how many
-# different scrolls of that type can be inscribed on one item.
-# Leave out this field if the scroll should have no type restriction.
-type: combat
-```
+### Targets and requirements
 
-:::tip
-See [Scroll Types](https://plugins.auxilor.io/ecoscrolls/scroll-types) for how to create and configure types.
-:::
+Controls which items the scroll fits, what it clashes with, and what must come before it.
 
-### The Requirements and Conflicts Section:
 ```yaml
-targets: # The items that the scroll can be applied to, see targets.yml
+targets: # Items the scroll can be inscribed on; defined in targets.yml
   - sword
-conflicts: [ ] # The conflicts that the scroll has with other scrolls
+conflicts: [ ] # Scroll IDs that can't share an item with this one
+type: combat # Optional; groups the scroll and enforces a per-type limit from types.yml
 
-# (Optional) The type of the scroll. Types are defined in types.yml and limit
-# how many different scrolls of the same type can be inscribed on a single item.
-# See: Scroll Types
-type: combat
-
-# The scroll(s) that must be applied to the item before this scroll can be applied
-requirements:
-  - scroll: my_requirement_scroll # The ID of scroll to require
-    level: 2 # The level required (optional)
-remove-requirements: false # If inscribing this scroll should remove the required scrolls
- ```
-
-### The Placeholders Section:
-```yaml
-# Item placeholders for dynamic lore in plugins like EcoItems
-# The placeholder is %ecoscrolls_scroll_<scroll>:<placeholder>%, e.g.
-# %ecoscrolls_scroll_example:bonus%
-placeholders:
-  bonus: "%level% * 2"
+requirements: # Scrolls that must already be on the item first
+  - scroll: my_requirement_scroll # ID of the prerequisite scroll
+    level: 2 # Level it must be at (optional)
+remove-requirements: false # Whether inscribing this removes the prerequisites
 ```
 
-### The Effects Section:
-:::danger Effects Section
-
-The effects section is the core functionality of the scroll. You can configure effects, conditions, filters, mutators and triggers in this section to run whilst the scroll is applied and active.
-
-Check out [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect) to understand how to configure this section correctly.
-
-For more advanced users or setups, you can configure chains in this section to string together different effects under one trigger. Check out [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain) for more info.
-
+:::info Targets live in their own file
+Targets map a name like `sword` to a set of items and a slot. Edit or add your own in `targets.yml`.
 :::
-These are the effects that the scroll provides when applied and in use.
+
+### Effects
+
+What the scroll actually does once it's on an item and active.
+
 ```yaml
-# Read https://plugins.auxilor.io/effects/configuring-an-effect
-# The effects for the scroll to give
 effects:
   - id: send_message
     args:
       message: "&6You have used the Example Scroll!"
     triggers:
       - alt_click
-
-# Read https://plugins.auxilor.io/effects/configuring-a-condition
-# The conditions for the scroll to work
-conditions: [ ]
+conditions: [ ] # Conditions that must hold for the effects to run
 ```
 
-### The Scroll Item Section:
+:::danger Effects are their own system
+Effects and conditions are a shared system across every eco plugin, with far more options than shown here.
+
+- [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect)
+- [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain)
+:::
+
+### Placeholders
+
+Named values you define once and reuse, both in this config and in other plugins.
+
 ```yaml
-# Options for the physical scroll item
+placeholders: # Exposed as %ecoscrolls_scroll_<id>:<key>% for other plugins
+  bonus: "%level% * 2" # e.g. %ecoscrolls_scroll_example:bonus%
+```
+
+:::info Values are expressions
+Placeholder values are math expressions, so you can reference `%level%` and other placeholders to scale them.
+:::
+
+### Scroll item
+
+The physical scroll item a player holds before inscribing it.
+
+```yaml
 item:
-  item: paper glint
-  # Name and lore can use %uses%, %max_uses%, and %uses_left% placeholders
-  name: "&6&lExample Scroll"
+  item: paper glint # Base item; supports the Item Lookup System syntax
+  name: "&6&lExample Scroll" # Name and lore can use %uses%, %max_uses%, %uses_left%
   lore:
     - "&7This is an example scroll."
     - "&7It does nothing."
-  craftable: false
-  recipe: [ ]
+  craftable: false # Whether the scroll has a crafting recipe
+  recipe-permission: example.scroll.craft # Permission needed to craft it
+  shapeless: false # Whether the recipe is shapeless
+  recipe: [ ] # The crafting recipe grid
 ```
 
 :::tip
-
-We support shaped and shapeless recipes. Check out [Recipes](https://plugins.auxilor.io/the-item-lookup-system/recipes) for more info on how to configure these.
-
+We support shaped and shapeless recipes. See [Recipes](https://plugins.auxilor.io/the-item-lookup-system/recipes) for how to configure them.
 :::
 
-### The Inscription Section:
-:::danger Effects Section
+### Inscription
 
-The inscription effects section is the core functionality for applying a scroll to an item. You can configure effects, conditions, filters, and mutators in this section to run when the scroll is applied.
+How the scroll moves from the item in hand onto a target item, and what it costs.
 
-Check out [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect) to understand how to configure this section correctly.
-
-For more advanced users or setups, you can configure chains in this section to string together different effects under one trigger. Check out [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain) for more info.
-
-:::
 ```yaml
-# Options for inscribing items with the scroll
 inscription:
-  inscription-table: true # If the scroll can be applied to items via the inscription table
-  drag-and-drop: true # If the scroll can be applied to items via drag-and-drop
-
-  # Read https://plugins.auxilor.io/all-plugins/prices
-  # The price to inscribe the item
-  price:
+  inscription-table: true # Allow applying via the Inscription Table GUI
+  drag-and-drop: true # Allow applying by dragging the scroll onto the item
+  price: # Cost to inscribe
     value: 100
     type: coins
     display: "&e%value% coins"
-
-  # The formula to multiply the price depending on the level.
-  # The %level% placeholder is the *current* level of the scroll
-  price-level-multiplier: "1 + %level% * 0.5"
-
-  # The conditions required to inscribe the item
-  # not-met-effects will run if someone tries to inscribe the item without meeting the conditions
-  conditions: [ ]
-
-  # The effects that will be run when the item is inscribed
-  # If your scroll works by modifying the item (e.g. adding enchantments, changing durability),
-  # then put those effects here.
-  effects:
-    - id: send_message
-      args:
-        message: "&6You have inscribed the item with Example Scroll!"
+  price-level-multiplier: "1 + %level% * 0.5" # Scales price by the scroll's current level
+  conditions: [ ] # Conditions required to inscribe
+  effects: [ ] # Effects run at the moment of inscribing (e.g. add an enchantment)
 ```
-## Internal Placeholders
 
-| Placeholder   | Value                                            |
-| ------------- | ------------------------------------------------ |
-| `%uses%`      | The amount of times the scroll has been used     |
-| `%max_uses%`  | The maximum amount of times a scroll can be used |
-| `%uses_left%` | The amount of uses left on the scroll            |
+Put effects here, not in the top-level `effects`, when the scroll works by permanently changing the item (adding an enchantment, repairing it) rather than acting while equipped.
+
+## Internal placeholders
+
+| Placeholder | Value |
+| --- | --- |
+| `%level%` | The scroll's current level |
+| `%uses%` | The number of times the scroll has been used |
+| `%max_uses%` | The maximum number of uses the scroll has |
+| `%uses_left%` | The number of uses remaining |
+
+:::tip Troubleshooting
+- **Scroll doesn't show up in game?** The file name has a capital, space, or hyphen, or you forgot to `/ecoscrolls reload`. Rename to lowercase letters, numbers, and underscores only.
+- **Inscribing does nothing?** The item isn't in the scroll's `targets`. Check the target name exists in `targets.yml`.
+- **Effects never fire?** The `triggers` don't match how you're using the item, or a `condition` is failing. Check the effect's trigger against [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect).
+:::
 
 <hr/>
 
-## Default configs
-The default configs can be found [here](https://github.com/Auxilor/EcoScrolls/tree/master/eco-core/core-plugin/src/main/resources/scrolls). <br/>
-You can find additional user-created configs on [lrcdb](https://lrcdb.auxilor.io/).
+## Where to go next
+
+- **Scroll Types:** group scrolls and cap how many of each fit on an item, see [Scroll Types](scroll-types).
+- **Effects:** the full effect, condition, and trigger reference at [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect).
+- **Real examples:** the shipped scroll configs [on GitHub](https://github.com/Auxilor/EcoScrolls/tree/master/eco-core/core-plugin/src/main/resources/scrolls).
+- **Community configs:** browse and share more on [lrcdb](https://lrcdb.auxilor.io/).

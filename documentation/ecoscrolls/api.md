@@ -3,15 +3,18 @@ title: "API"
 sidebar_position: 7
 ---
 
-## Source Code
+This page is for developers who want to hook into EcoScrolls from their own plugin. EcoScrolls is open-source, so you can read the code, depend on it, and build against its API.
 
-The source code can be found [here](https://github.com/Auxilor/EcoScrolls):
+## Source code
 
-## API
+The full source is on GitHub at [Auxilor/EcoScrolls](https://github.com/Auxilor/EcoScrolls).
 
-Add this to your build.gradle.kts:
+## Adding the dependency
 
-```kts
+1. Add the Auxilor repository to your `build.gradle.kts`.
+2. Add EcoScrolls as a `compileOnly` dependency.
+
+```kotlin
 repositories {
     maven("https://repo.auxilor.io/repository/maven-public/")
 }
@@ -21,4 +24,11 @@ dependencies {
 }
 ```
 
-The latest version available on the repo can be found [here](https://github.com/Auxilor/EcoScrolls/tags)
+The latest version available on the repo can be found [here](https://github.com/Auxilor/EcoScrolls/tags).
+
+<hr/>
+
+## Where to go next
+
+- **eco framework:** the shared APIs EcoScrolls builds on live in [eco](https://github.com/Auxilor/eco).
+- **Make a scroll:** the config side of scrolls in [How to Make a Scroll](how-to-make-a-scroll).

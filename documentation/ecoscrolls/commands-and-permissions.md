@@ -3,11 +3,20 @@ title: "Commands and Permissions"
 sidebar_position: 5
 ---
 
-| Command                                          | Description                                             | Permission                           |
-|--------------------------------------------------|---------------------------------------------------------|--------------------------------------|
-| `/ecoscrolls reload`                             | Reloads the plugin                                      | `ecoscrolls.command.reload`          |
-| `/inscribe`                                      | Opens the inscription GUI                               | `ecoscrolls.command.inscribe`        |
-| `/ecoscrolls inscribe <player> <scroll> [level]` | Inscribe the held item                                  | `ecoscrolls.command.inscribedirect` |
-| `/ecoscrolls give <player> <scroll> [quantity]`  | Give the player an EcoScroll                             | `ecoscrolls.command.give`            |
-| `/ecoscrolls import <id>`                        | Import a scroll from [lrcdb](https://lrcdb.auxilor.io/) | `ecoscrolls.command.import`          |
-| `/ecoscrolls export <id>`                        | Export a scroll to [lrcdb](https://lrcdb.auxilor.io/)   | `ecoscrolls.command.export`          |
+Every EcoScrolls command and the permission node that gates it. Op players have all of these by default; grant the individual nodes to give non-op players access.
+
+| Command | Description | Permission |
+| --- | --- | --- |
+| `/ecoscrolls reload` | Reloads the plugin | `ecoscrolls.command.reload` |
+| `/inscribe` | Opens the Inscription Table GUI | `ecoscrolls.command.inscribe` |
+| `/ecoscrolls inscribe <player> <scroll> [level]` | Inscribes the held item | `ecoscrolls.command.inscribedirect` |
+| `/ecoscrolls give <player> <scroll> [quantity]` | Gives the player a scroll | `ecoscrolls.command.give` |
+| `/ecoscrolls import <id>` | Imports a scroll from lrcdb | `ecoscrolls.command.import` |
+| `/ecoscrolls export <id>` | Exports a scroll to lrcdb | `ecoscrolls.command.export` |
+
+<hr/>
+
+## Where to go next
+
+- **Make a scroll:** build a scroll to give or inscribe in [How to Make a Scroll](how-to-make-a-scroll).
+- **Community configs:** import ready-made scrolls from [lrcdb](https://lrcdb.auxilor.io/).

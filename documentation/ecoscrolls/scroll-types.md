@@ -1,55 +1,55 @@
 ---
-title: Scroll Types
+title: "Scroll Types"
 sidebar_position: 2
 ---
 
-## What are Scroll Types?
+By the end of this page you'll understand what scroll types are, how to define them, and how they limit which scrolls stack on an item and in what order their lore appears.
 
-Scroll types group scrolls into categories and enforce a per-item limit on how many **different** scrolls from the same type can be inscribed on a single item.
+## What scroll types are
 
-For example, if the `combat` type has a limit of 3, a player can inscribe at most 3 different combat scrolls on one item.
+A scroll type is a category that groups scrolls and caps how many **different** scrolls from that category can be inscribed on a single item. For example, if the `combat` type has a limit of 3, a player can inscribe at most 3 different combat scrolls on one item.
 
-## Configuring Types
+Scrolls without a `type` have no restriction and don't count toward any limit.
 
-Types are defined in `types.yml`:
+## Defining types
+
+Types live in `types.yml`. Each entry needs an ID, a display name, and a limit:
 
 ```yaml
 types:
-  - id: combat
-    display-name: "&cCombat"
-    limit: 3
+  - id: combat # ID referenced by a scroll's "type" field
+    display-name: "&cCombat" # Shown in lore; supports color codes
+    limit: 3 # Max different combat scrolls per item; -1 for unlimited
 
   - id: utility
     display-name: "&bUtility"
     limit: 2
 ```
 
-| Option         | Description                                                       |
-| -------------- | ----------------------------------------------------------------- |
-| `id`           | Unique identifier for the type (used in scroll configs)           |
-| `display-name` | Display name shown in lore (supports color codes)                 |
-| `limit`        | Max number of different scrolls of this type per item (`-1` = unlimited) |
+## Assigning a type to a scroll
 
-## Assigning a Type to a Scroll
-
-In a scroll's config file, set the `type` field to a type ID:
+In the scroll's own config file, set `type` to a type ID. See [How to Make a Scroll](how-to-make-a-scroll) for the rest of the config.
 
 ```yaml
-type: combat
+type: combat # Must match an id in types.yml
 ```
 
-Scrolls without a `type` field have no type restriction and don't count toward any type limit.
+## Ordering lore by type
 
-## Lore Ordering
-
-The `lore-order` option in `config.yml` controls the display order of scroll lore grouped by type.
-Use `other` as a placeholder for scrolls with no type or types not explicitly listed:
+The `lore-order` option in `config.yml` controls the order scroll lore appears on an item, grouped by type. Use `other` for scrolls with no type, or whose type isn't listed:
 
 ```yaml
 lore-order:
   - combat
   - utility
-  - other
+  - other # Catches untyped and unlisted scrolls; omit to push them to the end
 ```
 
-Leave `lore-order` empty to use the default inscription order.
+Leave `lore-order` empty to fall back to the default inscription order. See [Plugin Config](plugin-config) for the full file.
+
+<hr/>
+
+## Where to go next
+
+- **Make a scroll:** assign a type while building one in [How to Make a Scroll](how-to-make-a-scroll).
+- **Plugin Config:** the full `config.yml`, including `lore-order`, in [Plugin Config](plugin-config).
