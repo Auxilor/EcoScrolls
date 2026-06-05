@@ -222,6 +222,8 @@ class Scroll(
 
     fun canInscribe(itemStack: ItemStack): Boolean = getDenialReason(itemStack) == null
 
+    fun matchesTarget(itemStack: ItemStack): Boolean = targets.any { it.matches(itemStack) }
+
     fun getDenialReason(itemStack: ItemStack): InscriptionDenialReason? {
         if (targets.none { it.matches(itemStack) }) {
             return InscriptionDenialReason.OTHER
