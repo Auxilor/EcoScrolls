@@ -19,7 +19,7 @@ A **scroll** is a single config file that grants an item new **effects** when **
 
 ## Naming and IDs
 
-The file name, without the `.yml`, is the scroll's ID. That ID is what you pass to commands, placeholders, and the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system) when referencing the scroll item. So `phantom_step.yml` has the ID `phantom_step`.
+The file name, without the `.yml`, is the scroll's ID. That ID is what you pass to commands, placeholders, and the [Item Lookup System](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system) when referencing the scroll item. So `phantom_step.yml` has the ID `phantom_step`.
 
 :::warning ID rules
 IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the scroll will not load.
@@ -154,8 +154,8 @@ conditions: [ ] # Conditions that must hold for the effects to run
 :::danger Effects are their own system
 Effects and conditions are a shared system across every eco plugin, with far more options than shown here.
 
-- [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect)
-- [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain)
+- [Configuring an Effect](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect)
+- [Configuring an Effect Chain](https://hub.auxilor.io/wiki/libreforge/configuring-a-chain)
 :::
 
 ### Placeholders
@@ -189,7 +189,7 @@ item:
 ```
 
 :::tip
-We support shaped and shapeless recipes. See [Recipes](https://plugins.auxilor.io/the-item-lookup-system/recipes) for how to configure them.
+We support shaped and shapeless recipes. See [Recipes](https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system/recipes) for how to configure them.
 :::
 
 ### Inscription
@@ -223,7 +223,7 @@ Put effects here, not in the top-level `effects`, when the scroll works by perma
 :::tip Troubleshooting
 - **Scroll doesn't show up in game?** The file name has a capital, space, or hyphen, or you forgot to `/ecoscrolls reload`. Rename to lowercase letters, numbers, and underscores only.
 - **Inscribing does nothing?** The item isn't in the scroll's `targets`. Check the target name exists in `targets.yml`.
-- **Effects never fire?** The `triggers` don't match how you're using the item, or a `condition` is failing. Check the effect's trigger against [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect).
+- **Effects never fire?** The `triggers` don't match how you're using the item, or a `condition` is failing. Check the effect's trigger against [Configuring an Effect](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect).
 :::
 
 <hr/>
@@ -231,6 +231,6 @@ Put effects here, not in the top-level `effects`, when the scroll works by perma
 ## Where to go next
 
 - **Scroll Types:** group scrolls and cap how many of each fit on an item, see [Scroll Types](scroll-types).
-- **Effects:** the full effect, condition, and trigger reference at [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect).
+- **Effects:** the full effect, condition, and trigger reference at [Configuring an Effect](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect).
 - **Real examples:** the shipped scroll configs [on GitHub](https://github.com/Auxilor/EcoScrolls/tree/master/eco-core/core-plugin/src/main/resources/scrolls).
 - **Community configs:** browse and share more on [lrcdb](https://lrcdb.auxilor.io/).

@@ -90,14 +90,14 @@ gui:
   open-effects: [ ] # Effects run when the GUI is opened
   close-effects: [ ] # Effects run when the GUI is closed
 
-  # Custom GUI slots; see https://plugins.auxilor.io/all-plugins/custom-gui-slots
+  # Custom GUI slots; see https://hub.auxilor.io/wiki/eco/pages
   custom-slots: [ ]
 
 # Options for inscribing items
 inscription:
   # Effects run when an item is inscribed.
   # The text placeholder is the scroll name; see
-  # https://plugins.auxilor.io/effects/configuring-an-effect#placeholders
+  # https://hub.auxilor.io/wiki/libreforge/configuring-an-effect#placeholders
   # You can also use %scroll%, %scroll_id%, and %level%.
   apply-effects: [ ]
 
@@ -138,4 +138,4 @@ lore-order:
 
 - **Scroll Types:** how `lore-order` and type limits work in [Scroll Types](scroll-types).
 - **Make a scroll:** build a scroll to inscribe through this GUI in [How to Make a Scroll](how-to-make-a-scroll).
-- **Effects:** the shared effect system used by `apply-effects` at [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect).
+- **Effects:** the shared effect system used by `apply-effects` at [Configuring an Effect](https://hub.auxilor.io/wiki/libreforge/configuring-an-effect).

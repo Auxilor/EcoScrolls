@@ -23,7 +23,7 @@ item:
       - "&7This is an example scroll."
       - "&7It does nothing."
 
-  # Options for crafting, read here: https://plugins.auxilor.io/all-plugins/the-item-lookup-system#crafting-recipes
+  # Options for crafting, read here: https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system#crafting-recipes
   craftable: false
   recipe-permission: example.scroll.craft
   shapeless: false
@@ -40,7 +40,7 @@ inscription:
   # then put those effects here.
   effects: [ ]
 
-  # Read https://plugins.auxilor.io/all-plugins/prices
+  # Read https://hub.auxilor.io/wiki/eco/the-price-lookup-system
   # The price to inscribe the item
   price:
     value: 100
@@ -88,7 +88,7 @@ lore:
 placeholders:
   bonus: "%level% * 2"
 
-# Read https://plugins.auxilor.io/effects/configuring-an-effect
+# Read https://hub.auxilor.io/wiki/libreforge/configuring-an-effect
 # The effects for the scroll to give
 effects:
   - id: send_message
@@ -97,6 +97,6 @@ effects:
     triggers:
       - alt_click
 
-# Read https://plugins.auxilor.io/effects/configuring-a-condition
+# Read https://hub.auxilor.io/wiki/libreforge/configuring-a-condition
 # The conditions for the scroll to work
 conditions: [ ]

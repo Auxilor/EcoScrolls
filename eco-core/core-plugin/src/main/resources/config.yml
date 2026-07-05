@@ -101,14 +101,14 @@ gui:
   # Effects to run when the GUI is closed
   close-effects: [ ]
 
-  # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+  # Custom GUI slots; see here for a how-to: https://hub.auxilor.io/wiki/eco/pages#custom-gui-slots
   custom-slots: [ ]
 
 # Options for inscribing items
 inscription:
   # Effects to run when an item is inscribed
   # The text placeholder is the name of the scroll, read here:
-  # https://plugins.auxilor.io/effects/configuring-an-effect#placeholders
+  # https://hub.auxilor.io/wiki/libreforge/configuring-an-effect#placeholders
   # You can also use %scroll%, %scroll_id%, and %level% as placeholders.
   apply-effects: [ ]
 
