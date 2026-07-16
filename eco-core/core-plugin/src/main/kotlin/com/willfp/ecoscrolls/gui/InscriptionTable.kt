@@ -285,9 +285,8 @@ private object AllowSlot : MenuSlot(InscriptionStatus.ALLOW) {
 
         if (didInscribe) {
             val scrollItem = capturedScrollItem[player]
-                ?: throw IllegalStateException("Scroll item is null")
 
-            scrollItem.useScroll()
+            scrollItem?.useScroll()
         }
 
         // Cheat to update the menu

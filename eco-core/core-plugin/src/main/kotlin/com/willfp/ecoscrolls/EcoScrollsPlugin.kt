@@ -3,6 +3,7 @@ package com.willfp.ecoscrolls
 import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
+import com.willfp.eco.core.dragdrop.DragAndDropHandlers
 import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.placeholder.context.PlaceholderContext
@@ -68,6 +69,8 @@ class EcoScrollsPlugin : LibreforgePlugin() {
 
         registerHolderProvider(ScrollFinder.toHolderProvider())
 
+        DragAndDropHandlers.register(DragAndDropListener)
+
         registerHolderPlaceholderProvider<ScrollLevel> { it, _ ->
             listOf(
                 NamedValue("level", it.level),
@@ -104,6 +107,10 @@ class EcoScrollsPlugin : LibreforgePlugin() {
         ScrollDisplay.reload()
     }
 
+    override fun handleDisable() {
+        DragAndDropHandlers.unregisterAll("ecoscrolls")
+    }
+
     override fun loadConfigCategories(): List<ConfigCategory> {
         return listOf(
             Scrolls
@@ -120,7 +127,6 @@ class EcoScrollsPlugin : LibreforgePlugin() {
     override fun loadListeners(): List<Listener> {
         return listOf(
             DiscoverRecipeListener,
-            DragAndDropListener,
             AntiPlaceListener
         )
     }
