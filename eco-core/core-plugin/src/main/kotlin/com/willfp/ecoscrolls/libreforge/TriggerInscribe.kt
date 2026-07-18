@@ -8,10 +8,18 @@ import com.willfp.libreforge.triggers.TriggerParameter
 import org.bukkit.event.EventHandler
 
 object TriggerInscribe : Trigger("inscribe") {
+    override val description = "Fires when the player successfully inscribes an item with a scroll."
+
+    override val categories = setOf("inventory")
+
     override val parameters = setOf(
         TriggerParameter.ITEM,
         TriggerParameter.PLAYER,
         TriggerParameter.EVENT
+    )
+
+    override val parameterDescriptions = mapOf(
+        TriggerParameter.ITEM to "The item that was inscribed with the scroll."
     )
 
     @EventHandler
