@@ -17,8 +17,7 @@ object DragAndDropListener : DragAndDropHandler {
         if (current.isEcoEmpty) return false
         val scroll = cursor.scroll ?: return false
         if (!scroll.isDragAndDropEnabled) return false
-        if (scroll.getDenialReason(current) == InscriptionDenialReason.OTHER) return false
-        return true
+        return scroll.getDenialReason(current) != InscriptionDenialReason.OTHER
     }
 
     override fun apply(player: Player, cursor: ItemStack, current: ItemStack): DragAndDropResult {
