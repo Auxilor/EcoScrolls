@@ -1,11 +1,11 @@
 package com.willfp.ecoscrolls.target
 
-import com.github.benmanes.caffeine.cache.Caffeine
+import com.willfp.eco.core.cache.EcoCache
 import com.willfp.eco.core.items.HashedItem
 import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoscrolls.plugin
 import org.bukkit.inventory.ItemStack
-import java.util.concurrent.TimeUnit
+import java.time.Duration
 
 object Targets : Registry<Target>() {
     init {
@@ -40,6 +40,6 @@ object Targets : Registry<Target>() {
     }
 }
 
-private val targetsCache = Caffeine.newBuilder()
-    .expireAfterAccess(5, TimeUnit.SECONDS)
-    .build<HashedItem, List<Target>>()
+private val targetsCache = EcoCache.builder<HashedItem, List<Target>>()
+    .expireAfterAccess(Duration.ofSeconds(5))
+    .build()
