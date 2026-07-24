@@ -11,6 +11,7 @@ messages:
   invalid-player: "&cYou must specify a player!"
   invalid-scroll: "&cYou must specify a scroll!"
   give-success: "Gave %scroll%&r to %player%&r!"
+  open-success: "Opened the inscription table for %player%&r!"
 
   denied-type-limit: "&cInscription denied! The type limit has been reached."
   denied-max-level: "&cInscription denied! The maximum level has been reached."

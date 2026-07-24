@@ -14,6 +14,7 @@ object CommandEcoScrolls : PluginCommand(
         this.addSubcommand(CommandReload)
             .addSubcommand(CommandGive)
             .addSubcommand(CommandInscribeDirect)
+            .addSubcommand(CommandOpen)
     }
 
     override fun onExecute(sender: CommandSender, args: List<String>) {
