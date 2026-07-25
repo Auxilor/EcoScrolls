@@ -1,47 +1,32 @@
 package com.willfp.ecoscrolls.util
 
+import com.willfp.eco.core.dragdrop.DragAndDropHandler
+import com.willfp.eco.core.dragdrop.DragAndDropResult
 import com.willfp.eco.core.items.isEcoEmpty
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.InscriptionDenialReason
 import com.willfp.ecoscrolls.scrolls.scroll
 import com.willfp.ecoscrolls.scrolls.useScroll
-import org.bukkit.GameMode
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.ItemStack
 
-object DragAndDropListener : Listener {
-    @EventHandler
-    fun handle(event: InventoryClickEvent) {
-        val player = event.whoClicked as? Player ?: return
+object DragAndDropListener : DragAndDropHandler {
+    override val id = "ecoscrolls:inscribe"
 
-        if (player.gameMode == GameMode.CREATIVE) {
-            return
-        }
+    override fun matches(cursor: ItemStack, current: ItemStack): Boolean {
+        if (current.isEcoEmpty) return false
+        val scroll = cursor.scroll ?: return false
+        if (!scroll.isDragAndDropEnabled) return false
+        return scroll.getDenialReason(current) != InscriptionDenialReason.OTHER
+    }
 
-        val current = event.currentItem ?: return
-        val cursor = event.cursor ?: return
-
-        if (current.isEcoEmpty) {
-            return
-        }
-
-        val scroll = cursor.scroll ?: return
-
-        if (!scroll.isDragAndDropEnabled) {
-            return
-        }
-
-        if (scroll.getDenialReason(current) == InscriptionDenialReason.OTHER) {
-            return
-        }
-
+    override fun apply(player: Player, cursor: ItemStack, current: ItemStack): DragAndDropResult {
+        val scroll = cursor.scroll ?: return DragAndDropResult.DENIED
         val didInscribe = plugin.inscriptionHandler.tryInscribe(current, scroll, player)
 
-        if (didInscribe) {
-            cursor.useScroll()
-            event.isCancelled = true
-        }
+        if (!didInscribe) return DragAndDropResult.DENIED
+
+        cursor.useScroll()
+        return DragAndDropResult.APPLIED
     }
 }
