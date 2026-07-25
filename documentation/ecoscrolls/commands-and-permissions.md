@@ -9,6 +9,7 @@ Every EcoScrolls command and the permission node that gates it. Op players have 
 | --- | --- | --- |
 | `/ecoscrolls reload` | Reloads the plugin | `ecoscrolls.command.reload` |
 | `/inscribe` | Opens the Inscription Table GUI | `ecoscrolls.command.inscribe` |
+| `/ecoscrolls open <player>` | Opens the Inscription Table GUI for another player | `ecoscrolls.command.open` |
 | `/ecoscrolls inscribe <player> <scroll> [level]` | Inscribes the held item | `ecoscrolls.command.inscribedirect` |
 | `/ecoscrolls give <player> <scroll> [quantity]` | Gives the player a scroll | `ecoscrolls.command.give` |
 | `/ecoscrolls import <id>` | Imports a scroll from lrcdb | `ecoscrolls.command.import` |
