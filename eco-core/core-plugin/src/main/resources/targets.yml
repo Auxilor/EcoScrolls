@@ -18,10 +18,12 @@ targets:
     slot: mainhand
     # scroll-limit: 10 # Example of a scroll limit
     items:
+      - "#items_pickaxes"
       - "*wooden_pickaxe"
       - "*stone_pickaxe"
       - "*iron_pickaxe"
       - "*golden_pickaxe"
+      - "*copper_pickaxe"
       - "*diamond_pickaxe"
       - "*netherite_pickaxe"
 
@@ -29,10 +31,12 @@ targets:
     display-name: "Axes"
     slot: mainhand
     items:
+      - "#items_axes"
       - "*wooden_axe"
       - "*stone_axe"
       - "*iron_axe"
       - "*golden_axe"
+      - "*copper_axe"
       - "*diamond_axe"
       - "*netherite_axe"
 
@@ -40,10 +44,12 @@ targets:
     display-name: "Hoes"
     slot: mainhand
     items:
+      - "#items_hoes"
       - "*wooden_hoe"
       - "*stone_hoe"
       - "*iron_hoe"
       - "*golden_hoe"
+      - "*copper_hoe"
       - "*diamond_hoe"
       - "*netherite_hoe"
 
@@ -51,10 +57,12 @@ targets:
     display-name: "Shovels"
     slot: mainhand
     items:
+      - "#items_shovels"
       - "*wooden_shovel"
       - "*stone_shovel"
       - "*iron_shovel"
       - "*golden_shovel"
+      - "*copper_shovel"
       - "*diamond_shovel"
       - "*netherite_shovel"
 
@@ -62,10 +70,12 @@ targets:
     display-name: "Swords"
     slot: mainhand
     items:
+      - "#items_swords"
       - "*wooden_sword"
       - "*stone_sword"
       - "*iron_sword"
       - "*golden_sword"
+      - "*copper_sword"
       - "*diamond_sword"
       - "*netherite_sword"
 
@@ -73,11 +83,13 @@ targets:
     display-name: "Helmets"
     slot: armor
     items:
+      - "#items_head_armor"
       - "*turtle_helmet"
       - "*leather_helmet"
       - "*chainmail_helmet"
       - "*iron_helmet"
       - "*golden_helmet"
+      - "*copper_helmet"
       - "*diamond_helmet"
       - "*netherite_helmet"
 
@@ -85,10 +97,12 @@ targets:
     display-name: "Chestplates"
     slot: armor
     items:
+      - "#items_chest_armor"
       - "*leather_chestplate"
       - "*chainmail_chestplate"
       - "*iron_chestplate"
       - "*golden_chestplate"
+      - "*copper_chestplate"
       - "*diamond_chestplate"
       - "*netherite_chestplate"
 
@@ -96,10 +110,12 @@ targets:
     display-name: "Leggings"
     slot: armor
     items:
+      - "#items_leg_armor"
       - "*leather_leggings"
       - "*chainmail_leggings"
       - "*iron_leggings"
       - "*golden_leggings"
+      - "*copper_leggings"
       - "*diamond_leggings"
       - "*netherite_leggings"
 
@@ -107,10 +123,12 @@ targets:
     display-name: "Boots"
     slot: armor
     items:
+      - "#items_foot_armor"
       - "*leather_boots"
       - "*chainmail_boots"
       - "*iron_boots"
       - "*golden_boots"
+      - "*copper_boots"
       - "*diamond_boots"
       - "*netherite_boots"
 
@@ -118,16 +136,22 @@ targets:
     display-name: "Armor"
     slot: armor
     items:
+      - "#items_head_armor"
+      - "#items_chest_armor"
+      - "#items_leg_armor"
+      - "#items_foot_armor"
       - "*leather_boots"
       - "*chainmail_boots"
       - "*iron_boots"
       - "*golden_boots"
+      - "*copper_boots"
       - "*diamond_boots"
       - "*netherite_boots"
       - "*leather_leggings"
       - "*chainmail_leggings"
       - "*iron_leggings"
       - "*golden_leggings"
+      - "*copper_leggings"
       - "*diamond_leggings"
       - "*netherite_leggings"
       - "*turtle_helmet"
@@ -135,12 +159,14 @@ targets:
       - "*chainmail_helmet"
       - "*iron_helmet"
       - "*golden_helmet"
+      - "*copper_helmet"
       - "*diamond_helmet"
       - "*netherite_helmet"
       - "*leather_chestplate"
       - "*chainmail_chestplate"
       - "*iron_chestplate"
       - "*golden_chestplate"
+      - "*copper_chestplate"
       - "*diamond_chestplate"
       - "*netherite_chestplate"
 
