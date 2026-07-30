@@ -79,6 +79,19 @@ targets:
       - "*diamond_sword"
       - "*netherite_sword"
 
+  - id: spear
+    display-name: "Spears"
+    slot: mainhand
+    items:
+      - "#items_spears"
+      - "*wooden_spear"
+      - "*stone_spear"
+      - "*iron_spear"
+      - "*golden_spear"
+      - "*copper_spear"
+      - "*diamond_spear"
+      - "*netherite_spear"
+
   - id: helmet
     display-name: "Helmets"
     slot: armor
@@ -187,6 +200,12 @@ targets:
     slot: mainhand
     items:
       - "*crossbow"
+
+  - id: mace
+    display-name: "Maces"
+    slot: mainhand
+    items:
+      - "*mace"
 
   - id: shears
     display-name: "Shears"
