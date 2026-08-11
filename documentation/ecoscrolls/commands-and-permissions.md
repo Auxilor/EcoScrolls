@@ -1,6 +1,6 @@
 ---
 title: "Commands and Permissions"
-sidebar_position: 5
+sidebar_position: 3
 ---
 
 Every EcoScrolls command and the permission node that gates it. Op players have all of these by default; grant the individual nodes to give non-op players access.

@@ -1,6 +1,6 @@
 ---
 title: "Plugin Config"
-sidebar_position: 6
+sidebar_position: 4
 ---
 
 `config.yml` holds the server-wide settings for EcoScrolls: the Inscription Table GUI, inscription effects, sounds, and lore ordering. It lives at `/plugins/EcoScrolls/config.yml`. After editing it, run `/ecoscrolls reload` to apply your changes.
