@@ -6,6 +6,7 @@ import com.willfp.eco.util.savedDisplayName
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import com.willfp.ecoscrolls.scrolls.getScrollLevel
+import com.willfp.ecoscrolls.scrolls.scrolls
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.StringUtil
@@ -37,11 +38,19 @@ object CommandInscribeDirect : Subcommand(
         val item = player.inventory.itemInMainHand
 
         val level = args.getOrNull(1)?.toIntOrNull() ?: 1
-        val currentLevel = item.getScrollLevel(scroll)?.level ?: 0
-        val levelsToAdd = level - currentLevel
 
-        repeat(levelsToAdd) {
-            scroll.inscribe(item)
+        if (level <= 0) {
+            item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet()
+        } else {
+            val currentLevel = item.getScrollLevel(scroll)?.level ?: 0
+
+            if (level < currentLevel) {
+                item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet() + scroll.getLevel(level)
+            } else {
+                repeat(level - currentLevel) {
+                    scroll.inscribe(item)
+                }
+            }
         }
 
         sender.sendMessage(
