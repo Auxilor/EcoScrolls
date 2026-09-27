@@ -117,6 +117,10 @@ lore:
   - "&6Example Scroll"
 ```
 
+:::tip
+Lore supports MiniMessage, including sprites such as `<sprite:items:item/diamond>` on 1.21.9 and newer. See [Text Formatting](https://hub.auxilor.io/wiki/eco/text-formatting).
+:::
+
 ### Targets and requirements
 
 Controls which items the scroll fits, what it clashes with, and what must come before it.
