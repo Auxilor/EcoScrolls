@@ -1,13 +1,12 @@
 package com.willfp.ecoscrolls.display
 
+import com.willfp.eco.core.display.DisplayContext
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.fast
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.scroll
 import com.willfp.ecoscrolls.scrolls.scrolls
-import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
     private var loreOrder: List<String> = emptyList()
@@ -16,10 +15,11 @@ object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
         loreOrder = plugin.configYml.getStrings("lore-order")
     }
 
-    override fun display(itemStack: ItemStack, player: Player?, vararg args: Any) {
+    override fun display(context: DisplayContext) {
+        val itemStack = context.itemStack
         val fis = itemStack.fast()
 
-        fis.scroll?.displayScroll(fis, player)
+        fis.scroll?.displayScroll(context)
 
         // fis.scrolls is backed by LinkedHashSet (insertion order); sortedWith is stable,
         // so scrolls within the same type group retain their inscription order.
@@ -39,7 +39,7 @@ object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
         }
 
         for (scroll in sortedScrolls) {
-            fis.lore = fis.lore + scroll.scroll.getLore(itemStack, player)
+            context.lore.append(scroll.scroll.getLoreComponents(itemStack, context.player))
         }
     }
 }

@@ -2,7 +2,7 @@ package com.willfp.ecoscrolls.scrolls
 
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.display.Display
-import com.willfp.eco.core.fast.FastItemStack
+import com.willfp.eco.core.display.DisplayContext
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
@@ -18,6 +18,7 @@ import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.eco.util.evaluateExpressionOrNull
 import com.willfp.eco.util.formatEco
+import com.willfp.eco.util.formatEcoRich
 import com.willfp.eco.util.toNumeral
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.target.Targets
@@ -26,6 +27,7 @@ import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.toDispatcher
 import com.willfp.libreforge.triggers.TriggerData
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.Objects
@@ -313,23 +315,22 @@ class Scroll(
         itemStack.scrolls = scrolls
     }
 
-    fun getLore(itemStack: ItemStack, player: Player?): List<String> {
-        return lore.formatEco(
+    fun getLoreComponents(itemStack: ItemStack, player: Player?): List<Component> {
+        return lore.formatEcoRich(
             placeholderContext(
                 player = player,
                 item = itemStack,
                 injectable = scrollPlaceholderContext
             )
-        ).map { Display.PREFIX + it }
+        )
     }
 
-    fun displayScroll(fis: FastItemStack, player: Player?) {
-        val context = placeholderContext(player = player, item = fis.unwrap())
+    fun displayScroll(context: DisplayContext) {
+        val placeholderContext = context.placeholderContext
             .withInjectableContext(scrollPlaceholderContext)
 
-        fis.displayName = itemName.formatEco(context)
-        fis.lore = itemLore.formatEco(context)
-            .map { Display.PREFIX + it } + fis.lore
+        context.itemStack.fast().displayName = itemName.formatEco(placeholderContext)
+        context.lore.prepend(itemLore.formatEcoRich(placeholderContext))
     }
 
     fun getPlaceholder(identifier: String, context: PlaceholderContext): String? {
