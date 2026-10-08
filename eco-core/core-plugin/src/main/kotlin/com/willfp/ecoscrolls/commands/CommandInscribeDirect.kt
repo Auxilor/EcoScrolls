@@ -4,6 +4,7 @@ import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.savedDisplayName
 import com.willfp.ecoscrolls.plugin
+import com.willfp.ecoscrolls.runOwned
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import com.willfp.ecoscrolls.scrolls.getScrollLevel
 import com.willfp.ecoscrolls.scrolls.scrolls
@@ -26,38 +27,38 @@ object CommandInscribeDirect : Subcommand(
             args = rawArgs.subList(1, rawArgs.size)
         }
 
-        if (player == null) {
-            return
-        }
+        val target = player ?: return
 
         val scroll = notifyNull(
             args.getOrNull(0)?.lowercase()?.let { Scrolls[it] },
             "invalid-scroll"
         )
 
-        val item = player.inventory.itemInMainHand
-
         val level = args.getOrNull(1)?.toIntOrNull() ?: 1
 
-        if (level <= 0) {
-            item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet()
-        } else {
-            val currentLevel = item.getScrollLevel(scroll)?.level ?: 0
+        target.runOwned {
+            val item = target.inventory.itemInMainHand
 
-            if (level < currentLevel) {
-                item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet() + scroll.getLevel(level)
+            if (level <= 0) {
+                item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet()
             } else {
-                repeat(level - currentLevel) {
-                    scroll.inscribe(item)
+                val currentLevel = item.getScrollLevel(scroll)?.level ?: 0
+
+                if (level < currentLevel) {
+                    item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet() + scroll.getLevel(level)
+                } else {
+                    repeat(level - currentLevel) {
+                        scroll.inscribe(item)
+                    }
                 }
             }
-        }
 
-        sender.sendMessage(
-            plugin.langYml.getMessage("inscribed-item", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                .replace("%scroll%", scroll.name)
-                .replace("%player%", player.savedDisplayName)
-        )
+            sender.sendMessage(
+                plugin.langYml.getMessage("inscribed-item", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
+                    .replace("%scroll%", scroll.name)
+                    .replace("%player%", target.savedDisplayName)
+            )
+        }
     }
 
     override fun tabComplete(sender: CommandSender, rawArgs: List<String>): List<String> {

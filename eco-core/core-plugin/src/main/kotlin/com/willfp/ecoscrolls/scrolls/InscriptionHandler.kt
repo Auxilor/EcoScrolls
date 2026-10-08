@@ -17,7 +17,10 @@ import java.util.Optional
 import kotlin.math.min
 
 class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
+    @Volatile
     private lateinit var applyEffects: Optional<Chain>
+
+    @Volatile
     private lateinit var denyEffects: Optional<Chain>
 
     private val globalScrollLimit = plugin.configYml.getInt("inscription.scroll-limit")

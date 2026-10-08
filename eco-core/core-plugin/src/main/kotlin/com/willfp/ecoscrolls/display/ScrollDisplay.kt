@@ -9,6 +9,7 @@ import com.willfp.ecoscrolls.scrolls.scroll
 import com.willfp.ecoscrolls.scrolls.scrolls
 
 object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
+    @Volatile
     private var loreOrder: List<String> = emptyList()
 
     fun reload() {
@@ -20,6 +21,8 @@ object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
         val fis = itemStack.fast()
 
         fis.scroll?.displayScroll(context)
+
+        val loreOrder = loreOrder
 
         // fis.scrolls is backed by LinkedHashSet (insertion order); sortedWith is stable,
         // so scrolls within the same type group retain their inscription order.

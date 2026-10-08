@@ -31,6 +31,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.Objects
+import java.util.concurrent.ConcurrentHashMap
 import java.util.regex.Pattern
 
 class Scroll(
@@ -39,7 +40,7 @@ class Scroll(
 ) : KRegistrable {
     private val context = ViolationContext(plugin, "scroll $id")
 
-    private val levels = mutableMapOf<Int, ScrollLevel>()
+    private val levels = ConcurrentHashMap<Int, ScrollLevel>()
 
     private val effects = Effects.compile(
         config.getSubsections("effects"),
@@ -213,7 +214,7 @@ class Scroll(
     }
 
     fun getLevel(level: Int): ScrollLevel {
-        return levels.getOrPut(level) {
+        return levels.computeIfAbsent(level) {
             createLevel(level)
         }
     }

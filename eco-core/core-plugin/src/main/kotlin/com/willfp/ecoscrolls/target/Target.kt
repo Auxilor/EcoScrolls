@@ -65,6 +65,8 @@ internal object AllTarget : Target {
     override val id = "all"
     override val displayName = plugin.langYml.getFormattedString("all")
     override val slot = SlotTypeAny
+
+    @Volatile
     override var items = emptyList<TestableItem>()
         private set
     override val scrollLimit = null
