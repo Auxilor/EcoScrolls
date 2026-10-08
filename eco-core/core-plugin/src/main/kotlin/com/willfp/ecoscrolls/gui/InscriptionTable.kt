@@ -35,6 +35,7 @@ import org.bukkit.inventory.ItemStack
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
+@Volatile
 lateinit var inscriptionTable: Menu
     private set
 
@@ -48,12 +49,15 @@ private val Menu.status by menuStateVar(InscriptionStatus.EMPTY)
 
 private val Menu.scroll by menuStateVar<Optional<Scroll>>()
 
+@Volatile
 private lateinit var capturedItem: CaptiveItem
+
+@Volatile
 private lateinit var capturedScrollItem: CaptiveItem
 
 internal fun updateInscribeMenu() {
-    capturedItem = CaptiveItem()
-    capturedScrollItem = CaptiveItem()
+    val newCapturedItem = CaptiveItem()
+    val newCapturedScrollItem = CaptiveItem()
 
     val violationContext = ViolationContext(plugin, "Inscription Table")
 
@@ -67,7 +71,7 @@ internal fun updateInscribeMenu() {
         violationContext.with("Close Effects")
     )
 
-    inscriptionTable = menu(plugin.configYml.getInt("gui.rows")) {
+    val newInscriptionTable = menu(plugin.configYml.getInt("gui.rows")) {
         allowChangingHeldItem()
 
         title = plugin.configYml.getFormattedString("gui.title")
@@ -101,14 +105,14 @@ internal fun updateInscribeMenu() {
             plugin.configYml.getInt("gui.scroll-slot.row"),
             plugin.configYml.getInt("gui.scroll-slot.column"),
             captiveSlot(),
-            bindCaptive = capturedScrollItem
+            bindCaptive = newCapturedScrollItem
         )
 
         addComponent(
             plugin.configYml.getInt("gui.item-slot.row"),
             plugin.configYml.getInt("gui.item-slot.column"),
             captiveSlot(),
-            bindCaptive = capturedItem
+            bindCaptive = newCapturedItem
         )
 
         addComponent(
@@ -161,6 +165,10 @@ internal fun updateInscribeMenu() {
             )
         }
     }
+
+    capturedItem = newCapturedItem
+    capturedScrollItem = newCapturedScrollItem
+    inscriptionTable = newInscriptionTable
 }
 
 private object IndicatorSlot : CustomSlot() {

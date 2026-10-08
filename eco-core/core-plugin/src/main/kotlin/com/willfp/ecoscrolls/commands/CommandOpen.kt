@@ -5,6 +5,7 @@ import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.savedDisplayName
 import com.willfp.ecoscrolls.gui.inscriptionTable
 import com.willfp.ecoscrolls.plugin
+import com.willfp.ecoscrolls.runOwned
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
@@ -28,12 +29,14 @@ object CommandOpen : Subcommand(
             return
         }
 
-        inscriptionTable.open(target)
+        target.runOwned {
+            inscriptionTable.open(target)
 
-        sender.sendMessage(
-            plugin.langYml.getMessage("open-success", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                .replace("%player%", target.savedDisplayName)
-        )
+            sender.sendMessage(
+                plugin.langYml.getMessage("open-success", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
+                    .replace("%player%", target.savedDisplayName)
+            )
+        }
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {

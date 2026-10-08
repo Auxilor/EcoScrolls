@@ -4,6 +4,7 @@ import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.util.StringUtils
 import com.willfp.ecoscrolls.plugin
+import com.willfp.ecoscrolls.runOwned
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -57,16 +58,18 @@ object CommandGive : Subcommand(
             this.amount = amount
         }
 
-        DropQueue(receiver)
-            .addItem(itemStack)
-            .forceTelekinesis()
-            .push()
+        receiver.runOwned {
+            DropQueue(receiver)
+                .addItem(itemStack)
+                .forceTelekinesis()
+                .push()
 
-        val message = plugin.langYml.getMessage("give-success", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-            .replace("%scroll%", scroll.name)
-            .replace("%player%", receiver.name)
+            val message = plugin.langYml.getMessage("give-success", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
+                .replace("%scroll%", scroll.name)
+                .replace("%player%", receiver.name)
 
-        sender.sendMessage(message)
+            sender.sendMessage(message)
+        }
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
