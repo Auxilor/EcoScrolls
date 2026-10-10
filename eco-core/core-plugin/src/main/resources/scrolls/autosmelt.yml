@@ -47,6 +47,8 @@ placeholders: {}
 
 effects:
   - id: autosmelt
+    args:
+      drop_xp: true
     triggers:
       - mine_block
 
