@@ -100,8 +100,8 @@ var PersistentDataContainer.scrolls: Set<ScrollLevel>
         val scrolls = mutableSetOf<ScrollLevel>()
 
         for (tag in baseTag) {
-            val scroll = Scrolls[tag.get(SCROLL_ID_KEY, PersistentDataType.STRING)] ?: return emptySet()
-            val level = tag.get(SCROLL_LEVEL_KEY, PersistentDataType.INTEGER) ?: return emptySet()
+            val scroll = Scrolls[tag.get(SCROLL_ID_KEY, PersistentDataType.STRING)] ?: continue
+            val level = tag.get(SCROLL_LEVEL_KEY, PersistentDataType.INTEGER) ?: continue
 
             scrolls += scroll.getLevel(level)
         }
@@ -109,12 +109,11 @@ var PersistentDataContainer.scrolls: Set<ScrollLevel>
         return scrolls
     }
     set(value) {
-        if (value.isEmpty()) {
-            this.remove(SCROLLS_KEY)
-            return
-        }
-
-        val tags = mutableListOf<PersistentDataContainer>()
+        // Scrolls that are not loaded can't be in value, so keep their tags as they are.
+        val tags = this.get(SCROLLS_KEY, PersistentDataType.TAG_CONTAINER_ARRAY)
+            ?.filter { Scrolls[it.get(SCROLL_ID_KEY, PersistentDataType.STRING)] == null }
+            ?.toMutableList()
+            ?: mutableListOf()
 
         for (scroll in value) {
             val scrollTag = newPersistentDataContainer()
@@ -123,6 +122,11 @@ var PersistentDataContainer.scrolls: Set<ScrollLevel>
             scrollTag.set(SCROLL_LEVEL_KEY, PersistentDataType.INTEGER, scroll.level)
 
             tags += scrollTag
+        }
+
+        if (tags.isEmpty()) {
+            this.remove(SCROLLS_KEY)
+            return
         }
 
         this.set(SCROLLS_KEY, PersistentDataType.TAG_CONTAINER_ARRAY, tags.toTypedArray())
