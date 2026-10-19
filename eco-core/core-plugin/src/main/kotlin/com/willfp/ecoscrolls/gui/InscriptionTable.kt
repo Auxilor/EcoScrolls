@@ -2,13 +2,16 @@ package com.willfp.ecoscrolls.gui
 
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.fast.fast
+import com.willfp.eco.core.gui.CaptiveItem
 import com.willfp.eco.core.gui.GUIComponent
+import com.willfp.eco.core.gui.addComponent
 import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.captiveSlot
 import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.events.CaptiveItemChangeEvent
+import com.willfp.eco.core.gui.menuStateVar
 import com.willfp.eco.core.gui.onEvent
 import com.willfp.eco.core.gui.onLeftClick
 import com.willfp.eco.core.gui.setMask
@@ -18,9 +21,6 @@ import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.modify
 import com.willfp.eco.util.formatEco
-import com.willfp.ecomponent.CaptiveItem
-import com.willfp.ecomponent.addComponent
-import com.willfp.ecomponent.menuStateVar
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.Scroll
 import com.willfp.ecoscrolls.scrolls.scroll
