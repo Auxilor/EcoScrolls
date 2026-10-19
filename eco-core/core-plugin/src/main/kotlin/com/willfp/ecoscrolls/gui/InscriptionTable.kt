@@ -7,6 +7,8 @@ import com.willfp.eco.core.gui.GUIComponent
 import com.willfp.eco.core.gui.addComponent
 import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.captiveSlot
+import com.willfp.eco.core.gui.component.addComponent
+import com.willfp.eco.core.gui.component.closeButton
 import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
@@ -19,7 +21,6 @@ import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.gui.slot.CustomSlot
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.builder.modify
 import com.willfp.eco.util.formatEco
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.Scroll
@@ -106,9 +107,7 @@ internal fun updateInscribeMenu() {
             bindCaptive = newCapturedItem
         )
 
-        for (location in plugin.configYml.getSlotLocations("gui.close")) {
-            addComponent(location.row, location.column, CloseSlot)
-        }
+        addComponent(closeButton(plugin.configYml.getSubsection("gui.close")))
 
         onEvent<CaptiveItemChangeEvent> { player, menu, _ ->
             menu.scroll[player] = Optional.empty()
@@ -173,26 +172,6 @@ private object IndicatorSlot : CustomSlot() {
         })
     }
 }
-
-private object CloseSlot : CustomSlot() {
-    private val item = Items.lookup(plugin.configYml.getString("gui.close.item")).modify {
-        setDisplayName(plugin.configYml.getFormattedString("gui.close.name"))
-        addLoreLines(plugin.configYml.getFormattedStrings("gui.close.lore"))
-    }
-
-    init {
-        create()
-    }
-
-    private fun create() {
-        init(slot(item) {
-            onLeftClick { player, _, _, _ ->
-                player.closeInventory()
-            }
-        })
-    }
-}
-
 
 private object Inscriber : GUIComponent {
     private val allowSlot = AllowSlot
