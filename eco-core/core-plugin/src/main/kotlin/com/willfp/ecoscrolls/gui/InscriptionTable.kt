@@ -4,6 +4,7 @@ import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.core.gui.GUIComponent
 import com.willfp.eco.core.gui.captiveSlot
+import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.events.CaptiveItemChangeEvent
@@ -95,11 +96,9 @@ internal fun updateInscribeMenu() {
             )
         )
 
-        addComponent(
-            plugin.configYml.getInt("gui.inscribe-slot.row"),
-            plugin.configYml.getInt("gui.inscribe-slot.column"),
-            Inscriber,
-        )
+        for (location in plugin.configYml.getSlotLocations("gui.inscribe-slot")) {
+            addComponent(location.row, location.column, Inscriber)
+        }
 
         addComponent(
             plugin.configYml.getInt("gui.scroll-slot.row"),
@@ -115,11 +114,9 @@ internal fun updateInscribeMenu() {
             bindCaptive = newCapturedItem
         )
 
-        addComponent(
-            plugin.configYml.getInt("gui.close.location.row"),
-            plugin.configYml.getInt("gui.close.location.column"),
-            CloseSlot
-        )
+        for (location in plugin.configYml.getSlotLocations("gui.close")) {
+            addComponent(location.row, location.column, CloseSlot)
+        }
 
         onEvent<CaptiveItemChangeEvent> { player, menu, _ ->
             menu.scroll[player] = Optional.empty()
@@ -158,11 +155,9 @@ internal fun updateInscribeMenu() {
         }
 
         for (config in plugin.configYml.getSubsections("gui.custom-slots")) {
-            setSlot(
-                config.getInt("row"),
-                config.getInt("column"),
-                ConfigSlot(config)
-            )
+            for (location in config.getSlotLocations()) {
+                setSlot(location.row, location.column, ConfigSlot(config))
+            }
         }
     }
 
