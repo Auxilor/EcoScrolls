@@ -3,6 +3,7 @@ package com.willfp.ecoscrolls.gui
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.core.gui.GUIComponent
+import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.captiveSlot
 import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
@@ -12,7 +13,6 @@ import com.willfp.eco.core.gui.onEvent
 import com.willfp.eco.core.gui.onLeftClick
 import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.gui.slot.ConfigSlot
 import com.willfp.eco.core.gui.slot.CustomSlot
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
@@ -146,11 +146,7 @@ internal fun updateInscribeMenu() {
                 .push()
         }
 
-        for (config in plugin.configYml.getSubsections("gui.custom-slots")) {
-            for (location in config.getSlotLocations()) {
-                setSlot(location.row, location.column, ConfigSlot(config))
-            }
-        }
+        addCustomSlots(plugin.configYml, "gui")
     }
 
     capturedItem = newCapturedItem
