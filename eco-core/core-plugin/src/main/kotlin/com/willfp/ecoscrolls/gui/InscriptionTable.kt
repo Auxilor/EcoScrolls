@@ -10,11 +10,10 @@ import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.events.CaptiveItemChangeEvent
 import com.willfp.eco.core.gui.onEvent
 import com.willfp.eco.core.gui.onLeftClick
+import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.gui.slot.ConfigSlot
 import com.willfp.eco.core.gui.slot.CustomSlot
-import com.willfp.eco.core.gui.slot.FillerMask
-import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.modify
@@ -87,14 +86,7 @@ internal fun updateInscribeMenu() {
             }
         }
 
-        setMask(
-            FillerMask(
-                MaskItems.fromItemNames(
-                    plugin.configYml.getStrings("gui.mask.items")
-                ),
-                *plugin.configYml.getStrings("gui.mask.pattern").toTypedArray()
-            )
-        )
+        setMask(plugin.configYml, "gui")
 
         for (location in plugin.configYml.getSlotLocations("gui.inscribe-slot")) {
             addComponent(location.row, location.column, Inscriber)
