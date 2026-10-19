@@ -44,6 +44,7 @@ gui:
   inscribe-slot: # Slot holding the inscribe button
     row: 4
     column: 5
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   scroll-slot: # Slot the player drops the scroll into
     row: 2
@@ -60,6 +61,7 @@ gui:
     location:
       row: 6
       column: 5
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   allow: # Button shown when the item can be inscribed
     item: feather unbreaking:1 hide_enchants
