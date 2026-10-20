@@ -23,10 +23,13 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
     @Volatile
     private lateinit var denyEffects: Optional<Chain>
 
-    private val globalScrollLimit = plugin.configYml.getInt("inscription.scroll-limit")
-        .let { if (it <= 0) Int.MAX_VALUE else it }
+    @Volatile
+    private var globalScrollLimit = Int.MAX_VALUE
 
     internal fun reload() {
+        globalScrollLimit = plugin.configYml.getInt("inscription.scroll-limit")
+            .let { if (it <= 0) Int.MAX_VALUE else it }
+
         val context = ViolationContext(plugin, "Inscriptions")
 
         applyEffects = Optional.ofNullable(
