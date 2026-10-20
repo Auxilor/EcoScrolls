@@ -213,6 +213,8 @@ inscription:
   effects: [ ] # Effects run at the moment of inscribing (e.g. add an enchantment)
 ```
 
+A player who can't afford the `price` is told so with `denied-cannot-afford` from `lang.yml`, in the Inscription Table and with drag-and-drop.
+
 Put effects here, not in the top-level `effects`, when the scroll works by permanently changing the item (adding an enchantment, repairing it) rather than acting while equipped.
 
 ## Internal placeholders
