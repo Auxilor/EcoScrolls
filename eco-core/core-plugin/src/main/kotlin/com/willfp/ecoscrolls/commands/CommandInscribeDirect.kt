@@ -5,11 +5,13 @@ import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.savedDisplayName
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.runOwned
+import com.willfp.ecoscrolls.scrolls.Scroll
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import com.willfp.ecoscrolls.scrolls.getScrollLevel
 import com.willfp.ecoscrolls.scrolls.scrolls
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import org.bukkit.util.StringUtil
 
 object CommandInscribeDirect : Subcommand(
@@ -41,39 +43,52 @@ object CommandInscribeDirect : Subcommand(
             return
         }
 
-        target.runOwned {
-            val item = target.inventory.itemInMainHand
+        target.runOwned { inscribe(sender, target, scroll, level) }
+    }
 
-            if (item.type.isAir) {
-                sender.sendMessage(plugin.langYml.getMessage("needs-item"))
-                return@runOwned
-            }
+    private fun inscribe(sender: CommandSender, target: Player, scroll: Scroll, level: Int) {
+        val item = target.inventory.itemInMainHand
 
-            if (level <= 0) {
+        if (item.type.isAir) {
+            sender.sendMessage(plugin.langYml.getMessage("needs-item"))
+            return
+        }
+
+        val currentLevel = item.getScrollLevel(scroll)?.level ?: 0
+
+        val inscribed = when {
+            level <= 0 -> {
                 item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet()
-            } else {
-                val currentLevel = item.getScrollLevel(scroll)?.level ?: 0
-
-                if (level < currentLevel) {
-                    item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet() + scroll.getLevel(level)
-                } else {
-                    repeat(level - currentLevel) {
-                        val denialReason = scroll.getDenialReason(item)
-                        if (denialReason != null) {
-                            sender.sendMessage(plugin.langYml.getMessage(denialReason.messageKey ?: "denied-other"))
-                            return@runOwned
-                        }
-                        scroll.inscribe(item)
-                    }
-                }
+                true
             }
+            level < currentLevel -> {
+                item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet() + scroll.getLevel(level)
+                true
+            }
+            else -> {
+                inscribeLevels(sender, item, scroll, level - currentLevel)
+            }
+        }
 
+        if (inscribed) {
             sender.sendMessage(
                 plugin.langYml.getMessage("inscribed-item", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
                     .replace("%scroll%", scroll.name)
                     .replace("%player%", target.savedDisplayName)
             )
         }
+    }
+
+    private fun inscribeLevels(sender: CommandSender, item: ItemStack, scroll: Scroll, times: Int): Boolean {
+        repeat(times) {
+            val denialReason = scroll.getDenialReason(item)
+            if (denialReason != null) {
+                sender.sendMessage(plugin.langYml.getMessage(denialReason.messageKey ?: "denied-other"))
+                return false
+            }
+            scroll.inscribe(item)
+        }
+        return true
     }
 
     override fun tabComplete(sender: CommandSender, rawArgs: List<String>): List<String> {
