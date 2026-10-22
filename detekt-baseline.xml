@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>AbstractClassCanBeConcreteClass:InscriptionTable.kt:MenuSlot$MenuSlot</ID>
+    <ID>CascadingCallWrapping:DiscoverRecipeListener.kt:DiscoverRecipeListener$map { it.key }</ID>
+    <ID>CognitiveComplexMethod:InscriptionTable.kt:internal fun updateInscribeMenu</ID>
+    <ID>CognitiveComplexMethod:ScrollDisplay.kt:ScrollDisplay$override fun display</ID>
+    <ID>CouldBeSequence:DiscoverRecipeListener.kt:DiscoverRecipeListener$filterIsInstance&lt;Keyed&gt;()</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:InscriptionHandler.kt:InscriptionHandler$when (scroll.getDenialReason(item)) { InscriptionDenialReason.TYPE_LIMIT -&gt; "denied-type-limit" InscriptionDenialReason.MAX_LEVEL -&gt; "denied-max-level" InscriptionDenialReason.GLOBAL_LIMIT -&gt; "denied-global-limit" else -&gt; null }</ID>
+    <ID>ElseCaseInsteadOfExhaustiveWhen:InscriptionTable.kt:IndicatorSlot$when (status) { InscriptionStatus.ALLOW -&gt; allowed else -&gt; denied }</ID>
+    <ID>EqualsWithHashCodeExist:Target.kt:AllTarget : Target</ID>
+    <ID>ExplicitItLambdaMultipleParameters:EcoScrollsPlugin.kt:EcoScrollsPlugin${ it, _ -&gt; listOf( NamedValue("level", it.level), ) }</ID>
+    <ID>ExpressionBodySyntax:FilterScroll.kt:FilterScroll$return config.getStrings(key)</ID>
+    <ID>ExpressionBodySyntax:Items.kt:return this.get(SCROLL_USES_LEFT_KEY, PersistentDataType.INTEGER) ?: 0</ID>
+    <ID>ExpressionBodySyntax:Items.kt:return this.scrolls.find { it.scroll == scroll }</ID>
+    <ID>ExpressionBodySyntax:Scroll.kt:Scroll$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:Scroll.kt:Scroll$return ScrollLevel(this, level, effects, conditions)</ID>
+    <ID>ExpressionBodySyntax:Scroll.kt:Scroll$return inscriptionPrice.getDisplay(player, getPriceMultiplier(itemStack))</ID>
+    <ID>ExpressionBodySyntax:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$return p1.itemStack?.getScrollLevel(this@Scroll)?.level?.toNumeral()</ID>
+    <ID>ExpressionBodySyntax:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$return p1.itemStack?.getScrollLevel(this@Scroll)?.level?.toString()</ID>
+    <ID>ExpressionBodySyntax:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$return type?.displayName ?: ""</ID>
+    <ID>ExpressionBodySyntax:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$return type?.limit?.toString() ?: ""</ID>
+    <ID>ExpressionBodySyntax:ScrollFinder.kt:ScrollFinder$return holder.scroll.targets.map { it.slot }.any { it.isOrContains(slot) }</ID>
+    <ID>ExpressionBodySyntax:ScrollFinder.kt:ScrollFinder$return item.scrolls.toList()</ID>
+    <ID>ExpressionBodySyntax:ScrollInscribeEvent.kt:ScrollInscribeEvent$return handlerList</ID>
+    <ID>ExpressionBodySyntax:ScrollInscribeEvent.kt:ScrollInscribeEvent.Companion$return handlerList</ID>
+    <ID>ExpressionBodySyntax:ScrollLevel.kt:ScrollLevel$return "ScrollLevel(scroll=$scroll, level=$level)"</ID>
+    <ID>ExpressionBodySyntax:ScrollLevel.kt:ScrollLevel$return this.id.hashCode()</ID>
+    <ID>ExpressionBodySyntax:ScrollTag.kt:ScrollTag$return Scrolls.values().randomOrNull()?.item</ID>
+    <ID>ExpressionBodySyntax:ScrollTag.kt:ScrollTag$return p0.scroll != null</ID>
+    <ID>ExpressionBodySyntax:ScrollTryInscribeEvent.kt:ScrollTryInscribeEvent$return handlerList</ID>
+    <ID>ExpressionBodySyntax:ScrollTryInscribeEvent.kt:ScrollTryInscribeEvent.Companion$return handlerList</ID>
+    <ID>ExpressionBodySyntax:Target.kt:AllTarget$return other is AllTarget</ID>
+    <ID>ExpressionBodySyntax:Target.kt:ConfiguredTarget$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:Target.kt:Target$return this.id</ID>
+    <ID>IC002:DragAndDropListener.kt:DragAndDropListener$// APPLIED makes eco consume one item from the cursor. Reset the uses before</ID>
+    <ID>IC002:EcoScrollsPlugin.kt:EcoScrollsPlugin.&lt;no name provided&gt;$// Get the scroll and identifier from the matched groups</ID>
+    <ID>IC002:EcoScrollsPlugin.kt:EcoScrollsPlugin.&lt;no name provided&gt;$// Return empty instead of null for optional placeholders, like hot potato books</ID>
+    <ID>IC002:InscriptionTable.kt:AllowSlot$// Cheat to update the menu</ID>
+    <ID>IC002:InscriptionTable.kt:MenuSlot$// Override</ID>
+    <ID>IC002:Items.kt:// Scrolls that are not loaded can't be in value, so keep their tags as they are.</ID>
+    <ID>IC002:Scroll.kt:Scroll$// Less elegant than actually using placeholders, but it avoids a bunch</ID>
+    <ID>IC002:Scroll.kt:Scroll.&lt;no name provided&gt;$//</ID>
+    <ID>IC002:ScrollDisplay.kt:ScrollDisplay$// fis.scrolls is backed by LinkedHashSet (insertion order); sortedWith is stable,</ID>
+    <ID>LabeledExpression:Scroll.kt:Scroll$@let</ID>
+    <ID>LongMethod:InscriptionTable.kt:internal fun updateInscribeMenu</ID>
+    <ID>LoopWithTooManyJumpStatements:Items.kt:for</ID>
+    <ID>MagicNumber:CommandGive.kt:CommandGive$3</ID>
+    <ID>MaxLineLength:ConditionHasScroll.kt:ConditionHasScroll$override val description = "Passes when the dispatcher has the specified scroll inscribed at or above the given level."</ID>
+    <ID>MaxLineLength:EffectApplyRandomScroll.kt:EffectApplyRandomScroll$description = "If true, scrolls that the item does not meet the inscription requirements for can still be chosen."</ID>
+    <ID>MaxLineLength:FilterScroll.kt:FilterScroll$override val description = "Matches when the scroll involved in the triggering scroll event is one of the given scroll ids."</ID>
+    <ID>MaxLineLength:Target.kt:ConfiguredTarget$throw IllegalArgumentException("Invalid slot type: ${config.getString("slot")}, options are ${SlotTypes.values().map { it.id }}")</ID>
+    <ID>MaxLineLength:TriggerTryInscribe.kt:TriggerTryInscribe$"The inscription can still be cancelled or fail after this trigger fires, such as if the item does not meet the requirements."</ID>
+    <ID>MaxLineLength:TriggerTryInscribe.kt:TriggerTryInscribe$override val description = "Fires when the player attempts to inscribe an item with a scroll, before the inscription is applied."</ID>
+    <ID>MemberNameEqualsClassName:Targets.kt:Targets$val ItemStack.targets: List&lt;Target&gt; get() = targetsCache.get(HashedItem.of(this)) { getForItem(this) }</ID>
+    <ID>MultilineLambdaItParameter:EcoScrollsPlugin.kt:EcoScrollsPlugin${ it, _ -&gt; listOf( NamedValue("level", it.level), ) }</ID>
+    <ID>MultilineLambdaItParameter:Scroll.kt:Scroll${ ScrollRequirement( it.getString("scroll"), it.getIntOrNull("level") ) }</ID>
+    <ID>NewLineAtEndOfFile:EffectApplyRandomScroll.kt:com.willfp.ecoscrolls.libreforge.EffectApplyRandomScroll.kt</ID>
+    <ID>NewLineAtEndOfFile:EffectUninscribeItem.kt:com.willfp.ecoscrolls.libreforge.EffectUninscribeItem.kt</ID>
+    <ID>NewLineAtEndOfFile:ScrollTypes.kt:com.willfp.ecoscrolls.scrolls.ScrollTypes.kt</ID>
+    <ID>NewLineAtEndOfFile:Target.kt:com.willfp.ecoscrolls.target.Target.kt</ID>
+    <ID>PF009:EcoScrollsPlugin.kt:EcoScrollsPlugin.&lt;no name provided&gt;$compile("scroll_([a-z0-9_]+):([a-zA-Z0-9_]+)")</ID>
+    <ID>ReplaceSafeCallChainWithRun:CommandInscribeDirect.kt:CommandInscribeDirect$args.getOrNull(0)?.lowercase()?.let { Scrolls[it] }</ID>
+    <ID>ReplaceSafeCallChainWithRun:InscriptionHandler.kt:InscriptionHandler$item.getScrollLevel(scroll)?.level?.toDouble()</ID>
+    <ID>ReplaceSafeCallChainWithRun:InscriptionHandler.kt:InscriptionHandler$item.getScrollLevel(scroll)?.level?.toString()</ID>
+    <ID>ReplaceSafeCallChainWithRun:Items.kt:this.get(SCROLLS_KEY, PersistentDataType.TAG_CONTAINER_ARRAY) ?.filter { Scrolls[it.get(SCROLL_ID_KEY, PersistentDataType.STRING)] == null } ?.toMutableList()</ID>
+    <ID>ReplaceSafeCallChainWithRun:Scroll.kt:Scroll$itemStack.getScrollLevel(this)?.level?.toDouble()</ID>
+    <ID>ReplaceSafeCallChainWithRun:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$p1.itemStack?.getScrollLevel(this@Scroll)?.level?.toNumeral()</ID>
+    <ID>ReplaceSafeCallChainWithRun:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$p1.itemStack?.getScrollLevel(this@Scroll)?.level?.toString()</ID>
+    <ID>ReplaceSafeCallChainWithRun:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$type?.limit?.toString()</ID>
+    <ID>ReturnCount:CommandGive.kt:CommandGive$override fun onExecute</ID>
+    <ID>ReturnCount:CommandGive.kt:CommandGive$override fun tabComplete: List&lt;String&gt;</ID>
+    <ID>ReturnCount:DragAndDropListener.kt:DragAndDropListener$override fun apply: DragAndDropResult</ID>
+    <ID>ReturnCount:DragAndDropListener.kt:DragAndDropListener$override fun matches: Boolean</ID>
+    <ID>ReturnCount:EcoScrollsPlugin.kt:EcoScrollsPlugin.&lt;no name provided&gt;$override fun getValue: String?</ID>
+    <ID>ReturnCount:EffectApplyRandomScroll.kt:EffectApplyRandomScroll$override fun onTrigger: Boolean</ID>
+    <ID>ReturnCount:EffectInscribeItem.kt:EffectInscribeItem$override fun onTrigger: Boolean</ID>
+    <ID>ReturnCount:EffectUninscribeItem.kt:EffectUninscribeItem$override fun onTrigger: Boolean</ID>
+    <ID>ReturnCount:Scroll.kt:Scroll$fun getDenialReason: InscriptionDenialReason?</ID>
+    <ID>ReturnCount:Scroll.kt:Scroll$fun inscribe: Boolean</ID>
+    <ID>ReturnCount:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$override fun getValue: String?</ID>
+    <ID>SpreadOperator:InscriptionTable.kt:( MaskItems.fromItemNames( plugin.configYml.getStrings("gui.mask.items") ), *plugin.configYml.getStrings("gui.mask.pattern").toTypedArray() )</ID>
+    <ID>TooManyFunctions:Scroll.kt:Scroll : KRegistrable</ID>
+    <ID>UnnamedParameterUse:CommandGive.kt:CommandGive$replace</ID>
+    <ID>UnnamedParameterUse:CommandInscribeDirect.kt:CommandInscribeDirect$replace</ID>
+    <ID>UnnamedParameterUse:CommandInscribeDirect.kt:CommandInscribeDirect$subList</ID>
+    <ID>UnnamedParameterUse:CommandOpen.kt:CommandOpen$replace</ID>
+    <ID>UnnamedParameterUse:CommandReload.kt:CommandReload$replace</ID>
+    <ID>UnnamedParameterUse:ConditionHasScroll.kt:ConditionHasScroll$require</ID>
+    <ID>UnnamedParameterUse:EffectInscribeItem.kt:EffectInscribeItem$require</ID>
+    <ID>UnnamedParameterUse:EffectUninscribeItem.kt:EffectUninscribeItem$require</ID>
+    <ID>UnnamedParameterUse:InscriptionHandler.kt:InscriptionHandler$NamedValue</ID>
+    <ID>UnnamedParameterUse:InscriptionHandler.kt:InscriptionHandler$min</ID>
+    <ID>UnnamedParameterUse:InscriptionTable.kt:MenuSlot$replace</ID>
+    <ID>UnnamedParameterUse:InscriptionTable.kt:MenuSlot$replaceNullable</ID>
+    <ID>UnnamedParameterUse:InscriptionTable.kt:addComponent</ID>
+    <ID>UnnamedParameterUse:Scroll.kt:Scroll$replace</ID>
+    <ID>UnnecessaryParentheses:Scroll.kt:Scroll$(context.itemStack?.getScrollLevel(this)?.level ?: 0)</ID>
+    <ID>UnnecessaryParentheses:ScrollRequirement.kt:ScrollRequirement$(itemStack.getScrollLevel(scroll)?.level ?: 0)</ID>
+    <ID>UnnecessaryParentheses:ScrollRequirement.kt:ScrollRequirement$(level ?: 1)</ID>
+    <ID>UseIfInsteadOfWhen:InscriptionTable.kt:IndicatorSlot$when (status) { InscriptionStatus.ALLOW -&gt; allowed else -&gt; denied }</ID>
+    <ID>UseOrEmpty:EcoScrollsPlugin.kt:EcoScrollsPlugin.&lt;no name provided&gt;$scrollInstance.getPlaceholder(identifier, context) ?: ""</ID>
+    <ID>UseOrEmpty:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$type?.displayName ?: ""</ID>
+    <ID>UseOrEmpty:Scroll.kt:Scroll.&lt;no name provided&gt;.&lt;no name provided&gt;$type?.limit?.toString() ?: ""</ID>
+  </CurrentIssues>
+</SmellBaseline>
