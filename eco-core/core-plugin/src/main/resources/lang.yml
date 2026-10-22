@@ -10,6 +10,7 @@ messages:
   needs-scroll: "&cYou must specify a scroll!"
   invalid-player: "&cYou must specify a player!"
   invalid-scroll: "&cYou must specify a scroll!"
+  invalid-amount: "&cYou must specify a positive amount!"
   give-success: "Gave %scroll%&r to %player%&r!"
   open-success: "Opened the inscription table for %player%&r!"
 
