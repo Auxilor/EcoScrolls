@@ -262,6 +262,9 @@ class Scroll(
         return null
     }
 
+    fun canAfford(itemStack: ItemStack, player: Player): Boolean =
+        inscriptionPrice.canAfford(player, getPriceMultiplier(itemStack))
+
     fun inscribe(itemStack: ItemStack, player: Player): Boolean {
         if (!canInscribe(itemStack)) {
             return false
@@ -277,7 +280,7 @@ class Scroll(
             return false
         }
 
-        if (!inscriptionPrice.canAfford(player, getPriceMultiplier(itemStack))) {
+        if (!canAfford(itemStack, player)) {
             return false
         }
 
