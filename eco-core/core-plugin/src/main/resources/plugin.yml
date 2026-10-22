@@ -55,3 +55,9 @@ permissions:
   ecoscrolls.command.inscribedirect:
     description: Allows directly inscribing an item with /ecoscrolls inscribe
     default: op
+
+  ecoscrolls.command.incscribedirect:
+    description: Old name of ecoscrolls.command.inscribedirect
+    default: op
+    children:
+      ecoscrolls.command.inscribedirect: true
