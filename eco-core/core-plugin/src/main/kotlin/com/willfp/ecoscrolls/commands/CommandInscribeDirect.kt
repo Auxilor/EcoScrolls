@@ -15,7 +15,7 @@ import org.bukkit.util.StringUtil
 object CommandInscribeDirect : Subcommand(
     plugin,
     "inscribe",
-    "ecoscrolls.command.incscribedirect",
+    "ecoscrolls.command.inscribedirect",
     false
 ) {
     override fun onExecute(sender: CommandSender, rawArgs: List<String>) {
@@ -36,8 +36,18 @@ object CommandInscribeDirect : Subcommand(
 
         val level = args.getOrNull(1)?.toIntOrNull() ?: 1
 
+        if (level > scroll.maxLevel) {
+            sender.sendMessage(plugin.langYml.getMessage("denied-max-level"))
+            return
+        }
+
         target.runOwned {
             val item = target.inventory.itemInMainHand
+
+            if (item.type.isAir) {
+                sender.sendMessage(plugin.langYml.getMessage("needs-item"))
+                return@runOwned
+            }
 
             if (level <= 0) {
                 item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet()
@@ -48,6 +58,11 @@ object CommandInscribeDirect : Subcommand(
                     item.scrolls = item.scrolls.filter { it.scroll != scroll }.toSet() + scroll.getLevel(level)
                 } else {
                     repeat(level - currentLevel) {
+                        val denialReason = scroll.getDenialReason(item)
+                        if (denialReason != null) {
+                            sender.sendMessage(plugin.langYml.getMessage(denialReason.messageKey ?: "denied-other"))
+                            return@runOwned
+                        }
                         scroll.inscribe(item)
                     }
                 }
