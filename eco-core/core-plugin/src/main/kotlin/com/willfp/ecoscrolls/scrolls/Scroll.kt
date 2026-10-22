@@ -382,9 +382,9 @@ class Scroll(
     }
 }
 
-enum class InscriptionDenialReason {
-    TYPE_LIMIT,
-    MAX_LEVEL,
-    GLOBAL_LIMIT,
-    OTHER
+enum class InscriptionDenialReason(val messageKey: String?) {
+    TYPE_LIMIT("denied-type-limit"),
+    MAX_LEVEL("denied-max-level"),
+    GLOBAL_LIMIT("denied-global-limit"),
+    OTHER(null)
 }

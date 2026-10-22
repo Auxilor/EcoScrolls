@@ -95,12 +95,7 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
             }
             PlayableSound.create(plugin.configYml.getSubsection("sounds.inscribe-fail"))?.playTo(player)
 
-            val messageKey = when (scroll.getDenialReason(item)) {
-                InscriptionDenialReason.TYPE_LIMIT -> "denied-type-limit"
-                InscriptionDenialReason.MAX_LEVEL -> "denied-max-level"
-                InscriptionDenialReason.GLOBAL_LIMIT -> "denied-global-limit"
-                else -> null
-            }
+            val messageKey = scroll.getDenialReason(item)?.messageKey
             if (messageKey != null) {
                 player.sendMessage(plugin.langYml.getMessage(messageKey))
             }
