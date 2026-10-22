@@ -100,7 +100,7 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
                 InscriptionDenialReason.MAX_LEVEL -> "denied-max-level"
                 InscriptionDenialReason.GLOBAL_LIMIT -> "denied-global-limit"
                 null -> if (scroll.canAfford(item, player)) null else "denied-cannot-afford"
-                else -> null
+                InscriptionDenialReason.OTHER -> null
             }
             if (messageKey != null) {
                 player.sendMessage(plugin.langYml.getMessage(messageKey))
