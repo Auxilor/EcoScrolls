@@ -77,20 +77,22 @@ internal fun updateInscribeMenu() {
 
         title = plugin.configYml.getFormattedString("gui.title")
 
+        val indicatorSlot = IndicatorSlot()
         val indicatorPattern = plugin.configYml.getStrings("gui.indicator.pattern")
         for (i in 1..indicatorPattern.size) {
             val row = indicatorPattern[i - 1]
             for (j in 1..9) {
                 if (row[j - 1] != '0') {
-                    setSlot(i, j, IndicatorSlot)
+                    setSlot(i, j, indicatorSlot)
                 }
             }
         }
 
         setMask(plugin.configYml, "gui")
 
+        val inscriber = Inscriber()
         for (location in plugin.configYml.getSlotLocations("gui.inscribe-slot")) {
-            addComponent(location.row, location.column, Inscriber)
+            addComponent(location.row, location.column, inscriber)
         }
 
         addComponent(
@@ -153,7 +155,7 @@ internal fun updateInscribeMenu() {
     inscriptionTable = newInscriptionTable
 }
 
-private object IndicatorSlot : CustomSlot() {
+private class IndicatorSlot : CustomSlot() {
     private val allowed = Items.lookup(plugin.configYml.getString("gui.indicator.allow-item")).item
     private val denied = Items.lookup(plugin.configYml.getString("gui.indicator.deny-item")).item
 
@@ -173,10 +175,10 @@ private object IndicatorSlot : CustomSlot() {
     }
 }
 
-private object Inscriber : GUIComponent {
-    private val allowSlot = AllowSlot
-    private val denySlot = DenySlot
-    private val emptySlot = EmptySlot
+private class Inscriber : GUIComponent {
+    private val allowSlot = AllowSlot()
+    private val denySlot = DenySlot()
+    private val emptySlot = EmptySlot()
 
     override fun getColumns() = 1
     override fun getRows() = 1
@@ -246,7 +248,7 @@ private abstract class MenuSlot(
     }
 }
 
-private object AllowSlot : MenuSlot(InscriptionStatus.ALLOW) {
+private class AllowSlot : MenuSlot(InscriptionStatus.ALLOW) {
     override fun onClick(player: Player, event: InventoryClickEvent, slot: Slot, menu: Menu) {
         val scroll = menu.scroll[player]?.getOrNull() ?: return
         val item = capturedItem[player] ?: return
@@ -264,5 +266,5 @@ private object AllowSlot : MenuSlot(InscriptionStatus.ALLOW) {
     }
 }
 
-private object DenySlot : MenuSlot(InscriptionStatus.DENY)
-private object EmptySlot : MenuSlot(InscriptionStatus.EMPTY)
+private class DenySlot : MenuSlot(InscriptionStatus.DENY)
+private class EmptySlot : MenuSlot(InscriptionStatus.EMPTY)

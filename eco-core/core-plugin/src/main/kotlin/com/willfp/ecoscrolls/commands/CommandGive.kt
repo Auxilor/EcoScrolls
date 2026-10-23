@@ -40,6 +40,11 @@ object CommandGive : Subcommand(
 
         val amount = if (args.size > 2) args[2].toIntOrNull() ?: 1 else 1
 
+        if (amount <= 0) {
+            sender.sendMessage(plugin.langYml.getMessage("invalid-amount"))
+            return
+        }
+
         val receiver = Bukkit.getPlayer(args[0])
 
         if (receiver == null) {

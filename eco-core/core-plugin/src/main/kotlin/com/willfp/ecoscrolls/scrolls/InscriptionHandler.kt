@@ -23,10 +23,13 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
     @Volatile
     private lateinit var denyEffects: Optional<Chain>
 
-    private val globalScrollLimit = plugin.configYml.getInt("inscription.scroll-limit")
-        .let { if (it <= 0) Int.MAX_VALUE else it }
+    @Volatile
+    private var globalScrollLimit = Int.MAX_VALUE
 
     internal fun reload() {
+        globalScrollLimit = plugin.configYml.getInt("inscription.scroll-limit")
+            .let { if (it <= 0) Int.MAX_VALUE else it }
+
         val context = ViolationContext(plugin, "Inscriptions")
 
         applyEffects = Optional.ofNullable(
@@ -95,11 +98,13 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
             }
             PlayableSound.create(plugin.configYml.getSubsection("sounds.inscribe-fail"))?.playTo(player)
 
-            val messageKey = when (scroll.getDenialReason(item)) {
-                InscriptionDenialReason.TYPE_LIMIT -> "denied-type-limit"
-                InscriptionDenialReason.MAX_LEVEL -> "denied-max-level"
-                InscriptionDenialReason.GLOBAL_LIMIT -> "denied-global-limit"
-                else -> null
+            val denialReason = scroll.getDenialReason(item)
+            val messageKey = if (denialReason != null) {
+                denialReason.messageKey
+            } else if (scroll.canAfford(item, player)) {
+                null
+            } else {
+                "denied-cannot-afford"
             }
             if (messageKey != null) {
                 player.sendMessage(plugin.langYml.getMessage(messageKey))
