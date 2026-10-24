@@ -2,25 +2,26 @@ package com.willfp.ecoscrolls.gui
 
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.fast.fast
+import com.willfp.eco.core.gui.CaptiveItem
 import com.willfp.eco.core.gui.GUIComponent
+import com.willfp.eco.core.gui.addComponent
+import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.captiveSlot
+import com.willfp.eco.core.gui.component.addComponent
+import com.willfp.eco.core.gui.component.closeButton
+import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.events.CaptiveItemChangeEvent
+import com.willfp.eco.core.gui.menuStateVar
 import com.willfp.eco.core.gui.onEvent
 import com.willfp.eco.core.gui.onLeftClick
+import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.gui.slot.ConfigSlot
 import com.willfp.eco.core.gui.slot.CustomSlot
-import com.willfp.eco.core.gui.slot.FillerMask
-import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.builder.modify
 import com.willfp.eco.util.formatEco
-import com.willfp.ecomponent.CaptiveItem
-import com.willfp.ecomponent.addComponent
-import com.willfp.ecomponent.menuStateVar
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.Scroll
 import com.willfp.ecoscrolls.scrolls.scroll
@@ -87,20 +88,12 @@ internal fun updateInscribeMenu() {
             }
         }
 
-        setMask(
-            FillerMask(
-                MaskItems.fromItemNames(
-                    plugin.configYml.getStrings("gui.mask.items")
-                ),
-                *plugin.configYml.getStrings("gui.mask.pattern").toTypedArray()
-            )
-        )
+        setMask(plugin.configYml, "gui")
 
-        addComponent(
-            plugin.configYml.getInt("gui.inscribe-slot.row"),
-            plugin.configYml.getInt("gui.inscribe-slot.column"),
-            Inscriber(),
-        )
+        val inscriber = Inscriber()
+        for (location in plugin.configYml.getSlotLocations("gui.inscribe-slot")) {
+            addComponent(location.row, location.column, inscriber)
+        }
 
         addComponent(
             plugin.configYml.getInt("gui.scroll-slot.row"),
@@ -116,11 +109,7 @@ internal fun updateInscribeMenu() {
             bindCaptive = newCapturedItem
         )
 
-        addComponent(
-            plugin.configYml.getInt("gui.close.location.row"),
-            plugin.configYml.getInt("gui.close.location.column"),
-            CloseSlot()
-        )
+        addComponent(closeButton(plugin.configYml.getSubsection("gui.close")))
 
         onEvent<CaptiveItemChangeEvent> { player, menu, _ ->
             menu.scroll[player] = Optional.empty()
@@ -158,13 +147,7 @@ internal fun updateInscribeMenu() {
                 .push()
         }
 
-        for (config in plugin.configYml.getSubsections("gui.custom-slots")) {
-            setSlot(
-                config.getInt("row"),
-                config.getInt("column"),
-                ConfigSlot(config)
-            )
-        }
+        addCustomSlots(plugin.configYml, "gui")
     }
 
     capturedItem = newCapturedItem
@@ -191,26 +174,6 @@ private class IndicatorSlot : CustomSlot() {
         })
     }
 }
-
-private class CloseSlot : CustomSlot() {
-    private val item = Items.lookup(plugin.configYml.getString("gui.close.item")).modify {
-        setDisplayName(plugin.configYml.getFormattedString("gui.close.name"))
-        addLoreLines(plugin.configYml.getFormattedStrings("gui.close.lore"))
-    }
-
-    init {
-        create()
-    }
-
-    private fun create() {
-        init(slot(item) {
-            onLeftClick { player, _, _, _ ->
-                player.closeInventory()
-            }
-        })
-    }
-}
-
 
 private class Inscriber : GUIComponent {
     private val allowSlot = AllowSlot()
