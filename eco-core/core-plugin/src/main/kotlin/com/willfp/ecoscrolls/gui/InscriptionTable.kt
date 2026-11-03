@@ -122,7 +122,7 @@ internal fun updateInscribeMenu() {
                 val scroll = scrollItem.scroll
                 if (scroll == null || !scroll.isInscriptionTableEnabled) {
                     menu.status[player] = InscriptionStatus.DENY
-                } else if (scroll.canInscribe(item)) {
+                } else if (scroll.canInscribe(item, player)) {
                     menu.scroll[player] = Optional.of(scroll)
                     menu.status[player] = InscriptionStatus.ALLOW
                 } else {
