@@ -29,6 +29,12 @@ targets:
       - "*diamond_pickaxe"
 ```
 
+A target's `scroll-limit` can also be an expression, worked out for each item. Item placeholders read that item, so the limit can depend on what the item is made of:
+
+```yaml
+    scroll-limit: "3 + %ecoitems_material_count_paper%" # One more for each paper part
+```
+
 The `add_scroll_limit` effect adds to the base limit of one item (see below). The total never goes below 0. An item with no limit anywhere (no target limit and `scroll-limit: -1`) stays unlimited.
 
 :::tip
