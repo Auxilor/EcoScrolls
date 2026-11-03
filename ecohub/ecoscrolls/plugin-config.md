@@ -108,6 +108,7 @@ inscription:
   deny-effects: [ ]
 
   scroll-limit: -1 # Max scroll limit per item; -1 for unlimited. See Scroll Limits
+  drag-and-drop-stack: false # Dragging a stack of single-use scrolls applies as many as fit, not one
 
 # Sounds played on inscription events
 sounds:
