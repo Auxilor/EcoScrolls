@@ -42,9 +42,11 @@ class ConfiguredTarget(
     override val slot = SlotTypes[config.getString("slot")] ?:
     throw IllegalArgumentException("Invalid slot type: ${config.getString("slot")}, options are ${SlotTypes.values().map { it.id }}")
 
-    override val items = config.getStrings("items")
-        .map { Items.lookup(it) }
-        .filterNot { it is EmptyTestableItem }
+    override val items: List<TestableItem> by lazy {
+        config.getStrings("items")
+            .map { Items.lookup(it) }
+            .filterNot { it is EmptyTestableItem }
+    }
 
     override val scrollLimit = config.getIntOrNull("scroll-limit")
 
@@ -67,14 +69,18 @@ internal object AllTarget : Target {
     override val slot = SlotTypeAny
 
     @Volatile
-    override var items = emptyList<TestableItem>()
-        private set
+    private var cachedItems: List<TestableItem>? = null
+
+    override val items: List<TestableItem>
+        get() = cachedItems ?: Targets.values()
+            .filterNot { it == this }
+            .flatMap { it.items }
+            .also { cachedItems = it }
+
     override val scrollLimit = null
 
     fun updateItems() {
-        items = Targets.values()
-            .filterNot { it == this }
-            .flatMap { it.items }
+        cachedItems = null
     }
 
     override fun equals(other: Any?): Boolean {
