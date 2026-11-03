@@ -3,14 +3,16 @@ package com.willfp.ecoscrolls.target
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.TestableItem
+import com.willfp.eco.core.placeholder.context.PlaceholderContext
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem
 import com.willfp.eco.core.registry.Registrable
+import com.willfp.eco.util.NumberUtils
 import com.willfp.ecoscrolls.plugin
 import com.willfp.libreforge.slot.SlotType
 import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeAny
-import org.bukkit.inventory.ItemStack
 import java.util.Objects
+import org.bukkit.inventory.ItemStack
 
 interface Target : Registrable {
     val id: String
@@ -18,6 +20,9 @@ interface Target : Registrable {
     val slot: SlotType
     val items: List<TestableItem>
     val scrollLimit: Int?
+
+    /** The scroll limit this target gives [itemStack], or null for none. */
+    fun scrollLimitFor(itemStack: ItemStack): Int? = scrollLimit
 
     fun matches(itemStack: ItemStack): Boolean {
         for (item in items) {
@@ -47,6 +52,13 @@ class ConfiguredTarget(
         .filterNot { it is EmptyTestableItem }
 
     override val scrollLimit = config.getIntOrNull("scroll-limit")
+
+    private val scrollLimitExpression = config.getStringOrNull("scroll-limit")
+
+    override fun scrollLimitFor(itemStack: ItemStack): Int? = scrollLimit
+        ?: scrollLimitExpression?.let {
+            NumberUtils.evaluateExpression(it, PlaceholderContext(null, itemStack, null, emptyList())).toInt()
+        }
 
     override fun equals(other: Any?): Boolean {
         if (other !is Target) {
