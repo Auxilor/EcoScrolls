@@ -101,10 +101,12 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
             val denialReason = scroll.getDenialReason(item)
             val messageKey = if (denialReason != null) {
                 denialReason.messageKey
-            } else if (scroll.canAfford(item, player)) {
+            } else if (!scroll.canAfford(item, player)) {
+                "denied-cannot-afford"
+            } else if (scroll.hasConditionFeedback(item, player)) {
                 null
             } else {
-                "denied-cannot-afford"
+                "denied-conditions"
             }
             if (messageKey != null) {
                 player.sendMessage(plugin.langYml.getMessage(messageKey))

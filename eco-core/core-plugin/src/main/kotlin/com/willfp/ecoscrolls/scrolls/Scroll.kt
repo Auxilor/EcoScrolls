@@ -273,6 +273,9 @@ class Scroll(
     internal fun getNotMetInscriptionConditions(itemStack: ItemStack, player: Player): List<ConditionBlock<*>> =
         inscriptionConditions.filterNot { it.isMet(player.toDispatcher(), inscriptionHolder(itemStack)) }
 
+    fun hasConditionFeedback(itemStack: ItemStack, player: Player): Boolean =
+        getNotMetInscriptionConditions(itemStack, player).any { !it.notMetEffects.isNullOrEmpty() }
+
     fun inscribe(itemStack: ItemStack, player: Player): Boolean {
         if (!canInscribe(itemStack)) {
             return false
