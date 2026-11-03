@@ -115,17 +115,15 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
     }
 
     fun getScrollLimit(item: ItemStack): Int {
-        val targets = item.targets
+        val base = item.scrollLimitBase
+            ?: min(item.targets.mapNotNull { it.scrollLimit }.minOrNull() ?: UNLIMITED, globalScrollLimit)
 
-        var highest = Int.MAX_VALUE
-
-        for (target in targets) {
-            val limit = target.scrollLimit ?: continue
-            if (limit < highest) {
-                highest = limit
-            }
+        return if (base == UNLIMITED) {
+            UNLIMITED
+        } else {
+            (base.toLong() + item.scrollLimitBonus)
+                .coerceIn(minimumValue = 0L, maximumValue = UNLIMITED.toLong())
+                .toInt()
         }
-
-        return min(highest, globalScrollLimit)
     }
 }

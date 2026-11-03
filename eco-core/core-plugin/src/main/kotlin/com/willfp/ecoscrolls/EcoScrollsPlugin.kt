@@ -26,6 +26,8 @@ import com.willfp.ecoscrolls.scrolls.ScrollLevel
 import com.willfp.ecoscrolls.scrolls.ScrollTag
 import com.willfp.ecoscrolls.scrolls.ScrollTypes
 import com.willfp.ecoscrolls.scrolls.Scrolls
+import com.willfp.ecoscrolls.scrolls.UNLIMITED
+import com.willfp.ecoscrolls.scrolls.usedScrollLimit
 import com.willfp.ecoscrolls.target.ScrollFinder
 import com.willfp.ecoscrolls.target.Targets
 import com.willfp.ecoscrolls.util.AntiPlaceListener
@@ -51,6 +53,8 @@ class EcoScrollsPlugin : LibreforgePlugin() {
     val typesYml: TypesYml = TypesYml(this)
 
     val inscriptionHandler = InscriptionHandler(this)
+
+    private val limitPlaceholderPattern = Pattern.compile("limit_(used|total|free)")
 
     init {
         plugin = this
@@ -94,6 +98,22 @@ class EcoScrollsPlugin : LibreforgePlugin() {
                     val scrollInstance = Scrolls[scroll] ?: return ""
 
                     return scrollInstance.getPlaceholder(identifier, context) ?: ""
+                }
+            }
+        )
+
+        PlaceholderManager.registerPlaceholder(
+            object : DynamicPlaceholder(plugin, limitPlaceholderPattern) {
+                override fun getValue(args: String, context: PlaceholderContext): String {
+                    val item = context.itemStack ?: return ""
+                    val limit = inscriptionHandler.getScrollLimit(item)
+
+                    return when {
+                        args == "limit_used" -> item.usedScrollLimit.toString()
+                        limit == UNLIMITED -> ""
+                        args == "limit_total" -> limit.toString()
+                        else -> (limit - item.usedScrollLimit).coerceAtLeast(0).toString()
+                    }
                 }
             }
         )
