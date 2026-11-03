@@ -122,9 +122,13 @@ internal fun updateInscribeMenu() {
                 val scroll = scrollItem.scroll
                 if (scroll == null || !scroll.isInscriptionTableEnabled) {
                     menu.status[player] = InscriptionStatus.DENY
-                } else if (scroll.canInscribe(item, player)) {
+                } else if (scroll.canInscribe(item)) {
                     menu.scroll[player] = Optional.of(scroll)
-                    menu.status[player] = InscriptionStatus.ALLOW
+                    menu.status[player] = if (scroll.canInscribe(item, player)) {
+                        InscriptionStatus.ALLOW
+                    } else {
+                        InscriptionStatus.DENY
+                    }
                 } else {
                     menu.status[player] = InscriptionStatus.DENY
                 }
@@ -248,7 +252,7 @@ private abstract class MenuSlot(
     }
 }
 
-private class AllowSlot : MenuSlot(InscriptionStatus.ALLOW) {
+private open class InscribeSlot(status: InscriptionStatus) : MenuSlot(status) {
     override fun onClick(player: Player, event: InventoryClickEvent, slot: Slot, menu: Menu) {
         val scroll = menu.scroll[player]?.getOrNull() ?: return
         val item = capturedItem[player] ?: return
@@ -261,10 +265,10 @@ private class AllowSlot : MenuSlot(InscriptionStatus.ALLOW) {
             scrollItem?.useScroll()
         }
 
-        // Cheat to update the menu
         menu.callEvent(player, CaptiveItemChangeEvent(0, 0, null, null))
     }
 }
 
-private class DenySlot : MenuSlot(InscriptionStatus.DENY)
+private class AllowSlot : InscribeSlot(InscriptionStatus.ALLOW)
+private class DenySlot : InscribeSlot(InscriptionStatus.DENY)
 private class EmptySlot : MenuSlot(InscriptionStatus.EMPTY)
