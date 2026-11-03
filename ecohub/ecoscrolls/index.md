@@ -21,5 +21,6 @@ Every scroll is a single YAML file built on the shared eco effects system, so th
 
 - **Make a scroll:** build your first one from scratch in [How to Make a Scroll](how-to-make-a-scroll).
 - **Scroll Types:** group scrolls and cap how many fit per item in [Scroll Types](scroll-types).
+- **Scroll Limits:** set how much each item holds and how much each scroll costs in [Scroll Limits](scroll-limits).
 - **Plugin Config:** tune the GUI, sounds, and limits in [Plugin Config](plugin-config).
 - **Commands:** the full command and permission list in [Commands and Permissions](commands-and-permissions).

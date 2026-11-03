@@ -15,6 +15,8 @@ import com.willfp.ecoscrolls.config.TypesYml
 import com.willfp.ecoscrolls.display.ScrollDisplay
 import com.willfp.ecoscrolls.gui.updateInscribeMenu
 import com.willfp.ecoscrolls.libreforge.ConditionHasScroll
+import com.willfp.ecoscrolls.libreforge.ConditionHasScrollLimit
+import com.willfp.ecoscrolls.libreforge.EffectAddScrollLimit
 import com.willfp.ecoscrolls.libreforge.EffectApplyRandomScroll
 import com.willfp.ecoscrolls.libreforge.EffectInscribeItem
 import com.willfp.ecoscrolls.libreforge.EffectUninscribeItem
@@ -26,11 +28,14 @@ import com.willfp.ecoscrolls.scrolls.ScrollLevel
 import com.willfp.ecoscrolls.scrolls.ScrollTag
 import com.willfp.ecoscrolls.scrolls.ScrollTypes
 import com.willfp.ecoscrolls.scrolls.Scrolls
+import com.willfp.ecoscrolls.scrolls.UNLIMITED
+import com.willfp.ecoscrolls.scrolls.usedScrollLimit
 import com.willfp.ecoscrolls.target.ScrollFinder
 import com.willfp.ecoscrolls.target.Targets
 import com.willfp.ecoscrolls.util.AntiPlaceListener
 import com.willfp.ecoscrolls.util.DiscoverRecipeListener
 import com.willfp.ecoscrolls.util.DragAndDropListener
+import com.willfp.ecoscrolls.util.ScrollLimitArgParser
 import com.willfp.libreforge.NamedValue
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
@@ -52,12 +57,16 @@ class EcoScrollsPlugin : LibreforgePlugin() {
 
     val inscriptionHandler = InscriptionHandler(this)
 
+    private val limitPlaceholderPattern = Pattern.compile("limit_(used|total|free)")
+
     init {
         plugin = this
     }
 
     override fun handleEnable() {
         Conditions.register(ConditionHasScroll)
+        Conditions.register(ConditionHasScrollLimit)
+        Effects.register(EffectAddScrollLimit)
         Effects.register(EffectInscribeItem)
         Effects.register(EffectUninscribeItem)
         Effects.register(EffectApplyRandomScroll)
@@ -66,6 +75,7 @@ class EcoScrollsPlugin : LibreforgePlugin() {
         Triggers.register(TriggerTryInscribe)
 
         Items.registerTag(ScrollTag)
+        Items.registerArgParser(ScrollLimitArgParser)
 
         registerHolderProvider(ScrollFinder.toHolderProvider())
 
@@ -94,6 +104,22 @@ class EcoScrollsPlugin : LibreforgePlugin() {
                     val scrollInstance = Scrolls[scroll] ?: return ""
 
                     return scrollInstance.getPlaceholder(identifier, context) ?: ""
+                }
+            }
+        )
+
+        PlaceholderManager.registerPlaceholder(
+            object : DynamicPlaceholder(plugin, limitPlaceholderPattern) {
+                override fun getValue(args: String, context: PlaceholderContext): String {
+                    val item = context.itemStack ?: return ""
+                    val limit = inscriptionHandler.getScrollLimit(item)
+
+                    return when {
+                        args == "limit_used" -> item.usedScrollLimit.toString()
+                        limit == UNLIMITED -> ""
+                        args == "limit_total" -> limit.toString()
+                        else -> (limit - item.usedScrollLimit).coerceAtLeast(0).toString()
+                    }
                 }
             }
         )

@@ -60,6 +60,8 @@ class Scroll(
 
     val maxUses = config.getInt("max-uses")
 
+    val levelsPerLimit: Int? = config.getIntOrNull("levels-per-limit")
+
     val type: ScrollType? = config.getStringOrNull("type")?.let { ScrollTypes[it] }
 
     private val itemName = config.getString("item.name")
@@ -238,10 +240,9 @@ class Scroll(
         }
 
         val currentScrolls = itemStack.scrolls
+        val level = itemStack.getScrollLevel(this)?.level ?: 0
 
-        if (currentScrolls.none { it.scroll == this } &&
-            currentScrolls.size >= plugin.inscriptionHandler.getScrollLimit(itemStack)
-        ) {
+        if (level < maxLevel && exceedsScrollLimit(itemStack, level)) {
             return InscriptionDenialReason.GLOBAL_LIMIT
         }
 
@@ -261,12 +262,25 @@ class Scroll(
             }
         }
 
-        val level = itemStack.getScrollLevel(this)?.level ?: 0
         if (level >= maxLevel) {
             return InscriptionDenialReason.MAX_LEVEL
         }
 
         return null
+    }
+
+    private fun exceedsScrollLimit(itemStack: ItemStack, level: Int): Boolean {
+        val addedCost = limitCost(level + 1) - limitCost(level)
+        val limit = plugin.inscriptionHandler.getScrollLimit(itemStack)
+
+        return addedCost > 0 && limit != UNLIMITED && itemStack.usedScrollLimit + addedCost > limit
+    }
+
+    fun limitCost(level: Int): Int = when {
+        level <= 0 -> 0
+        levelsPerLimit == null -> 1
+        levelsPerLimit <= 0 -> 0
+        else -> 1 + (level - 1) / levelsPerLimit
     }
 
     fun canAfford(itemStack: ItemStack, player: Player): Boolean =
