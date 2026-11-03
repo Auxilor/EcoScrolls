@@ -35,6 +35,20 @@ object DragAndDropListener : DragAndDropHandler {
         // APPLIED makes eco consume one item from the cursor. Reset the uses before
         // consuming so that the next scroll in a stack starts with its full uses.
         cursor.scrollUsesLeft = scroll.maxUses
+        applyRestOfStack(player, cursor, current)
         return DragAndDropResult.APPLIED
+    }
+
+    private fun applyRestOfStack(player: Player, cursor: ItemStack, current: ItemStack) {
+        val scroll = cursor.scroll ?: return
+        if (!plugin.configYml.getBool("inscription.drag-and-drop-stack") || scroll.maxUses != 1) {
+            return
+        }
+
+        var applied = 0
+        while (applied < cursor.amount - 1 && plugin.inscriptionHandler.tryInscribe(current, scroll, player)) {
+            applied++
+        }
+        cursor.amount -= applied
     }
 }
