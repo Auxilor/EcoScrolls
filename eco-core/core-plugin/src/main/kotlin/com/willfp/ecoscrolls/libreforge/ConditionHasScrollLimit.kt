@@ -44,7 +44,9 @@ object ConditionHasScrollLimit : Condition<NoCompileData>("has_scroll_limit") {
         val item = holder.getProvider<ItemStack>() ?: return false
         val limit = plugin.inscriptionHandler.getScrollLimit(item)
 
+        val freeLimit = (limit - item.usedScrollLimit).coerceAtLeast(0)
+
         return limit == UNLIMITED ||
-                limit - item.usedScrollLimit >= config.getDoubleFromExpression("amount", dispatcher.get<Player>())
+                freeLimit >= config.getDoubleFromExpression("amount", dispatcher.get<Player>())
     }
 }

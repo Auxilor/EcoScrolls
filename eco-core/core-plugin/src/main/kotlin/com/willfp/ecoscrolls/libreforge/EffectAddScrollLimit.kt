@@ -39,6 +39,7 @@ object EffectAddScrollLimit : Effect<NoCompileData>("add_scroll_limit") {
 
         if (base != UNLIMITED) {
             item.scrollLimitBonus = config.getDoubleFromExpression("amount", data)
+                .coerceIn(minimumValue = Int.MIN_VALUE.toDouble(), maximumValue = Int.MAX_VALUE.toDouble())
                 .toLong()
                 .plus(item.scrollLimitBonus)
                 .coerceIn(minimumValue = -base.toLong(), maximumValue = UNLIMITED.toLong())
