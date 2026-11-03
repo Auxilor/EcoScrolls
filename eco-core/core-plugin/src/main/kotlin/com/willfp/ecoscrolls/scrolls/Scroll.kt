@@ -277,7 +277,7 @@ class Scroll(
         level <= 0 -> 0
         levelsPerLimit == null -> 1
         levelsPerLimit <= 0 -> 0
-        else -> (level + levelsPerLimit - 1) / levelsPerLimit
+        else -> 1 + (level - 1) / levelsPerLimit
     }
 
     fun canAfford(itemStack: ItemStack, player: Player): Boolean =
