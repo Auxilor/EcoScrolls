@@ -15,6 +15,8 @@ import com.willfp.ecoscrolls.config.TypesYml
 import com.willfp.ecoscrolls.display.ScrollDisplay
 import com.willfp.ecoscrolls.gui.updateInscribeMenu
 import com.willfp.ecoscrolls.libreforge.ConditionHasScroll
+import com.willfp.ecoscrolls.libreforge.ConditionHasScrollLimit
+import com.willfp.ecoscrolls.libreforge.EffectAddScrollLimit
 import com.willfp.ecoscrolls.libreforge.EffectApplyRandomScroll
 import com.willfp.ecoscrolls.libreforge.EffectInscribeItem
 import com.willfp.ecoscrolls.libreforge.EffectUninscribeItem
@@ -33,6 +35,7 @@ import com.willfp.ecoscrolls.target.Targets
 import com.willfp.ecoscrolls.util.AntiPlaceListener
 import com.willfp.ecoscrolls.util.DiscoverRecipeListener
 import com.willfp.ecoscrolls.util.DragAndDropListener
+import com.willfp.ecoscrolls.util.ScrollLimitArgParser
 import com.willfp.libreforge.NamedValue
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
@@ -62,6 +65,8 @@ class EcoScrollsPlugin : LibreforgePlugin() {
 
     override fun handleEnable() {
         Conditions.register(ConditionHasScroll)
+        Conditions.register(ConditionHasScrollLimit)
+        Effects.register(EffectAddScrollLimit)
         Effects.register(EffectInscribeItem)
         Effects.register(EffectUninscribeItem)
         Effects.register(EffectApplyRandomScroll)
@@ -70,6 +75,7 @@ class EcoScrollsPlugin : LibreforgePlugin() {
         Triggers.register(TriggerTryInscribe)
 
         Items.registerTag(ScrollTag)
+        Items.registerArgParser(ScrollLimitArgParser)
 
         registerHolderProvider(ScrollFinder.toHolderProvider())
 
