@@ -45,6 +45,7 @@ Here is a complete scroll with every part in place:
 name: "&6Example Scroll" # Internal display name of the scroll
 max-level: 1 # Highest level this scroll can reach
 max-uses: 1 # Times the scroll can be used before it's spent
+levels-per-limit: 52 # Optional; levels per point of the item's scroll limit, 0 to never count
 
 # Lore appended to an item once this scroll is inscribed on it
 lore:
@@ -109,6 +110,7 @@ The top-level identity of the scroll: how it's named, what lore it adds to the i
 name: "&6Example Scroll" # Internal display name of the scroll
 max-level: 1 # Highest level this scroll can reach
 max-uses: 1 # Times the scroll can be used before it's spent
+levels-per-limit: 52 # Optional; levels per point of the item's scroll limit, 0 to never count
 
 # Lore appended to an item once this scroll is inscribed on it
 lore:
@@ -120,6 +122,8 @@ lore:
 :::tip
 Lore supports MiniMessage, including sprites such as `<sprite:items:item/diamond>` on 1.21.9 and newer. See [Text Formatting](https://hub.auxilor.io/wiki/eco/text-formatting).
 :::
+
+Leave out `levels-per-limit` and the scroll counts 1 toward the item's scroll limit at any level. See [Scroll Limits](scroll-limits).
 
 ### Targets and requirements
 
@@ -235,6 +239,7 @@ Put effects here, not in the top-level `effects`, when the scroll works by perma
 ## Where to go next
 
 - **Scroll Types:** group scrolls and cap how many of each fit on an item, see [Scroll Types](scroll-types).
+- **Scroll Limits:** control how many scrolls an item holds, see [Scroll Limits](scroll-limits).
 - **Effects:** the full effect, condition, and trigger reference at [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect).
 - **Real examples:** the shipped scroll configs [on GitHub](https://github.com/Auxilor/EcoScrolls/tree/master/eco-core/core-plugin/src/main/resources/scrolls).
 - **Community configs:** browse and share more on [lrcdb](https://lrcdb.auxilor.io/).

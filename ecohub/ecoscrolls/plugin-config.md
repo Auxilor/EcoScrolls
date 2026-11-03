@@ -1,6 +1,6 @@
 ---
 title: "Plugin Config"
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 `config.yml` holds the server-wide settings for EcoScrolls: the Inscription Table GUI, inscription effects, sounds, and lore ordering. It lives at `/plugins/EcoScrolls/config.yml`. After editing it, run `/ecoscrolls reload` to apply your changes.
@@ -107,7 +107,7 @@ inscription:
   # Same placeholders as apply-effects.
   deny-effects: [ ]
 
-  scroll-limit: -1 # Max scrolls per item; -1 for unlimited
+  scroll-limit: -1 # Max scroll limit per item; -1 for unlimited. See Scroll Limits
 
 # Sounds played on inscription events
 sounds:
@@ -139,5 +139,6 @@ lore-order:
 ## Where to go next
 
 - **Scroll Types:** how `lore-order` and type limits work in [Scroll Types](scroll-types).
+- **Scroll Limits:** how `scroll-limit` is counted and changed per item in [Scroll Limits](scroll-limits).
 - **Make a scroll:** build a scroll to inscribe through this GUI in [How to Make a Scroll](how-to-make-a-scroll).
 - **Effects:** the shared effect system used by `apply-effects` at [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect).

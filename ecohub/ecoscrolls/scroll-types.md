@@ -52,4 +52,5 @@ Leave `lore-order` empty to fall back to the default inscription order. See [Plu
 ## Where to go next
 
 - **Make a scroll:** assign a type while building one in [How to Make a Scroll](how-to-make-a-scroll).
+- **Scroll Limits:** the overall limit per item, separate from type limits, in [Scroll Limits](scroll-limits).
 - **Plugin Config:** the full `config.yml`, including `lore-order`, in [Plugin Config](plugin-config).
