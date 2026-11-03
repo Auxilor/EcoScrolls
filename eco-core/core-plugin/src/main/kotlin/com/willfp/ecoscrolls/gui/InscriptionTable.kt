@@ -270,5 +270,16 @@ private open class InscribeSlot(status: InscriptionStatus) : MenuSlot(status) {
 }
 
 private class AllowSlot : InscribeSlot(InscriptionStatus.ALLOW)
-private class DenySlot : InscribeSlot(InscriptionStatus.DENY)
+private class DenySlot : InscribeSlot(InscriptionStatus.DENY) {
+    override fun onClick(player: Player, event: InventoryClickEvent, slot: Slot, menu: Menu) {
+        val scroll = menu.scroll[player]?.getOrNull() ?: return
+        val item = capturedItem[player] ?: return
+
+        if (scroll.canInscribe(item, player)) {
+            menu.callEvent(player, CaptiveItemChangeEvent(0, 0, null, null))
+        } else {
+            super.onClick(player, event, slot, menu)
+        }
+    }
+}
 private class EmptySlot : MenuSlot(InscriptionStatus.EMPTY)
