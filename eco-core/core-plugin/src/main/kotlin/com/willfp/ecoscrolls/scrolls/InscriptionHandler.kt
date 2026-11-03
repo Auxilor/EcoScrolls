@@ -83,9 +83,9 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
             return false
         }
 
-        val didInscribe = scroll.inscribe(item, player)
+        val attempt = scroll.attemptInscribe(item, player)
 
-        if (didInscribe) {
+        if (attempt.inscribed) {
             applyEffects.ifPresent {
                 it.trigger(inscriptionTrigger(item, scroll, player))
             }
@@ -103,7 +103,7 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
                 denialReason.messageKey
             } else if (!scroll.canAfford(item, player)) {
                 "denied-cannot-afford"
-            } else if (scroll.hasConditionFeedback(item, player)) {
+            } else if (attempt.hasConditionFeedback) {
                 null
             } else {
                 "denied-conditions"
@@ -113,7 +113,7 @@ class InscriptionHandler(private val plugin: EcoScrollsPlugin) {
             }
         }
 
-        return didInscribe
+        return attempt.inscribed
     }
 
     fun getScrollLimit(item: ItemStack): Int {
