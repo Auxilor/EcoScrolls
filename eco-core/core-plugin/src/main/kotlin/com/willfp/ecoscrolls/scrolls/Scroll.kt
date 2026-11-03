@@ -229,6 +229,9 @@ class Scroll(
 
     fun canInscribe(itemStack: ItemStack): Boolean = getDenialReason(itemStack) == null
 
+    fun canInscribe(itemStack: ItemStack, player: Player): Boolean =
+        canInscribe(itemStack) && getNotMetInscriptionConditions(itemStack, player).isEmpty()
+
     fun matchesTarget(itemStack: ItemStack): Boolean = targets.any { it.matches(itemStack) }
 
     fun getDenialReason(itemStack: ItemStack): InscriptionDenialReason? {
@@ -289,23 +292,36 @@ class Scroll(
     internal fun getNotMetInscriptionConditions(itemStack: ItemStack, player: Player): List<ConditionBlock<*>> =
         inscriptionConditions.filterNot { it.isMet(player.toDispatcher(), inscriptionHolder(itemStack)) }
 
-    fun inscribe(itemStack: ItemStack, player: Player): Boolean {
+    fun inscribe(itemStack: ItemStack, player: Player): Boolean =
+        attemptInscribe(itemStack, player).inscribed
+
+    internal fun attemptInscribe(itemStack: ItemStack, player: Player): InscriptionAttempt {
         if (!canInscribe(itemStack)) {
-            return false
+            return InscriptionAttempt(false)
         }
 
         val notMetConditions = getNotMetInscriptionConditions(itemStack, player)
-        if (notMetConditions.isNotEmpty()) {
-            TriggerData(player = player, item = itemStack)
-                .dispatch(player.toDispatcher())
-                .let { trigger -> notMetConditions.forEach { it.notMetEffects?.trigger(trigger) } }
-            return false
-        }
 
-        if (!canAfford(itemStack, player)) {
-            return false
-        }
+        return when {
+            notMetConditions.isNotEmpty() -> {
+                TriggerData(player = player, item = itemStack)
+                    .dispatch(player.toDispatcher())
+                    .let { trigger -> notMetConditions.forEach { it.notMetEffects?.trigger(trigger) } }
+                InscriptionAttempt(false, notMetConditions)
+            }
 
+            !canAfford(itemStack, player) -> {
+                InscriptionAttempt(false)
+            }
+
+            else -> {
+                completeInscription(itemStack, player)
+                InscriptionAttempt(true)
+            }
+        }
+    }
+
+    private fun completeInscription(itemStack: ItemStack, player: Player) {
         inscriptionPrice.pay(player, getPriceMultiplier(itemStack))
 
         inscribe(itemStack)
@@ -320,8 +336,6 @@ class Scroll(
         )
 
         PlayableSound.create(plugin.configYml.getSubsection("sounds.inscribe"))?.playTo(player)
-
-        return true
     }
 
     fun inscribe(itemStack: ItemStack) {

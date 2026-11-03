@@ -20,4 +20,5 @@ messages:
   denied-max-level: "&cInscription denied! The maximum level has been reached."
   denied-global-limit: "&cInscription denied! The global limit has been reached."
   denied-cannot-afford: "&cInscription denied! You can't afford to inscribe this scroll."
+  denied-conditions: "&cInscription denied! The requirements to inscribe this scroll are not met."
   denied-other: "&cInscription denied! This scroll cannot be inscribed on this item."
