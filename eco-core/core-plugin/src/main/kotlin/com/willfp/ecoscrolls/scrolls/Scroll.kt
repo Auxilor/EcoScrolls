@@ -22,7 +22,9 @@ import com.willfp.eco.util.formatEcoRich
 import com.willfp.eco.util.toNumeral
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.target.Targets
+import com.willfp.libreforge.ItemProvidedHolder
 import com.willfp.libreforge.ViolationContext
+import com.willfp.libreforge.conditions.ConditionBlock
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.toDispatcher
@@ -267,18 +269,22 @@ class Scroll(
     fun canAfford(itemStack: ItemStack, player: Player): Boolean =
         inscriptionPrice.canAfford(player, getPriceMultiplier(itemStack))
 
+    internal fun inscriptionHolder(itemStack: ItemStack): ItemProvidedHolder =
+        ItemProvidedHolder(getLevel((itemStack.getScrollLevel(this)?.level ?: 0) + 1), itemStack)
+
+    internal fun getNotMetInscriptionConditions(itemStack: ItemStack, player: Player): List<ConditionBlock<*>> =
+        inscriptionConditions.filterNot { it.isMet(player.toDispatcher(), inscriptionHolder(itemStack)) }
+
     fun inscribe(itemStack: ItemStack, player: Player): Boolean {
         if (!canInscribe(itemStack)) {
             return false
         }
 
-        if (!inscriptionConditions.areMetAndTrigger(
-                TriggerData(
-                    player = player,
-                    item = itemStack
-                ).dispatch(player.toDispatcher())
-            )
-        ) {
+        val notMetConditions = getNotMetInscriptionConditions(itemStack, player)
+        if (notMetConditions.isNotEmpty()) {
+            TriggerData(player = player, item = itemStack)
+                .dispatch(player.toDispatcher())
+                .let { trigger -> notMetConditions.forEach { it.notMetEffects?.trigger(trigger) } }
             return false
         }
 
