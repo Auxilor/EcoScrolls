@@ -1,4 +1,4 @@
-# Scroll types group scrolls into categories and apply per-item slot limits.
+# Scroll types group scrolls into categories and apply per-item limits.
 # Each type limits how many *different* scrolls from that group can be inscribed on one item.
 # Scrolls declare their type via the "type:" field in their own config.
 

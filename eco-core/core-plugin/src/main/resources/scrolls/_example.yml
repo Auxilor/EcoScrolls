@@ -13,6 +13,11 @@ max-level: 1
 # The amount of times the scroll can be used
 max-uses: 1
 
+# How many levels of this scroll fit in one point of the item's scroll limit (optional).
+# Leave it out to count 1 at any level, set 0 to never count.
+# For example, 52 counts 1 for levels 1 to 52 and 2 for levels 53 to 104.
+# levels-per-limit: 52
+
 # Options for the physical scroll item
 item:
   item: paper glint
