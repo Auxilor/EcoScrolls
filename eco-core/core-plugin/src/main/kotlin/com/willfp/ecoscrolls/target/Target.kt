@@ -12,6 +12,7 @@ import com.willfp.libreforge.slot.SlotType
 import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeAny
 import java.util.Objects
+import java.util.concurrent.atomic.AtomicBoolean
 import org.bukkit.inventory.ItemStack
 
 interface Target : Registrable {
@@ -55,10 +56,27 @@ class ConfiguredTarget(
 
     private val scrollLimitExpression = config.getStringOrNull("scroll-limit")
 
+    private val warnedInvalidExpression = AtomicBoolean()
+
     override fun scrollLimitFor(itemStack: ItemStack): Int? = scrollLimit
-        ?: scrollLimitExpression?.let {
-            NumberUtils.evaluateExpression(it, PlaceholderContext(null, itemStack, null, emptyList())).toInt()
+        ?: scrollLimitExpression
+            ?.takeUnless { evaluatingLimit.get() }
+            ?.let { evaluateLimit(it, itemStack) }
+
+    private fun evaluateLimit(expression: String, itemStack: ItemStack): Int? {
+        evaluatingLimit.set(true)
+        val limit = try {
+            NumberUtils.evaluateExpressionOrNull(expression, PlaceholderContext(null, itemStack, null, emptyList()))
+        } finally {
+            evaluatingLimit.set(false)
         }
+
+        if (limit == null && warnedInvalidExpression.compareAndSet(false, true)) {
+            plugin.logger.warning("Target $id has an invalid scroll-limit expression: $expression")
+        }
+
+        return limit?.toInt()
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is Target) {
@@ -70,6 +88,10 @@ class ConfiguredTarget(
 
     override fun hashCode(): Int {
         return Objects.hash(this.id)
+    }
+
+    private companion object {
+        val evaluatingLimit: ThreadLocal<Boolean> = ThreadLocal.withInitial { false }
     }
 }
 
