@@ -11,6 +11,7 @@ import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeAny
 import org.bukkit.inventory.ItemStack
 import java.util.Objects
+import java.util.concurrent.atomic.AtomicInteger
 
 interface Target : Registrable {
     val id: String
@@ -42,9 +43,11 @@ class ConfiguredTarget(
     override val slot = SlotTypes[config.getString("slot")] ?:
     throw IllegalArgumentException("Invalid slot type: ${config.getString("slot")}, options are ${SlotTypes.values().map { it.id }}")
 
-    override val items = config.getStrings("items")
-        .map { Items.lookup(it) }
-        .filterNot { it is EmptyTestableItem }
+    override val items: List<TestableItem> by lazy {
+        config.getStrings("items")
+            .map { Items.lookup(it) }
+            .filterNot { it is EmptyTestableItem }
+    }
 
     override val scrollLimit = config.getIntOrNull("scroll-limit")
 
@@ -66,15 +69,26 @@ internal object AllTarget : Target {
     override val displayName = plugin.langYml.getFormattedString("all")
     override val slot = SlotTypeAny
 
+    private val generation = AtomicInteger()
+
     @Volatile
-    override var items = emptyList<TestableItem>()
-        private set
+    private var cachedItems: Pair<Int, List<TestableItem>>? = null
+
+    override val items: List<TestableItem>
+        get() {
+            val currentGeneration = generation.get()
+            cachedItems?.takeIf { it.first == currentGeneration }?.let { return it.second }
+
+            return Targets.values()
+                .filterNot { it == this }
+                .flatMap { it.items }
+                .also { cachedItems = currentGeneration to it }
+        }
+
     override val scrollLimit = null
 
     fun updateItems() {
-        items = Targets.values()
-            .filterNot { it == this }
-            .flatMap { it.items }
+        generation.incrementAndGet()
     }
 
     override fun equals(other: Any?): Boolean {
