@@ -11,6 +11,7 @@ import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeAny
 import org.bukkit.inventory.ItemStack
 import java.util.Objects
+import java.util.concurrent.atomic.AtomicInteger
 
 interface Target : Registrable {
     val id: String
@@ -68,19 +69,26 @@ internal object AllTarget : Target {
     override val displayName = plugin.langYml.getFormattedString("all")
     override val slot = SlotTypeAny
 
+    private val generation = AtomicInteger()
+
     @Volatile
-    private var cachedItems: List<TestableItem>? = null
+    private var cachedItems: Pair<Int, List<TestableItem>>? = null
 
     override val items: List<TestableItem>
-        get() = cachedItems ?: Targets.values()
-            .filterNot { it == this }
-            .flatMap { it.items }
-            .also { cachedItems = it }
+        get() {
+            val currentGeneration = generation.get()
+            cachedItems?.takeIf { it.first == currentGeneration }?.let { return it.second }
+
+            return Targets.values()
+                .filterNot { it == this }
+                .flatMap { it.items }
+                .also { cachedItems = currentGeneration to it }
+        }
 
     override val scrollLimit = null
 
     fun updateItems() {
-        cachedItems = null
+        generation.incrementAndGet()
     }
 
     override fun equals(other: Any?): Boolean {
