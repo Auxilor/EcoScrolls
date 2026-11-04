@@ -122,6 +122,9 @@ inscription:
   # Set to -1 for unlimited
   scroll-limit: -1
 
+  # If dragging a stack of single-use scrolls onto an item applies as many as fit, instead of one
+  drag-and-drop-stack: false
+
 sounds:
   inscribe:
     enabled: true
