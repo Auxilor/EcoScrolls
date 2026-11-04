@@ -48,7 +48,7 @@ object DragAndDropListener : DragAndDropHandler {
         var applied = 0
         while (
             applied < cursor.amount - 1 &&
-            scroll.canInscribe(current, player) &&
+            scroll.canInscribe(current) &&
             plugin.inscriptionHandler.tryInscribe(current, scroll, player)
         ) {
             applied++
