@@ -29,11 +29,13 @@ targets:
       - "*diamond_pickaxe"
 ```
 
-A target's `scroll-limit` can also be an expression, worked out for each item. Item placeholders read that item, so the limit can depend on what the item is made of:
+A target's `scroll-limit` can also be an expression, worked out for each item. Item placeholders read that item, so the limit can depend on what the item is made of. The example below needs EcoItems, which provides `%ecoitems_material_count_<material>%`:
 
 ```yaml
     scroll-limit: "3 + %ecoitems_material_count_paper%" # One more for each paper part
 ```
+
+An invalid expression gives no limit from that target and logs a warning on first use. An expression cannot use the `%ecoscrolls_limit_used%`, `%ecoscrolls_limit_total%` or `%ecoscrolls_limit_free%` placeholders of its own item: inside the expression, the target gives no limit.
 
 The `add_scroll_limit` effect adds to the base limit of one item (see below). The total never goes below 0. An item with no limit anywhere (no target limit and `scroll-limit: -1`) stays unlimited.
 
