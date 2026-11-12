@@ -68,11 +68,11 @@ class Scroll(
     private val itemLore = config.getStrings("item.lore")
 
     private val _item = run {
-        val base = Items.lookup(config.getString("item.item")).item
+        val base = Items.lookup(config.getString("item.item")).getItem()
         val fis = base.fast()
         fis.scroll = this
-        fis.displayName = itemName.formatEco()
-        fis.lore = itemLore.formatEco().map { Display.PREFIX + it } + fis.lore
+        fis.setDisplayName(itemName.formatEco())
+        fis.setLore(itemLore.formatEco().map { Display.PREFIX + it } + fis.getLore())
         fis.scrollUsesLeft = maxUses
         fis.unwrap()
     }
@@ -208,7 +208,7 @@ class Scroll(
             )
         }
 
-        override fun addInjectablePlaceholder(p0: MutableIterable<InjectablePlaceholder>) {
+        override fun addInjectablePlaceholder(placeholders: Iterable<InjectablePlaceholder>) {
             //
         }
 
@@ -366,11 +366,11 @@ class Scroll(
     }
 
     fun displayScroll(context: DisplayContext) {
-        val placeholderContext = context.placeholderContext
+        val placeholderContext = context.getPlaceholderContext()
             .withInjectableContext(scrollPlaceholderContext)
 
-        context.itemStack.fast().displayName = itemName.formatEco(placeholderContext)
-        context.lore.prepend(itemLore.map { StringUtils.formatToRichComponent(it, placeholderContext) })
+        context.getItemStack().fast().setDisplayName(itemName.formatEco(placeholderContext))
+        context.getLore().prepend(itemLore.map { StringUtils.formatToRichComponent(it, placeholderContext) })
     }
 
     fun getPlaceholder(identifier: String, context: PlaceholderContext): String? {

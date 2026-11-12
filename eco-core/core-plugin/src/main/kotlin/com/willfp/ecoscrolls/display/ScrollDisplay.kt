@@ -17,7 +17,7 @@ object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
     }
 
     override fun display(context: DisplayContext) {
-        val itemStack = context.itemStack
+        val itemStack = context.getItemStack()
         val fis = itemStack.fast()
 
         fis.scroll?.displayScroll(context)
@@ -42,7 +42,7 @@ object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
         }
 
         for (scroll in sortedScrolls) {
-            context.lore.append(scroll.scroll.getLoreComponents(itemStack, context.player))
+            context.getLore().append(scroll.scroll.getLoreComponents(itemStack, context.getPlayer()))
         }
     }
 }
