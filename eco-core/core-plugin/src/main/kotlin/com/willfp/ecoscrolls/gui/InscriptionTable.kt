@@ -29,6 +29,7 @@ import wiki.ecohub.modules.menus.slot.CustomSlot
 import wiki.ecohub.modules.menus.slot.Slot
 import wiki.ecohub.modules.menus.slot.captive.CaptiveItem
 import wiki.ecohub.modules.menus.slot.captive.CaptiveItemChangeEvent
+import wiki.ecohub.modules.menus.slot.captive.addComponent
 import wiki.ecohub.rules.effect.Effects
 import wiki.ecohub.rules.trigger.TriggerData
 import wiki.ecohub.ui.text.formatEco
@@ -74,7 +75,7 @@ internal fun updateInscribeMenu() {
     val newInscriptionTable = menu(plugin.configYml.getInt("gui.rows")) {
         allowChangingHeldItem()
 
-        title = plugin.configYml.getFormattedString("gui.title")
+        setTitle(plugin.configYml.getFormattedString("gui.title"))
 
         val indicatorSlot = IndicatorSlot()
         val indicatorPattern = plugin.configYml.getStrings("gui.indicator.pattern")
@@ -82,7 +83,7 @@ internal fun updateInscribeMenu() {
             val row = indicatorPattern[i - 1]
             for (j in 1..9) {
                 if (row[j - 1] != '0') {
-                    setSlot(i, j, indicatorSlot)
+                    setSlot(row = i, column = j, slot = indicatorSlot)
                 }
             }
         }
@@ -159,8 +160,8 @@ internal fun updateInscribeMenu() {
 }
 
 private class IndicatorSlot : CustomSlot() {
-    private val allowed = Items.lookup(plugin.configYml.getString("gui.indicator.allow-item")).item
-    private val denied = Items.lookup(plugin.configYml.getString("gui.indicator.deny-item")).item
+    private val allowed = Items.lookup(plugin.configYml.getString("gui.indicator.allow-item")).getItem()
+    private val denied = Items.lookup(plugin.configYml.getString("gui.indicator.deny-item")).getItem()
 
     init {
         create()
@@ -201,7 +202,7 @@ private abstract class MenuSlot(
     private val status: InscriptionStatus
 ) : CustomSlot() {
     private val item = Items.lookup(plugin.configYml.getString("gui.${status.name.lowercase()}.item"))
-        .item
+        .getItem()
 
     init {
         create()
@@ -227,8 +228,8 @@ private abstract class MenuSlot(
             .map { it.injectPlaceholders(player, menu) }
 
         return item.fast().apply {
-            this.displayName = name
-            this.lore = lore
+            setDisplayName(name)
+            setLore(lore)
         }.unwrap()
     }
 
