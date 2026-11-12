@@ -1,8 +1,6 @@
 package com.willfp.ecoscrolls.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.util.StringUtils
-import com.willfp.eco.util.savedDisplayName
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.runOwned
 import com.willfp.ecoscrolls.scrolls.Scroll
@@ -13,6 +11,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.StringUtil
+import wiki.ecohub.game.entity.player.PlayerUtils
+import wiki.ecohub.ui.text.StringUtils
 
 object CommandInscribeDirect : Subcommand(
     plugin,
@@ -74,7 +74,7 @@ object CommandInscribeDirect : Subcommand(
             sender.sendMessage(
                 plugin.langYml.getMessage("inscribed-item", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
                     .replace("%scroll%", scroll.name)
-                    .replace("%player%", target.savedDisplayName)
+                    .replace("%player%", PlayerUtils.getSavedDisplayName(target))
             )
         }
     }

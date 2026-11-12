@@ -1,6 +1,6 @@
 package com.willfp.ecoscrolls.scrolls
 
-import com.willfp.libreforge.conditions.ConditionBlock
+import wiki.ecohub.rules.condition.ConditionBlock
 
 internal class InscriptionAttempt(
     val inscribed: Boolean,

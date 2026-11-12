@@ -2,9 +2,9 @@ package com.willfp.ecoscrolls.target
 
 import com.willfp.ecoscrolls.scrolls.ScrollLevel
 import com.willfp.ecoscrolls.scrolls.scrolls
-import com.willfp.libreforge.slot.ItemHolderFinder
-import com.willfp.libreforge.slot.SlotType
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.rules.holder.slot.ItemHolderFinder
+import wiki.ecohub.rules.holder.slot.SlotType
 
 object ScrollFinder : ItemHolderFinder<ScrollLevel>() {
     override fun find(item: ItemStack): List<ScrollLevel> {

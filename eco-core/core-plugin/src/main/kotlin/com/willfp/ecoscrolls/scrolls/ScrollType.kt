@@ -1,7 +1,7 @@
 package com.willfp.ecoscrolls.scrolls
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.KRegistrable
+import wiki.ecohub.config.Config
+import wiki.ecohub.core.registry.KRegistrable
 import java.util.Objects
 
 class ScrollType(config: Config) : KRegistrable {

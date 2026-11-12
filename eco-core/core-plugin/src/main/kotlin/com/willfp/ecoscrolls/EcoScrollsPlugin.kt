@@ -1,13 +1,6 @@
 package com.willfp.ecoscrolls
 
-import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.display.DisplayModule
-import com.willfp.eco.core.dragdrop.DragAndDropHandlers
-import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.placeholder.context.PlaceholderContext
-import com.willfp.eco.core.placeholder.templates.DynamicPlaceholder
 import com.willfp.ecoscrolls.commands.CommandEcoScrolls
 import com.willfp.ecoscrolls.commands.CommandInscribe
 import com.willfp.ecoscrolls.config.TargetsYml
@@ -36,16 +29,23 @@ import com.willfp.ecoscrolls.util.AntiPlaceListener
 import com.willfp.ecoscrolls.util.DiscoverRecipeListener
 import com.willfp.ecoscrolls.util.DragAndDropListener
 import com.willfp.ecoscrolls.util.ScrollLimitArgParser
-import com.willfp.libreforge.NamedValue
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.filters.Filters
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.registerHolderPlaceholderProvider
-import com.willfp.libreforge.registerHolderProvider
-import com.willfp.libreforge.triggers.Triggers
 import org.bukkit.event.Listener
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.stdlib.NamedValue
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.modules.menus.drag.DragAndDropHandlers
+import wiki.ecohub.provider.metrics.EcoMetricsChart
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.filter.Filters
+import wiki.ecohub.rules.holder.registerHolderPlaceholderProvider
+import wiki.ecohub.rules.holder.registerHolderProvider
+import wiki.ecohub.rules.trigger.Triggers
+import wiki.ecohub.ui.display.DisplayModule
+import wiki.ecohub.ui.placeholder.PlaceholderContext
+import wiki.ecohub.ui.placeholder.PlaceholderManager
+import wiki.ecohub.ui.placeholder.type.DynamicPlaceholder
 import java.util.regex.Pattern
 
 internal lateinit var plugin: EcoScrollsPlugin

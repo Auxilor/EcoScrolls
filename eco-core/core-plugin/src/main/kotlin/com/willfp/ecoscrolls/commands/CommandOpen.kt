@@ -1,14 +1,14 @@
 package com.willfp.ecoscrolls.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.util.StringUtils
-import com.willfp.eco.util.savedDisplayName
 import com.willfp.ecoscrolls.gui.inscriptionTable
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.runOwned
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
+import wiki.ecohub.game.entity.player.PlayerUtils
+import wiki.ecohub.ui.text.StringUtils
 
 object CommandOpen : Subcommand(
     plugin,
@@ -34,7 +34,7 @@ object CommandOpen : Subcommand(
 
             sender.sendMessage(
                 plugin.langYml.getMessage("open-success", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                    .replace("%player%", target.savedDisplayName)
+                    .replace("%player%", PlayerUtils.getSavedDisplayName(target))
             )
         }
     }

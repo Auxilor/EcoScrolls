@@ -1,14 +1,14 @@
 package com.willfp.ecoscrolls.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.util.StringUtils
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.runOwned
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
+import wiki.ecohub.game.drop.DropQueue
+import wiki.ecohub.ui.text.StringUtils
 
 object CommandGive : Subcommand(
     plugin,

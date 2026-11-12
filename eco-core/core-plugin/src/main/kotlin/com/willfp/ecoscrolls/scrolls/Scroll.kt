@@ -1,37 +1,37 @@
 package com.willfp.ecoscrolls.scrolls
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.display.Display
-import com.willfp.eco.core.display.DisplayContext
-import com.willfp.eco.core.fast.fast
-import com.willfp.eco.core.items.CustomItem
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.placeholder.InjectablePlaceholder
-import com.willfp.eco.core.placeholder.PlaceholderInjectable
-import com.willfp.eco.core.placeholder.context.PlaceholderContext
-import com.willfp.eco.core.placeholder.context.placeholderContext
-import com.willfp.eco.core.placeholder.templates.DynamicInjectablePlaceholder
-import com.willfp.eco.core.price.ConfiguredPrice
-import com.willfp.eco.core.recipe.Recipes
-import com.willfp.eco.core.recipe.recipes.CraftingRecipe
-import com.willfp.eco.core.registry.KRegistrable
-import com.willfp.eco.core.sound.PlayableSound
-import com.willfp.eco.util.evaluateExpressionOrNull
-import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.formatEcoRich
-import com.willfp.eco.util.toNumeral
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.target.Targets
-import com.willfp.libreforge.ItemProvidedHolder
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.conditions.ConditionBlock
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.toDispatcher
-import com.willfp.libreforge.triggers.TriggerData
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.core.price.ConfiguredPrice
+import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.game.item.CustomItem
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.fast
+import wiki.ecohub.game.sound.PlayableSound
+import wiki.ecohub.math.evaluateExpressionOrNull
+import wiki.ecohub.math.toNumeral
+import wiki.ecohub.modules.recipe.Recipes
+import wiki.ecohub.modules.recipe.crafting.CraftingRecipe
+import wiki.ecohub.rules.condition.ConditionBlock
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.holder.ItemProvidedHolder
+import wiki.ecohub.rules.trigger.TriggerData
+import wiki.ecohub.ui.display.Display
+import wiki.ecohub.ui.display.DisplayContext
+import wiki.ecohub.ui.placeholder.InjectablePlaceholder
+import wiki.ecohub.ui.placeholder.PlaceholderContext
+import wiki.ecohub.ui.placeholder.PlaceholderInjectable
+import wiki.ecohub.ui.placeholder.placeholderContext
+import wiki.ecohub.ui.placeholder.type.DynamicInjectablePlaceholder
+import wiki.ecohub.ui.text.StringUtils
+import wiki.ecohub.ui.text.formatEco
 import java.util.Objects
 import java.util.concurrent.ConcurrentHashMap
 import java.util.regex.Pattern
@@ -356,13 +356,13 @@ class Scroll(
     }
 
     fun getLoreComponents(itemStack: ItemStack, player: Player?): List<Component> {
-        return lore.formatEcoRich(
-            placeholderContext(
-                player = player,
-                item = itemStack,
-                injectable = scrollPlaceholderContext
-            )
+        val context = placeholderContext(
+            player = player,
+            item = itemStack,
+            injectable = scrollPlaceholderContext
         )
+
+        return lore.map { StringUtils.formatToRichComponent(it, context) }
     }
 
     fun displayScroll(context: DisplayContext) {
@@ -370,7 +370,7 @@ class Scroll(
             .withInjectableContext(scrollPlaceholderContext)
 
         context.itemStack.fast().displayName = itemName.formatEco(placeholderContext)
-        context.lore.prepend(itemLore.formatEcoRich(placeholderContext))
+        context.lore.prepend(itemLore.map { StringUtils.formatToRichComponent(it, placeholderContext) })
     }
 
     fun getPlaceholder(identifier: String, context: PlaceholderContext): String? {
