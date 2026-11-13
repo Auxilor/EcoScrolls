@@ -2,6 +2,8 @@ package com.willfp.ecoscrolls.util
 
 import com.willfp.ecoscrolls.scrolls.scrollLimitBase
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
+import wiki.ecohub.game.item.editItemMeta
 import wiki.ecohub.game.item.lookup.LookupArgParser
 import java.util.function.Predicate
 
@@ -15,7 +17,7 @@ object ScrollLimitArgParser : LookupArgParser {
             .firstNotNullOfOrNull { arg -> arg.substringAfter(':').toIntOrNull()?.takeIf { it >= 0 } }
             ?: return null
 
-        item.editMeta { it.persistentDataContainer.scrollLimitBase = limit }
+        item.editItemMeta<ItemMeta> { it.persistentDataContainer.scrollLimitBase = limit }
 
         return Predicate { true }
     }
