@@ -147,7 +147,7 @@ internal fun updateInscribeMenu() {
             DropQueue(player)
                 .addItems(menu.getCaptiveItems(player))
                 .setLocation(player.eyeLocation)
-                .forceTelekinesis()
+                .giveDirectly()
                 .push()
         }
 
