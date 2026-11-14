@@ -1,67 +1,33 @@
 package com.willfp.ecoscrolls.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.util.StringUtils
-import com.willfp.ecoscrolls.plugin
-import com.willfp.ecoscrolls.runOwned
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.CommandBuilder
+import wiki.ecohub.game.drop.DropQueue
+import wiki.ecohub.game.entity.runOwned
+import wiki.ecohub.ui.text.StringUtils
 
-object CommandGive : Subcommand(
-    plugin,
-    "give",
-    "ecoscrolls.command.give",
-    false
+private val amountCompletions = listOf("1", "2", "3", "4", "5", "10", "32", "64")
+
+private const val AMOUNT_ARGS = 3
+
+internal fun CommandBuilder<CommandSender>.giveCommand() = subcommand(
+    name = "give",
+    permission = "ecoscrolls.command.give"
 ) {
-    private val numbers = listOf(
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "10",
-        "32",
-        "64"
-    )
-
-    override fun onExecute(sender: CommandSender, args: MutableList<String>) {
-        if (args.isEmpty()) {
-            sender.sendMessage(plugin.langYml.getMessage("needs-player"))
-            return
-        }
-
-        if (args.size == 1) {
-            sender.sendMessage(plugin.langYml.getMessage("needs-scroll"))
-            return
-        }
-
-        val amount = if (args.size > 2) args[2].toIntOrNull() ?: 1 else 1
+    executes {
+        val receiverName = argument(0, "needs-player")
+        val scrollId = argument(1, "needs-scroll")
+        val amount = args.getOrNull(2)?.toIntOrNull() ?: 1
 
         if (amount <= 0) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-amount"))
-            return
+            fail("invalid-amount")
         }
 
-        val receiver = Bukkit.getPlayer(args[0])
-
-        if (receiver == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
-            return
-        }
-
-        val scroll = Scrolls[args[1]]
-
-        if (scroll == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-scroll"))
-            return
-        }
-
-        val itemStack = scroll.item.apply {
-            this.amount = amount
-        }
+        val receiver = Bukkit.getPlayer(receiverName) ?: fail("invalid-player")
+        val scroll = Scrolls[scrollId] ?: fail("invalid-scroll")
+        val itemStack = scroll.item.apply { this.amount = amount }
 
         receiver.runOwned {
             DropQueue(receiver)
@@ -69,46 +35,20 @@ object CommandGive : Subcommand(
                 .forceTelekinesis()
                 .push()
 
-            val message = plugin.langYml.getMessage("give-success", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                .replace("%scroll%", scroll.name)
-                .replace("%player%", receiver.name)
-
-            sender.sendMessage(message)
+            sender.sendMessage(
+                plugin.langYml.getMessage("give-success", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
+                    .replace(oldValue = "%scroll%", newValue = scroll.name)
+                    .replace(oldValue = "%player%", newValue = receiver.name)
+            )
         }
     }
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        val completions = mutableListOf<String>()
-
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                Bukkit.getOnlinePlayers().map { it.name },
-                completions
-            )
-            return completions
+    completes {
+        when (args.size) {
+            1 -> playerNames()
+            2 -> Scrolls.values().map { it.id }
+            AMOUNT_ARGS -> amountCompletions
+            else -> emptyList()
         }
-
-        if (args.size == 2) {
-            StringUtil.copyPartialMatches(
-                args[1],
-                Scrolls.values().map { it.id },
-                completions
-            )
-            completions.sort()
-            return completions
-        }
-
-        if (args.size == 3) {
-            StringUtil.copyPartialMatches(args[2], numbers, completions)
-            completions.sortWith { s1, s2 ->
-                val t1 = s1.toInt()
-                val t2 = s2.toInt()
-                t1 - t2
-            }
-            return completions
-        }
-
-        return emptyList()
     }
 }

@@ -1,18 +1,18 @@
 package com.willfp.ecoscrolls.scrolls
 
-import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoscrolls.EcoScrollsPlugin
 import com.willfp.ecoscrolls.scrolls.event.ScrollInscribeEvent
 import com.willfp.ecoscrolls.scrolls.event.ScrollTryInscribeEvent
 import com.willfp.ecoscrolls.target.Targets.targets
-import com.willfp.libreforge.NamedValue
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.effects.Chain
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.toDispatcher
-import com.willfp.libreforge.triggers.TriggerData
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.core.stdlib.NamedValue
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.game.sound.PlayableSound
+import wiki.ecohub.rules.chain.Chain
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.trigger.TriggerData
 import java.util.Optional
 import kotlin.math.min
 

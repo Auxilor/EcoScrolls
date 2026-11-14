@@ -1,38 +1,38 @@
 package com.willfp.ecoscrolls.gui
 
-import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.core.fast.fast
-import com.willfp.eco.core.gui.CaptiveItem
-import com.willfp.eco.core.gui.GUIComponent
-import com.willfp.eco.core.gui.addComponent
-import com.willfp.eco.core.gui.addCustomSlots
-import com.willfp.eco.core.gui.captiveSlot
-import com.willfp.eco.core.gui.component.addComponent
-import com.willfp.eco.core.gui.component.closeButton
-import com.willfp.eco.core.gui.getSlotLocations
-import com.willfp.eco.core.gui.menu
-import com.willfp.eco.core.gui.menu.Menu
-import com.willfp.eco.core.gui.menu.events.CaptiveItemChangeEvent
-import com.willfp.eco.core.gui.menuStateVar
-import com.willfp.eco.core.gui.onEvent
-import com.willfp.eco.core.gui.onLeftClick
-import com.willfp.eco.core.gui.setMask
-import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.gui.slot.CustomSlot
-import com.willfp.eco.core.gui.slot.Slot
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.Scroll
 import com.willfp.ecoscrolls.scrolls.scroll
 import com.willfp.ecoscrolls.scrolls.useScroll
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.toDispatcher
-import com.willfp.libreforge.triggers.TriggerData
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.game.drop.DropQueue
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.fast
+import wiki.ecohub.modules.menus.addCustomSlots
+import wiki.ecohub.modules.menus.captiveSlot
+import wiki.ecohub.modules.menus.component.GUIComponent
+import wiki.ecohub.modules.menus.component.addComponent
+import wiki.ecohub.modules.menus.component.closeButton
+import wiki.ecohub.modules.menus.getSlotLocations
+import wiki.ecohub.modules.menus.menu
+import wiki.ecohub.modules.menus.menu.Menu
+import wiki.ecohub.modules.menus.menu.menuStateVar
+import wiki.ecohub.modules.menus.onEvent
+import wiki.ecohub.modules.menus.onLeftClick
+import wiki.ecohub.modules.menus.setMask
+import wiki.ecohub.modules.menus.slot
+import wiki.ecohub.modules.menus.slot.CustomSlot
+import wiki.ecohub.modules.menus.slot.Slot
+import wiki.ecohub.modules.menus.slot.captive.CaptiveItem
+import wiki.ecohub.modules.menus.slot.captive.CaptiveItemChangeEvent
+import wiki.ecohub.modules.menus.slot.captive.addComponent
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.trigger.TriggerData
+import wiki.ecohub.ui.text.formatEco
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
@@ -75,7 +75,7 @@ internal fun updateInscribeMenu() {
     val newInscriptionTable = menu(plugin.configYml.getInt("gui.rows")) {
         allowChangingHeldItem()
 
-        title = plugin.configYml.getFormattedString("gui.title")
+        setTitle(plugin.configYml.getFormattedString("gui.title"))
 
         val indicatorSlot = IndicatorSlot()
         val indicatorPattern = plugin.configYml.getStrings("gui.indicator.pattern")
@@ -83,7 +83,7 @@ internal fun updateInscribeMenu() {
             val row = indicatorPattern[i - 1]
             for (j in 1..9) {
                 if (row[j - 1] != '0') {
-                    setSlot(i, j, indicatorSlot)
+                    setSlot(row = i, column = j, slot = indicatorSlot)
                 }
             }
         }
@@ -160,8 +160,8 @@ internal fun updateInscribeMenu() {
 }
 
 private class IndicatorSlot : CustomSlot() {
-    private val allowed = Items.lookup(plugin.configYml.getString("gui.indicator.allow-item")).item
-    private val denied = Items.lookup(plugin.configYml.getString("gui.indicator.deny-item")).item
+    private val allowed = Items.lookup(plugin.configYml.getString("gui.indicator.allow-item")).getItem()
+    private val denied = Items.lookup(plugin.configYml.getString("gui.indicator.deny-item")).getItem()
 
     init {
         create()
@@ -202,7 +202,7 @@ private abstract class MenuSlot(
     private val status: InscriptionStatus
 ) : CustomSlot() {
     private val item = Items.lookup(plugin.configYml.getString("gui.${status.name.lowercase()}.item"))
-        .item
+        .getItem()
 
     init {
         create()
@@ -228,8 +228,8 @@ private abstract class MenuSlot(
             .map { it.injectPlaceholders(player, menu) }
 
         return item.fast().apply {
-            this.displayName = name
-            this.lore = lore
+            setDisplayName(name)
+            setLore(lore)
         }.unwrap()
     }
 

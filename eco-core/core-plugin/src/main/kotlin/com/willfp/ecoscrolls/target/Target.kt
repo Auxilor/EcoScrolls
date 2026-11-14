@@ -1,20 +1,20 @@
 package com.willfp.ecoscrolls.target
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.TestableItem
-import com.willfp.eco.core.placeholder.context.PlaceholderContext
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
-import com.willfp.eco.core.registry.Registrable
-import com.willfp.eco.util.NumberUtils
 import com.willfp.ecoscrolls.plugin
-import com.willfp.libreforge.slot.SlotType
-import com.willfp.libreforge.slot.SlotTypes
-import com.willfp.libreforge.slot.impl.SlotTypeAny
+import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.core.registry.Registrable
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.lookup.EmptyTestableItem
+import wiki.ecohub.game.item.lookup.TestableItem
+import wiki.ecohub.math.NumberUtils
+import wiki.ecohub.rules.holder.slot.SlotType
+import wiki.ecohub.rules.holder.slot.SlotTypeAny
+import wiki.ecohub.rules.holder.slot.SlotTypes
+import wiki.ecohub.ui.placeholder.PlaceholderContext
 import java.util.Objects
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
-import org.bukkit.inventory.ItemStack
 
 interface Target : Registrable {
     val id: String

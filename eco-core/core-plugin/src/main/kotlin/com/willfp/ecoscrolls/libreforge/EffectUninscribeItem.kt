@@ -1,14 +1,14 @@
 package com.willfp.ecoscrolls.libreforge
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoscrolls.scrolls.Scrolls
 import com.willfp.ecoscrolls.scrolls.getScrollLevel
 import com.willfp.ecoscrolls.scrolls.scrolls
-import com.willfp.libreforge.ArgType
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.arguments
-import com.willfp.libreforge.effects.Effect
-import com.willfp.libreforge.triggers.TriggerData
+import wiki.ecohub.config.ArgType
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.arguments
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.rules.effect.Effect
+import wiki.ecohub.rules.trigger.TriggerData
 
 object EffectUninscribeItem : Effect<NoCompileData>("uninscribe_item") {
     override val description = "Removes or decreases the level of the specified scroll on the found item."
