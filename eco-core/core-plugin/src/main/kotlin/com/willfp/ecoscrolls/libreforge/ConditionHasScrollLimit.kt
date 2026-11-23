@@ -1,19 +1,19 @@
 package com.willfp.ecoscrolls.libreforge
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.UNLIMITED
 import com.willfp.ecoscrolls.scrolls.usedScrollLimit
-import com.willfp.libreforge.ArgType
-import com.willfp.libreforge.Dispatcher
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.ProvidedHolder
-import com.willfp.libreforge.arguments
-import com.willfp.libreforge.conditions.Condition
-import com.willfp.libreforge.get
-import com.willfp.libreforge.getProvider
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.ArgType
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.arguments
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.rules.condition.Condition
+import wiki.ecohub.rules.holder.Dispatcher
+import wiki.ecohub.rules.holder.ProvidedHolder
+import wiki.ecohub.rules.holder.get
+import wiki.ecohub.rules.holder.getProvider
 
 object ConditionHasScrollLimit : Condition<NoCompileData>("has_scroll_limit") {
     override val description = "Passes when the item has at least the specified amount of free scroll limit."

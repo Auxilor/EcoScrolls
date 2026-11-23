@@ -1,10 +1,10 @@
 package com.willfp.ecoscrolls.scrolls
 
-import com.willfp.eco.core.fast.fast
 import com.willfp.ecoscrolls.plugin
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.game.item.fast
 
 private val SCROLL_LIMIT_KEY = plugin.createNamespacedKey("scroll_limit")
 private val SCROLL_LIMIT_BONUS_KEY = plugin.createNamespacedKey("scroll_limit_bonus")

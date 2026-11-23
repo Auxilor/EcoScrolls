@@ -1,11 +1,11 @@
 package com.willfp.ecoscrolls.libreforge
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoscrolls.scrolls.event.ScrollEvent
-import com.willfp.libreforge.ArgType
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.filters.Filter
-import com.willfp.libreforge.triggers.TriggerData
+import wiki.ecohub.config.ArgType
+import wiki.ecohub.config.Config
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.rules.filter.Filter
+import wiki.ecohub.rules.trigger.TriggerData
 
 object FilterScroll : Filter<NoCompileData, Collection<String>>("scroll") {
     override val description = "Matches when the scroll involved in the triggering scroll event is one of the given scroll ids."

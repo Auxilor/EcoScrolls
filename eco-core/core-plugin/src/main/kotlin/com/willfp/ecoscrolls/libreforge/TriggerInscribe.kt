@@ -1,11 +1,11 @@
 package com.willfp.ecoscrolls.libreforge
 
 import com.willfp.ecoscrolls.scrolls.event.ScrollInscribeEvent
-import com.willfp.libreforge.toDispatcher
-import com.willfp.libreforge.triggers.Trigger
-import com.willfp.libreforge.triggers.TriggerData
-import com.willfp.libreforge.triggers.TriggerParameter
 import org.bukkit.event.EventHandler
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.rules.trigger.Trigger
+import wiki.ecohub.rules.trigger.TriggerData
+import wiki.ecohub.rules.trigger.TriggerParameter
 
 object TriggerInscribe : Trigger("inscribe") {
     override val description = "Fires when the player successfully inscribes an item with a scroll."

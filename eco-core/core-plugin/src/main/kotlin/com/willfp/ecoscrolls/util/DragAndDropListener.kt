@@ -1,8 +1,5 @@
 package com.willfp.ecoscrolls.util
 
-import com.willfp.eco.core.dragdrop.DragAndDropHandler
-import com.willfp.eco.core.dragdrop.DragAndDropResult
-import com.willfp.eco.core.items.isEcoEmpty
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.InscriptionDenialReason
 import com.willfp.ecoscrolls.scrolls.scroll
@@ -10,6 +7,9 @@ import com.willfp.ecoscrolls.scrolls.scrollUsesLeft
 import com.willfp.ecoscrolls.scrolls.useScroll
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.game.item.isEcoEmpty
+import wiki.ecohub.modules.menus.drag.DragAndDropHandler
+import wiki.ecohub.modules.menus.drag.DragAndDropResult
 
 object DragAndDropListener : DragAndDropHandler {
     override val id = "ecoscrolls:inscribe"

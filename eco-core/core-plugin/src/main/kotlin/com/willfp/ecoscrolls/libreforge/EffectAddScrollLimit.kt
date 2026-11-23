@@ -1,15 +1,15 @@
 package com.willfp.ecoscrolls.libreforge
 
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.UNLIMITED
 import com.willfp.ecoscrolls.scrolls.scrollLimitBonus
-import com.willfp.libreforge.ArgType
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.arguments
-import com.willfp.libreforge.effects.Effect
-import com.willfp.libreforge.getDoubleFromExpression
-import com.willfp.libreforge.triggers.TriggerData
+import wiki.ecohub.config.ArgType
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.arguments
+import wiki.ecohub.config.section.getDoubleFromExpression
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.rules.effect.Effect
+import wiki.ecohub.rules.trigger.TriggerData
 
 object EffectAddScrollLimit : Effect<NoCompileData>("add_scroll_limit") {
     override val description = "Adds to the scroll limit of the found item. A negative amount removes from it."

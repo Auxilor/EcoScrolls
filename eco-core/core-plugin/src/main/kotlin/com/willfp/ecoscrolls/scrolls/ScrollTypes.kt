@@ -1,7 +1,7 @@
 package com.willfp.ecoscrolls.scrolls
 
-import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoscrolls.plugin
+import wiki.ecohub.core.registry.Registry
 
 object ScrollTypes : Registry<ScrollType>() {
     init {

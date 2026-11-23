@@ -1,31 +1,16 @@
 package com.willfp.ecoscrolls.commands
 
-import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.ecoscrolls.plugin
-import org.bukkit.command.CommandSender
+import com.willfp.ecoscrolls.EcoScrollsPlugin
+import wiki.ecohub.core.command.command
 
-object CommandEcoScrolls : PluginCommand(
-    plugin,
-    "ecoscrolls",
-    "ecoscrolls.command.ecoscrolls",
-    false
+internal fun EcoScrollsPlugin.ecoScrollsCommand() = command(
+    name = "ecoscrolls",
+    permission = "ecoscrolls.command.ecoscrolls"
 ) {
-    init {
-        this.addSubcommand(CommandReload)
-            .addSubcommand(CommandGive)
-            .addSubcommand(CommandInscribeDirect)
-            .addSubcommand(CommandOpen)
-    }
+    aliases("scrolls")
 
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        sender.sendMessage(
-            plugin.langYml.getMessage("invalid-command")
-        )
-    }
-
-    override fun getAliases(): List<String> {
-        return listOf(
-            "scrolls"
-        )
-    }
+    reloadCommand()
+    giveCommand()
+    inscribeDirectCommand()
+    openCommand()
 }

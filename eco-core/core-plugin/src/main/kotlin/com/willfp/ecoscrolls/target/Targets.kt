@@ -1,10 +1,10 @@
 package com.willfp.ecoscrolls.target
 
-import com.willfp.eco.core.cache.EcoCache
-import com.willfp.eco.core.items.HashedItem
-import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoscrolls.plugin
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.core.registry.Registry
+import wiki.ecohub.data.cache.EcoCache
+import wiki.ecohub.game.item.HashedItem
 import java.time.Duration
 
 object Targets : Registry<Target>() {

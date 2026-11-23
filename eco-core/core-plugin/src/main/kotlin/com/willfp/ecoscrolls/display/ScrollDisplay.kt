@@ -1,12 +1,12 @@
 package com.willfp.ecoscrolls.display
 
-import com.willfp.eco.core.display.DisplayContext
-import com.willfp.eco.core.display.DisplayModule
-import com.willfp.eco.core.display.DisplayPriority
-import com.willfp.eco.core.fast.fast
 import com.willfp.ecoscrolls.plugin
 import com.willfp.ecoscrolls.scrolls.scroll
 import com.willfp.ecoscrolls.scrolls.scrolls
+import wiki.ecohub.game.item.fast
+import wiki.ecohub.ui.display.DisplayContext
+import wiki.ecohub.ui.display.DisplayModule
+import wiki.ecohub.ui.display.DisplayPriority
 
 object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
     @Volatile
@@ -17,7 +17,7 @@ object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
     }
 
     override fun display(context: DisplayContext) {
-        val itemStack = context.itemStack
+        val itemStack = context.getItemStack()
         val fis = itemStack.fast()
 
         fis.scroll?.displayScroll(context)
@@ -42,7 +42,7 @@ object ScrollDisplay : DisplayModule(plugin, DisplayPriority.HIGHEST) {
         }
 
         for (scroll in sortedScrolls) {
-            context.lore.append(scroll.scroll.getLoreComponents(itemStack, context.player))
+            context.getLore().append(scroll.scroll.getLoreComponents(itemStack, context.getPlayer()))
         }
     }
 }
