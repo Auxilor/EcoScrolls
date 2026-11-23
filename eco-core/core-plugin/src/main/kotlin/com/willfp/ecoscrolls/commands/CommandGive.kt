@@ -32,7 +32,7 @@ internal fun CommandBuilder<CommandSender>.giveCommand() = subcommand(
         receiver.runOwned {
             DropQueue(receiver)
                 .addItem(itemStack)
-                .forceTelekinesis()
+                .giveDirectly()
                 .push()
 
             sender.sendMessage(
